@@ -45,4 +45,22 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { legal, products };
+/** Branchepagina's (/voor/<slug>), zoals in de Review Plus-shop. */
+const sectors = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/sectors' }),
+  schema: z.object({
+    slug: z.string(),
+    naam: z.string(),
+    metaTitle: z.string(),
+    metaDescription: z.string(),
+    heroTitel: z.string(),
+    heroTekst: z.string(),
+    samenvatting: z.string(),
+    /** Voorbeelden met het product (slug) dat erbij hoort. */
+    voorbeelden: z.array(z.object({ titel: z.string(), tekst: z.string(), product: z.string() })),
+    volgorde: z.number().default(0),
+    faq,
+  }),
+});
+
+export const collections = { legal, products, sectors };

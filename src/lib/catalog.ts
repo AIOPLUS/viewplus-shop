@@ -41,3 +41,10 @@ export function catalogusData(lijst: Product[]) {
     })),
   };
 }
+
+export type Sector = CollectionEntry<'sectors'>;
+
+/** Branchepagina's, op volgorde. */
+export async function sectoren(): Promise<Sector[]> {
+  return (await getCollection('sectors')).sort((a, b) => a.data.volgorde - b.data.volgorde);
+}

@@ -21,6 +21,7 @@ Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkel
 | `/afrekenen` | `src/pages/afrekenen.astro` (bedrijf, bezorgadres met PDOK-aanvulling, contact, akkoord) |
 | `/bedankt` | `src/pages/bedankt.astro` |
 | `/contact` | Advies of offerte (`?product=<slug>` vult het product in) |
+| `/voor/<branche>` | `src/pages/voor/[sector].astro` + `src/content/sectors/*.md` (horeca, winkels, beauty en wellness), zoals in de Review Plus-shop |
 | `/bezorging-en-retour`, `/term-and-conditions`, `/privacy-policy` | `src/content/legal/*.md` |
 | `/products.json` | Catalogus voor Make (prijzen per variant, btw, verzending) |
 

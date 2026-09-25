@@ -8,11 +8,12 @@ import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
 import { brand } from '@/config/brand';
 import { faq } from '@/config/content';
-import { producten } from '@/lib/catalog';
+import { producten, sectoren } from '@/lib/catalog';
 import { breadcrumbSchema, faqSchema, productenSchema } from '@/lib/schema';
 import { url } from '@/lib/url';
 
 const lijst = await producten();
+const branches = await sectoren();
 ---
 <BaseLayout
   title="Live volgerstellers en NFC-volgstandaards voor je zaak | View Plus Shop"
@@ -80,6 +81,13 @@ const lijst = await producten();
       </div>
       <a href={`${brand.hoofdsiteUrl}/plans`} class="btn btn-secondary">Bekijk View Plus Online</a>
     </div>
+  </section>
+
+  <section class="container-rp py-12" aria-labelledby="sectoren-title">
+    <h2 id="sectoren-title" class="text-2xl">Voorbeelden per branche</h2>
+    <ul class="mt-5 flex flex-wrap gap-2">
+      {branches.map((s) => <li><a class="btn btn-secondary" href={url(`/voor/${s.data.slug}`)}>{s.data.naam}</a></li>)}
+    </ul>
   </section>
 
   <Faq items={faq} />

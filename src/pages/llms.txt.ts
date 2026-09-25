@@ -1,12 +1,13 @@
 import type { APIRoute } from 'astro';
 import { brand } from '@/config/brand';
 import { faq } from '@/config/content';
-import { producten, prijsLabel } from '@/lib/catalog';
+import { producten, prijsLabel, sectoren } from '@/lib/catalog';
 import { absoluteUrl } from '@/lib/url';
 
 /** Samenvatting van de shop voor AI-assistenten (llmstxt.org). */
 export const GET: APIRoute = async () => {
   const lijst = await producten();
+  const branches = await sectoren();
   const lines = [
     `# ${brand.shopName}`,
     '',
@@ -14,6 +15,9 @@ export const GET: APIRoute = async () => {
     '',
     '## Producten',
     ...lijst.map((p) => `- [${p.data.naam}](${absoluteUrl(`/${p.data.slug}`)}): ${p.data.kort} Prijs: ${prijsLabel(p)}${prijsLabel(p) === 'Prijs volgt' ? '' : ' excl. btw'}.`),
+    '',
+    '## Per branche',
+    ...branches.map((s) => `- [${s.data.naam}](${absoluteUrl(`/voor/${s.data.slug}`)}): ${s.data.samenvatting}`),
     '',
     '## Meer van View Plus',
     `- [Social media management en fotografie](${brand.hoofdsiteUrl})`,
