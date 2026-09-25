@@ -44,6 +44,7 @@ const stappen = isTeller
   title={`${p.naam} | View Plus Shop`}
   description={p.samenvatting.slice(0, 155).replace(/\s+\S*$/, '') + '…'}
   path={`/${p.slug}`}
+  ogImage={`/og/${p.slug}.png`}
   page="product"
   schemas={[productSchema(product), breadcrumbSchema([{ name: 'Shop', path: '/' }, { name: p.naam, path: `/${p.slug}` }]), faqSchema(p.faq)]}
 >

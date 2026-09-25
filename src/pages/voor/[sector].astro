@@ -29,6 +29,7 @@ const product = (slug: string) => alle.find((p) => p.data.slug === slug);
   title={s.metaTitle}
   description={s.metaDescription}
   path={`/voor/${s.slug}`}
+  ogImage={`/og/voor-${s.slug}.png`}
   page="sector"
   sector={s.slug}
   schemas={[breadcrumbSchema([{ name: 'Shop', path: '/' }, { name: s.naam, path: `/voor/${s.slug}` }]), faqSchema(s.faq)]}
