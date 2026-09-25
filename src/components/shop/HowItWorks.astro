@@ -1,0 +1,22 @@
+---
+/** "Zo werkt het" in de kaartstijl van de Review Plus-shop. De stappen staan in src/config/content.ts. */
+import { stappen } from '@/config/content';
+
+interface Props {
+  title?: string;
+}
+const { title = 'Zo werkt het' } = Astro.props;
+---
+<section id="hoe-het-werkt" class="container-rp scroll-mt-32 py-16" aria-labelledby="hiw-title">
+  <p class="eyebrow">In {stappen.length} stappen</p>
+  <h2 id="hiw-title" class="mt-2 text-3xl md:text-4xl">{title}</h2>
+  <ol class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    {stappen.map((s, i) => (
+      <li class="card grid content-start gap-3 p-6">
+        <span class="flex size-10 items-center justify-center rounded-full bg-brand-600 font-semibold text-white" aria-hidden="true">{i + 1}</span>
+        <h3 class="text-lg !text-ink">{s.titel}</h3>
+        <p class="text-ink-soft">{s.tekst}</p>
+      </li>
+    ))}
+  </ol>
+</section>

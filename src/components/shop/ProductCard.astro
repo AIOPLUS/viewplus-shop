@@ -1,33 +1,40 @@
 ---
-/** Productkaart in de stijl van de prijskaarten op viewplus.io: illustratie op een lichtpaars vlak, naam, prijs en knop. */
+/** Productkaart zoals in de Review Plus-shop: illustratie op het podium, chip, naam, korte tekst, prijs en knoppen. */
 import ProductVisual from './ProductVisual.astro';
-import { prijsLabel, vanafPrijs, type Product } from '@/lib/catalog';
-import { PRICE_NOTE } from '@/config/site';
+import PriceTag from './PriceTag.astro';
 import { url } from '@/lib/url';
+import { vanafPrijs, type Product } from '@/lib/catalog';
 
 interface Props {
   product: Product;
-  kop?: 'h2' | 'h3';
 }
-const { product, kop: Kop = 'h3' } = Astro.props;
+const { product } = Astro.props;
 const p = product.data;
 const heeftPrijs = vanafPrijs(product) !== null;
+const chip = p.categorie === 'standaard' ? 'Tik en volg' : p.platformen.length ? p.platformen.join(' · ') : 'Reviews, gasten, verkoop…';
+const statusLabel = { beschikbaar: '', binnenkort: 'Binnenkort', 'op-aanvraag': 'Op aanvraag' }[p.status];
 ---
-<article class="reveal group relative flex flex-col overflow-hidden rounded-[var(--radius-panel)] border border-brand-200 bg-white transition-shadow hover:shadow-[var(--shadow-card)]">
-  <div class="grid aspect-[4/3] place-items-center bg-gradient-to-b from-brand-50 to-brand-100 p-8">
-    <ProductVisual product={product} class={p.visual === 'standaard' ? 'w-[46%]' : 'w-full'} />
-  </div>
-  <div class="flex flex-1 flex-col gap-3 p-6">
-    <p class="flex flex-wrap gap-2 text-xs">
-      {p.platformen.map((pl) => <span class="rounded-full bg-surface-alt px-2.5 py-1 text-ink-soft ring-1 ring-line">{pl}</span>)}
-      {p.visual === 'teller-op-maat' && <span class="rounded-full bg-surface-alt px-2.5 py-1 text-ink-soft ring-1 ring-line">Reviews, gasten, verkoop…</span>}
-    </p>
-    <Kop class="title"><a href={url(`/${p.slug}`)} class="after:absolute after:inset-0">{p.naam}</a></Kop>
-    <p class="body-muted">{p.kort}</p>
-    <p class="mt-auto flex items-baseline justify-between gap-3 border-t border-line pt-4">
-      <span class:list={['text-xl font-medium', heeftPrijs ? 'text-ink' : 'text-brand-700']}>{prijsLabel(product)}</span>
-      {heeftPrijs && <span class="text-sm text-muted">{PRICE_NOTE}</span>}
-      <span class="text-sm font-medium text-brand-600 group-hover:underline" aria-hidden="true">Bekijk →</span>
-    </p>
+<article class="card flex flex-col overflow-hidden">
+  <a href={url(`/${p.slug}`)} class="relative block aspect-[4/3] overflow-hidden" tabindex="-1" aria-hidden="true">
+    <div class="rp-stage grid h-full w-full place-items-center p-[8%]">
+      <ProductVisual product={product} class={p.visual === 'standaard' ? 'w-[46%]' : 'w-full'} />
+    </div>
+    <span class="chip absolute left-4 top-4 !bg-white shadow-sm">{chip}</span>
+  </a>
+  <div class="flex flex-1 flex-col gap-4 p-6">
+    <div class="grid gap-2">
+      <h3 class="text-xl"><a href={url(`/${p.slug}`)} class="hover:underline">{p.naam}</a></h3>
+      <p class="text-ink-soft">{p.kort}</p>
+    </div>
+    <PriceTag product={product} />
+    {statusLabel && <p class="chip w-fit !bg-warning-bg !text-warning">{statusLabel}</p>}
+    <div class="mt-auto flex flex-wrap gap-2 pt-2">
+      {heeftPrijs ? (
+        <a href={url(`/${p.slug}`)} class="btn btn-primary">Kies je uitvoering</a>
+      ) : (
+        <a href={url(`/contact?product=${p.slug}`)} class="btn btn-primary">Vraag een offerte aan</a>
+      )}
+      <a href={url(`/${p.slug}`)} class="btn btn-ghost">Meer info<span class="sr-only"> over {p.naam}</span></a>
+    </div>
   </div>
 </article>

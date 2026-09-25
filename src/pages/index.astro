@@ -1,53 +1,50 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PlatformBand from '@/components/sections/PlatformBand.astro';
-import SectionHeader from '@/components/ui/SectionHeader.astro';
-import ArrowButton from '@/components/ui/ArrowButton.astro';
 import ProductCard from '@/components/shop/ProductCard.astro';
 import Teller from '@/components/shop/Teller.astro';
-import Volgstandaard from '@/components/shop/Volgstandaard.astro';
-import LabelBand from '@/components/sections/LabelBand.astro';
-import Faq from '@/components/sections/Faq.astro';
-import CtaFinal from '@/components/sections/CtaFinal.astro';
+import HowItWorks from '@/components/shop/HowItWorks.astro';
+import SamenPromo from '@/components/shop/SamenPromo.astro';
+import Faq from '@/components/shop/Faq.astro';
+import CtaBand from '@/components/shop/CtaBand.astro';
 import { brand } from '@/config/brand';
-import { faq, stappen } from '@/config/content';
+import { faq } from '@/config/content';
 import { producten } from '@/lib/catalog';
-import { faqSchema, websiteSchema, productenSchema } from '@/lib/schema';
+import { breadcrumbSchema, faqSchema, productenSchema } from '@/lib/schema';
 import { url } from '@/lib/url';
-import patroon1 from '@/assets/img/patroon-1.svg';
-import patroon2 from '@/assets/img/patroon-2.svg';
 
 const lijst = await producten();
 ---
 <BaseLayout
-  title="View Plus Shop – live volgerstellers en NFC-volgstandaards voor je zaak"
+  title="Live volgerstellers en NFC-volgstandaards voor je zaak | View Plus Shop"
   description="Maak je volgers zichtbaar in je zaak: live tellers met klapcijfers voor Instagram, Facebook en TikTok, en NFC-volgstandaards waarmee gasten je met één tik volgen."
   path="/"
   page="home"
-  schemas={[websiteSchema(), productenSchema(lijst), faqSchema(faq)]}
+  schemas={[breadcrumbSchema([{ name: 'Shop', path: '/' }]), productenSchema(lijst), faqSchema(faq)]}
 >
-  <!-- Hero met een teller die je zelf laat klappen -->
-  <section class="relative pt-[140px] lg:pt-[184px]" aria-labelledby="hero-title">
-    <Image src={patroon1} alt="" class="pointer-events-none absolute left-[26%] top-[110px] hidden w-[240px] opacity-80 lg:block" loading="eager" />
-    <Image src={patroon2} alt="" class="pointer-events-none absolute right-[22%] top-[300px] hidden w-[240px] opacity-80 lg:block" loading="eager" />
-    <div class="container-rp relative grid items-center gap-12 lg:grid-cols-[1fr_1.05fr]">
-      <div class="grid gap-8">
-        <p class="eyebrow w-fit">View Plus Shop</p>
-        <h1 id="hero-title" class="display text-ink">
-          <span class="block">Maak je volgers</span>
-          <span class="flex items-center gap-4 text-brand-600"><span class="hidden h-px w-[72px] bg-line-strong sm:block lg:w-[120px]" aria-hidden="true"></span>zichtbaar</span>
-        </h1>
-        <p class="lead max-w-[560px] text-ink-soft">Live tellers met klapcijfers en NFC-volgstandaards voor je zaak. Gasten zien je volgers, tikken, volgen en zien het getal meteen meedraaien.</p>
-        <div class="flex flex-wrap items-center gap-3">
-          <ArrowButton href={url('/#producten')} label="Bekijk de producten" class="w-fit" />
-          <a href={url('/contact')} class="btn btn-white border-line text-ink hover:border-brand-200">Vraag advies</a>
+  <section class="grid-bg relative overflow-hidden">
+    <div class="container-rp grid items-center gap-10 py-14 md:py-20 lg:grid-cols-[1.1fr_1fr]">
+      <div class="grid gap-6">
+        <p class="chip w-fit">Live tellers · NFC-volgstandaards · NL &amp; BE</p>
+        <h1 class="text-4xl md:text-[3.4rem]">Maak je volgers zichtbaar in je zaak</h1>
+        <p class="max-w-xl text-lg leading-relaxed text-ink-soft">
+          Met een live volgersteller zien je gasten hoeveel volgers je hebt op Instagram, Facebook of TikTok. De klapcijfers
+          draaien mee bij elke nieuwe volger. Met de NFC-volgstandaard volgen ze je met één tik.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#producten" class="btn btn-primary btn-lg">Bekijk de producten</a>
+          <a href={url('/contact')} class="btn btn-secondary btn-lg" data-track="advies_klik" data-track-plek="hero">Vraag advies</a>
         </div>
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-soft">
+          <li class="flex items-center gap-2"><span class="text-brand-600" aria-hidden="true">✓</span> Instagram, Facebook en TikTok</li>
+          <li class="flex items-center gap-2"><span class="text-brand-600" aria-hidden="true">✓</span> Klapcijfers die meedraaien</li>
+          <li class="flex items-center gap-2"><span class="text-brand-600" aria-hidden="true">✓</span> Volgen zonder app</li>
+        </ul>
       </div>
-
-      <div class="grid gap-5 rounded-[var(--radius-panel)] bg-gradient-to-b from-brand-50 to-brand-100 p-6 sm:p-10">
-        <Teller id="demo-teller" platform="Instagram" waarde={1248} class="w-full" label="Voorbeeld van een live volgersteller" />
-        <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="card grid gap-5 overflow-hidden !rounded-[var(--radius-panel)] p-0 shadow-[var(--shadow-glow)]">
+        <div class="rp-stage grid place-items-center px-[7%] pb-[9%] pt-[11%]">
+          <Teller id="demo-teller" platform="Instagram" waarde={1248} class="w-full" label="Voorbeeld van een live volgersteller" />
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 pb-6">
           <div class="grid gap-0.5">
             <p class="font-medium text-ink">Probeer het zelf</p>
             <p class="text-sm text-ink-soft">Klik op Volgen en zie de cijfers omklappen.</p>
@@ -60,75 +57,33 @@ const lijst = await producten();
         <p class="sr-only" aria-live="polite" data-demo-status></p>
       </div>
     </div>
-    <div class="container-rp mt-16 lg:mt-24">
-      <PlatformBand />
+  </section>
+
+  <HowItWorks />
+
+  <section id="producten" class="container-rp scroll-mt-32 py-12" aria-labelledby="producten-title">
+    <p class="eyebrow">Het aanbod</p>
+    <h2 id="producten-title" class="mt-2 text-3xl md:text-4xl">Kies wat bij jouw zaak past</h2>
+    <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {lijst.map((p) => <ProductCard product={p} />)}
     </div>
   </section>
 
-  <!-- Producten -->
-  <section id="producten" class="scroll-mt-32 py-20 lg:py-28" aria-labelledby="producten-title">
-    <div class="container-rp">
-      <SectionHeader id="producten-title" eyebrow="Producten" line1="Van tik" line2="tot teller" class="reveal" />
-      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
-        {lijst.map((p) => <ProductCard product={p} />)}
-      </div>
-    </div>
-  </section>
+  <SamenPromo />
 
-  <!-- Beter samen -->
-  <section class="py-16 lg:py-24" aria-labelledby="samen-title">
-    <div class="container-rp grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-      <div class="reveal relative grid min-h-[380px] place-items-center overflow-hidden rounded-[var(--radius-panel)] bg-gradient-to-b from-brand-50 to-brand-100 p-8">
-        <div class="grid w-full max-w-[520px] grid-cols-[0.8fr_1.6fr] items-end gap-6">
-          <Volgstandaard platform="Instagram" />
-          <Teller platform="Instagram" waarde={1249} class="mb-8" />
-        </div>
+  <section class="container-rp py-12" aria-labelledby="online-title">
+    <div class="card grid gap-6 p-8 md:grid-cols-[1fr_auto] md:items-center">
+      <div>
+        <p class="eyebrow">View Plus Online</p>
+        <h2 id="online-title" class="mt-2 text-2xl">Nieuwe volgers verdienen sterke content</h2>
+        <p class="mt-2 max-w-2xl text-ink-soft">Met View Plus Online nemen we je social media volledig uit handen: professionele fotografie, een contentkalender en 2 tot 3 posts per week.</p>
       </div>
-      <div class="reveal grid gap-6">
-        <p class="eyebrow w-fit">Beter samen</p>
-        <h2 id="samen-title" class="heading-lg">Tikken, volgen en het getal zien meedraaien</h2>
-        <p class="lead text-ink-soft">De volgstandaard maakt volgen zo makkelijk als tikken. De teller laat het resultaat zien. Gasten zien het getal veranderen op het moment dat ze je volgen, en dat vertellen ze verder.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href={url('/live-volgersteller')} class="btn btn-primary">Live volgersteller</a>
-          <a href={url('/nfc-volgstandaard')} class="btn btn-soft">NFC-volgstandaard</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hoe het werkt -->
-  <section id="hoe-het-werkt" class="scroll-mt-32 py-20 lg:py-28" aria-labelledby="stappen-title">
-    <div class="container-rp">
-      <SectionHeader id="stappen-title" eyebrow="Hoe het werkt" line1="In vier stappen" line2="zichtbaar" class="reveal" />
-      <ol class="mt-14 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
-        {stappen.map((s, i) => (
-          <li class="soft-card reveal grid content-start gap-4 p-8">
-            <span class="text-[48px] font-light leading-none tracking-[-0.03em] text-brand-600" aria-hidden="true">0{i + 1}</span>
-            <h3 class="title">{s.titel}</h3>
-            <p class="body-muted">{s.tekst}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <!-- Brug naar View Plus Online -->
-  <section class="py-10" aria-labelledby="online-title">
-    <div class="container-rp">
-      <div class="reveal grid items-center gap-6 rounded-[var(--radius-panel)] border border-brand-200 bg-white p-8 md:grid-cols-[1fr_auto] lg:p-12">
-        <div class="grid gap-2">
-          <p class="eyebrow w-fit">View Plus Online</p>
-          <h2 id="online-title" class="heading-md">Nieuwe volgers verdienen sterke content</h2>
-          <p class="max-w-[640px] text-ink-soft">Met View Plus Online nemen we je social media volledig uit handen: professionele fotografie, een contentkalender en 2 tot 3 posts per week.</p>
-        </div>
-        <a href={`${brand.hoofdsiteUrl}/plans`} class="btn btn-primary w-fit">Bekijk View Plus Online</a>
-      </div>
+      <a href={`${brand.hoofdsiteUrl}/plans`} class="btn btn-secondary">Bekijk View Plus Online</a>
     </div>
   </section>
 
   <Faq items={faq} />
-  <LabelBand />
-  <CtaFinal />
+  <CtaBand />
 </BaseLayout>
 
 <script>

@@ -13,104 +13,85 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
-  body { min-height: 100dvh; display: flex; flex-direction: column; overflow-x: clip; }
+  body { min-height: 100dvh; display: flex; flex-direction: column; }
   main { flex: 1; }
-  h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
+  h1, h2, h3 { color: var(--color-brand-600); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
   p { text-wrap: pretty; }
   :focus-visible { outline: 3px solid var(--color-brand-400); outline-offset: 2px; border-radius: 6px; }
   [hidden] { display: none !important; }
 }
 
 @layer components {
-  .container-rp { width: 100%; max-width: 1360px; margin-inline: auto; padding-inline: 16px; }
+  .container-rp { width: 100%; max-width: 1200px; margin-inline: auto; padding-inline: 16px; }
   @media (min-width: 810px) { .container-rp { padding-inline: 32px; } }
 
-  /* Typografie zoals de Framer-site: grote, lichte koppen met strakke letterafstand */
-  .display { font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4rem); line-height: 1.125; font-weight: 400; letter-spacing: -0.03em; }
-  .heading-lg { font-size: clamp(2rem, 1.5rem + 2vw, 2.5rem); line-height: 1.3; font-weight: 400; letter-spacing: -0.02em; }
-  .heading-md { font-size: clamp(1.625rem, 1.3rem + 1.3vw, 2.25rem); line-height: 1.33; font-weight: 500; letter-spacing: -0.02em; }
-  .title { font-size: 1.5rem; line-height: 1.25; font-weight: 500; }
-  .lead { font-size: 1.125rem; line-height: 1.55; }
-  .body-muted { font-size: 1rem; line-height: 1.5; color: var(--color-muted); }
-
-  /* Klein label boven secties: "● Belangrijkste functies" */
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: .5rem;
-    padding: .35rem .9rem; border-radius: var(--radius-pill);
-    background: var(--color-brand-100); color: var(--color-brand-600); font-size: .875rem; line-height: 1.4;
-  }
-  .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-
-  /* Knoppen: pil met los rond pijl-icoon, zoals "Boek een Demo ↗" */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-    min-height: 48px; padding: .75rem 1.5rem; border-radius: var(--radius-pill);
-    font-weight: 500; font-size: 1rem; line-height: 1.2; text-decoration: none;
-    transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+    min-height: 44px; padding: .7rem 1.4rem; border-radius: var(--radius-pill);
+    font-weight: 500; font-size: .95rem; line-height: 1.2; text-decoration: none;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
     cursor: pointer; border: 1px solid transparent; white-space: nowrap;
   }
   .btn:hover { transform: translateY(-1px); }
   .btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
-  .btn-primary { background: var(--color-brand-600); color: #fff; }
-  .btn-primary:hover { background: var(--color-brand-700); box-shadow: var(--shadow-glow); }
-  .btn-soft { background: var(--color-brand-100); color: var(--color-brand-600); }
-  .btn-soft:hover { background: var(--color-brand-200); }
-  .btn-white { background: #fff; color: var(--color-brand-600); }
-  .btn-white:hover { background: var(--color-brand-100); }
-  .btn-lg { min-height: 56px; padding: .9rem 1.75rem; font-size: 1.125rem; }
+  .btn-primary { background: var(--color-brand-600); color: #fff; box-shadow: var(--shadow-glow); }
+  .btn-primary:hover { background: var(--color-brand-700); }
+  .btn-secondary { background: #fff; color: var(--color-brand-600); border-color: var(--color-brand-200); }
+  .btn-secondary:hover { background: var(--color-brand-100); }
+  .btn-ghost { background: transparent; color: var(--color-brand-600); }
+  .btn-lg { min-height: 52px; padding: .9rem 1.8rem; font-size: 1.02rem; }
 
-  .btn-arrow { display: inline-flex; align-items: center; gap: 0; padding: 0; background: var(--color-brand-100); border-radius: var(--radius-pill); color: var(--color-brand-600); font-weight: 500; text-decoration: none; transition: background-color .2s ease; }
-  .btn-arrow > span:first-child { padding: .8rem 1.25rem .8rem 1.5rem; }
-  .btn-arrow > .arrow { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--color-brand-600); color: #fff; transition: transform .25s ease; }
-  .btn-arrow:hover > .arrow { transform: rotate(45deg); }
-  .btn-arrow--white { background: #fff; }
-
-  .card { background: #fff; border: 1px solid var(--color-brand-200); border-radius: var(--radius-card); }
-  .soft-card { background: linear-gradient(90deg, var(--color-brand-50) 0%, var(--color-brand-75) 100%); border-radius: var(--radius-card); }
-
-  /* Raster met kruisjes op de achtergrond (hero's) */
+  .card { background: #fff; border: 1px solid var(--color-brand-200); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .eyebrow { font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--color-brand-600); }
+  .chip { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .8rem; border-radius: var(--radius-pill); background: var(--color-brand-100); color: var(--color-brand-700); font-size: .82rem; font-weight: 500; }
   .grid-bg {
     background-image:
-      linear-gradient(to right, rgba(122,1,176,.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(122,1,176,.045) 1px, transparent 1px);
-    background-size: 72px 72px;
+      linear-gradient(to right, rgba(122,1,176,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(122,1,176,.05) 1px, transparent 1px);
+    background-size: 56px 56px;
   }
+  /* Podium voor productillustraties: zacht merkpaars met lichtval van boven + grondschaduw */
+  .rp-stage {
+    position: relative;
+    background:
+      radial-gradient(60% 12% at 50% 92%, rgba(48, 0, 74, 0.10), transparent 70%),
+      radial-gradient(120% 90% at 50% 20%, #ffffff 0%, var(--color-brand-100) 60%, var(--color-brand-200) 100%);
+  }
+  .rp-stage--bare { background: transparent; }
+  .rp-cutout { filter: drop-shadow(0 18px 24px rgba(48, 0, 74, 0.18)) drop-shadow(0 3px 6px rgba(48, 0, 74, 0.10)); }
 
-  .prose-rp { color: var(--color-ink-soft); line-height: 1.75; font-size: 1rem; }
-  .prose-rp h2 { font-size: 1.5rem; margin: 2.25rem 0 .75rem; color: var(--color-ink); font-weight: 500; }
-  .prose-rp h3 { font-size: 1.15rem; margin: 1.5rem 0 .5rem; color: var(--color-ink); font-weight: 500; }
+  /* Hulpklassen voor winkelwagen, afrekenen en formulieren */
+  .soft-card { background: var(--color-brand-50); border: 1px solid var(--color-brand-200); border-radius: var(--radius-card); }
+  .title { font-size: 1.2rem; line-height: 1.3; font-weight: 500; color: var(--color-ink); }
+  .heading-md { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+  .lead { font-size: 1.1rem; line-height: 1.6; }
+  .body-muted { color: var(--color-muted); }
+
+  .prose-rp { color: var(--color-ink-soft); line-height: 1.7; }
+  .prose-rp h2 { font-size: 1.4rem; margin: 2rem 0 .75rem; }
+  .prose-rp h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; color: var(--color-ink); }
   .prose-rp p, .prose-rp ul, .prose-rp ol { margin: 0 0 1rem; }
   .prose-rp ul { list-style: disc; padding-left: 1.25rem; }
   .prose-rp ol { list-style: decimal; padding-left: 1.25rem; }
   .prose-rp a { color: var(--color-brand-600); text-decoration: underline; }
   .prose-rp strong { color: var(--color-ink); }
-  .prose-rp blockquote { margin: 0 0 1.25rem; padding: 1rem 1.25rem; border-left: 3px solid var(--color-brand-600); background: var(--color-brand-50); border-radius: 0 var(--radius-card) var(--radius-card) 0; color: var(--color-ink); }
-  .prose-rp blockquote p { margin: 0; }
-
 
   /* Formulieren */
-  .field { display: grid; gap: .4rem; align-content: start; }
-  .field label { font-size: .95rem; font-weight: 500; color: var(--color-ink); }
-  .field .req { color: var(--color-brand-600); }
+  .field { display: grid; gap: .35rem; }
+  .field label, .field legend { font-size: .9rem; font-weight: 500; color: var(--color-ink); }
+  .field .req { color: var(--color-danger); }
   .input {
-    width: 100%; min-height: 52px; padding: .8rem 1rem; border-radius: var(--radius-field);
-    border: 1px solid var(--color-line); background: var(--color-surface-alt); font: inherit; font-size: 1rem; color: var(--color-ink);
+    width: 100%; min-height: 48px; padding: .7rem .9rem; border-radius: var(--radius-field);
+    border: 1px solid var(--color-line-strong); background: #fff; font: inherit; font-size: 1rem; color: var(--color-ink);
   }
-  .input:focus { outline: none; border-color: var(--color-brand-600); background: #fff; box-shadow: 0 0 0 4px var(--color-brand-100); }
+  .input:focus { outline: none; border-color: var(--color-brand-600); box-shadow: 0 0 0 4px var(--color-brand-100); }
   .input[aria-invalid='true'] { border-color: var(--color-danger); }
-  textarea.input { min-height: 140px; resize: vertical; }
-  .hint { font-size: .85rem; color: var(--color-muted); }
+  .hint { font-size: .82rem; color: var(--color-muted); }
+
   .error { font-size: .85rem; color: var(--color-danger); }
+  .warn { font-size: .85rem; color: var(--color-warning); }
+  select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%237A01B0' stroke-width='2' d='m1 1 5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
   .check { display: flex; gap: .7rem; align-items: flex-start; font-size: .92rem; line-height: 1.5; }
   .check input { width: 20px; height: 20px; margin-top: .15rem; accent-color: var(--color-brand-600); flex: none; }
   .sr-only-focusable:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-
-  /* Scroll-animatie: elementen schuiven zacht in beeld (zie BaseLayout) */
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
-  .reveal.is-visible { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
-
-  /* Lopende band (ticker) */
-  .marquee { display: flex; width: max-content; animation: marquee 28s linear infinite; }
-  @keyframes marquee { to { transform: translateX(-50%); } }
 }

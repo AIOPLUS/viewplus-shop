@@ -4,7 +4,7 @@ Webshop van View Plus (shop.viewplus.io, nog niet live): live volgerstellers (re
 
 ## Uitgangspunten
 
-- Zelfde vormgeving als `viewplus-site`: houd componenten, typografie en tokens gelijk. De labelschakelaar wisselt tussen de shops van Review Plus en View Plus.
+- De shop is de paarse tweeling van `review plus shop` (zelfde stijl, header, footer en opbouw); de site is de tweeling van `reviewplus-site`. Site en shop bestaan naast elkaar en linken alleen via menu en Shop-knop. De labelschakelaar wisselt tussen de shops van Review Plus en View Plus.
 - Verzin geen prijzen, levertijden of productclaims. Prijzen staan op `null` ("Prijs volgt") tot Jordan ze invult. Specificaties komen van de openbare site van Smiirl (`docs/SMIIRL-ONDERZOEK.md`).
 - Productfoto's en de merknaam van Smiirl alleen met hun toestemming; tot die tijd de eigen illustraties (`src/components/shop/Teller.astro`, `Volgstandaard.astro`).
 

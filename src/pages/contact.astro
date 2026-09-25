@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHero from '@/components/sections/PageHero.astro';
+import PaginaKop from '@/components/shop/PaginaKop.astro';
 import { brand } from '@/config/brand';
 import { LEAD } from '@/config/site';
 import { producten } from '@/lib/catalog';
@@ -16,7 +16,7 @@ import { url } from '@/lib/url';
   page="contact"
   schemas={[breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]}
 >
-  <PageHero line1="Vraag" line2="advies" text="Twijfel je welke teller of standaard past, of wil je een offerte? Vertel ons over jouw zaak, dan nemen we snel contact met je op." compact />
+  <PaginaKop titel="Vraag advies" tekst="Twijfel je welke teller of standaard past, of wil je een offerte? Vertel ons over jouw zaak, dan nemen we snel contact met je op." kruimel="Advies of offerte" />
 
   <section class="pb-10" aria-label="Contactformulier">
     <div class="container-rp grid gap-8 lg:grid-cols-[1fr_380px]">

@@ -1,0 +1,28 @@
+---
+/** Prijs zoals in de Review Plus-shop: groot bedrag met btw-notitie, of "Prijs volgt" zolang er geen prijs is. */
+import { PRICE_NOTE, VERZENDING } from '@/config/site';
+import { prijsLabel, vanafPrijs, type Product } from '@/lib/catalog';
+
+interface Props {
+  product: Product;
+  size?: 'sm' | 'lg';
+}
+const { product, size = 'sm' } = Astro.props;
+const heeftPrijs = vanafPrijs(product) !== null;
+---
+<div class="grid gap-1">
+  <p class={`flex flex-wrap items-baseline gap-x-2 ${size === 'lg' ? 'text-2xl' : 'text-lg'}`}>
+    {heeftPrijs ? (
+      <>
+        <span class="font-semibold">{prijsLabel(product)}</span>
+        <span class="text-[.8em] text-muted">{PRICE_NOTE}</span>
+      </>
+    ) : (
+      <>
+        <span class="font-semibold text-brand-600">Prijs volgt</span>
+        <span class="text-[.8em] text-muted">vraag gerust een offerte aan</span>
+      </>
+    )}
+  </p>
+  <p class="text-sm text-muted">{VERZENDING.levertijd ? `Levertijd: ${VERZENDING.levertijd}` : 'Levertijd en verzendkosten staan in je orderbevestiging'}</p>
+</div>

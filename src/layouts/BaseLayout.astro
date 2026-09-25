@@ -10,7 +10,6 @@ import Footer from '@/components/layout/Footer.astro';
 import CookieBanner from '@/components/layout/CookieBanner.astro';
 import Seo from '@/components/seo/Seo.astro';
 import { ANALYTICS, PIXELS } from '@/config/site';
-import { brand } from '@/config/brand';
 import { organizationSchema } from '@/lib/schema';
 import { asset } from '@/lib/url';
 
@@ -37,7 +36,7 @@ const umamiSrc = ANALYTICS.scriptUrl || 'https://cloud.umami.is/script.js';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content={brand.themeColor} />
+    <meta name="theme-color" content="#7A01B0" />
     <link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={asset('/apple-touch-icon.png')} />
     <link rel="preload" href={poppins400} as="font" type="font/woff2" crossorigin />
@@ -72,23 +71,6 @@ const umamiSrc = ANALYTICS.scriptUrl || 'https://cloud.umami.is/script.js';
       captureAttribution(document.body.dataset.sector || null);
       bindTrackedClicks();
 
-      // Secties zacht in beeld laten schuiven (zoals de Framer-animaties), zonder bibliotheek.
-      const reveals = document.querySelectorAll<HTMLElement>('.reveal');
-      if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver(
-          (entries) => entries.forEach((e) => {
-            if (e.isIntersecting) {
-              e.target.classList.add('is-visible');
-              io.unobserve(e.target);
-            }
-          }),
-          { rootMargin: '0px 0px -8% 0px' },
-        );
-        reveals.forEach((el) => io.observe(el));
-      } else {
-        reveals.forEach((el) => el.classList.add('is-visible'));
-      }
-
       // Toestemming & pixels
       configurePixels(PIXELS);
       const banner = document.getElementById('cookie-banner');
@@ -110,7 +92,7 @@ const umamiSrc = ANALYTICS.scriptUrl || 'https://cloud.umami.is/script.js';
         );
       }
 
-      // Nieuwsbrief (footer) → Make-webhook (later), request_type "nieuwsbrief", merk "viewplus"
+      // Nieuwsbrief (footer) → zelfde webhook, request_type "nieuwsbrief", merk "viewplus"
       document.querySelectorAll<HTMLFormElement>('form[data-newsletter]').forEach((form) => {
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
@@ -132,7 +114,7 @@ const umamiSrc = ANALYTICS.scriptUrl || 'https://cloud.umami.is/script.js';
             const res = await fetch(LEAD.webhookUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ request_type: 'nieuwsbrief', merk: 'viewplus', lead_source: 'site', email: check.value, submitted_at: new Date().toISOString(), pagina: location.href }),
+              body: JSON.stringify({ request_type: 'nieuwsbrief', merk: 'viewplus', lead_source: 'shop', email: check.value, submitted_at: new Date().toISOString(), pagina: location.href }),
             });
             if (!res.ok) throw new Error(String(res.status));
             status.textContent = 'Bedankt! Je bent aangemeld.';

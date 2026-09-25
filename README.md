@@ -4,11 +4,12 @@ De webshop van View Plus: **live volgerstellers** (klapcijfers voor Instagram, F
 
 Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkelwagen, afrekenen, betalen via Mollie (vanuit Make).
 
-## Eén omgeving met de sites
+## Site en shop naast elkaar, net als bij Review Plus
 
-- Zelfde vormgeving en componenten als `viewplus-site` (en daarmee `reviewplus-site`): Poppins, paarse tokens, header met labelschakelaar, footer, secties.
-- De labelschakelaar wisselt hier tussen de **shops**: shop.reviewplus.io ↔ shop.viewplus.io (`labels` in `src/config/brand.ts`).
-- Menu-item "Social media" en de blokken over View Plus Online linken naar www.viewplus.io.
+- **De shop is de paarse tweeling van de Review Plus-shop** (`AIOPLUS/reviewplus-shop`): zelfde stijl (`src/styles/`), header, footer, productkaarten, productpagina, "Zo werkt het", FAQ en CTA-band. Alleen de kleur (paars) en de inhoud verschillen.
+- **De site (`viewplus-site`) is de tweeling van reviewplus-site** en linkt alleen via de Shop-knop naar de shop (`PUBLIC_SHOP_URL`).
+- Het menu van de shop verwijst naar de pagina's van de site, met "Shop" als actieve plek (`mainNav` in `src/config/brand.ts`, adres uit `PUBLIC_HOOFDSITE_URL`).
+- De labelschakelaar bovenaan wisselt tussen de **shops**: shop.reviewplus.io ↔ shop.viewplus.io.
 
 ## Pagina's
 
@@ -63,7 +64,7 @@ npm run check    # typecheck + lint + build + linkcheck
 ## Live zetten (later)
 
 1. GitHub-repo `AIOPLUS/viewplus-shop` aanmaken en Pages aanzetten (eerst testversie op aioplus.github.io/viewplus-shop).
-2. `public/CNAME` met `shop.viewplus.io`; GitHub-variabelen `SITE_URL=https://shop.viewplus.io`, `BASE_PATH=/`.
+2. `public/CNAME` met `shop.viewplus.io`; GitHub-variabelen `SITE_URL=https://shop.viewplus.io`, `BASE_PATH=/`, `PUBLIC_HOOFDSITE_URL=https://www.viewplus.io` (op de testversie: `https://aioplus.github.io/viewplus-site`). Zet in viewplus-site `PUBLIC_SHOP_URL=https://shop.viewplus.io`.
 3. DNS bij GoDaddy: `shop` als CNAME naar `aioplus.github.io`.
 4. Make-route `bestelling` bouwen (met Mollie) en de webhook-URL zetten.
 5. In `reviewplus-shop` de labelschakelaar toevoegen, zodat je ook van shop.reviewplus.io naar deze shop wisselt.

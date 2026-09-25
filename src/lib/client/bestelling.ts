@@ -7,7 +7,7 @@ import type { Regel } from './winkelwagen';
 export interface Catalogus {
   btw: number;
   verzending: { kosten: number | null; gratisVanaf: number | null; levertijd: string };
-  producten: { slug: string; naam: string; platformen: string[]; varianten: { id: string; label: string; prijs: number | null }[] }[];
+  producten: { slug: string; naam: string; categorie: 'teller' | 'standaard'; platformen: string[]; varianten: { id: string; label: string; prijs: number | null }[] }[];
 }
 
 export interface Lijn {

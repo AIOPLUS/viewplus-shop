@@ -1,15 +1,15 @@
 /*
- * Design tokens van viewplus.io. Zelfde systeem als reviewplus.io (Poppins, radius, schaduwen, breakpoints),
- * zodat beide labels als één geheel voelen; alleen de merkkleur verschilt.
- * View Plus-paars, gemeten in de brochure: beeldmerk #7A01B0, lichte vlakken #F7E7FD. Het woordmerk is zwart (--color-ink).
- * Contrast (WCAG): wit op brand-400 5,5:1, op brand-600 8,5:1; brand-600 op brand-100 7,2:1.
+ * Design tokens van shop.viewplus.io: dezelfde opbouw als shop.reviewplus.io (Poppins, pill-knoppen, kaarten met
+ * radius 24px, gloed-schaduw), met de paarse schaal van View Plus in plaats van het blauw van Review Plus.
+ * Zo zijn de twee shops tweelingen, net als www.reviewplus.io en www.viewplus.io.
+ * Contrast (WCAG): wit op brand-600 8,5:1; brand-600 op brand-100 7,2:1.
  */
 @theme {
   --font-sans: 'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --color-brand-50: #fcf6ff;
   --color-brand-75: #fefaff;
-  --color-brand-100: #f7e7fd; /* lichtpaarse vlakken uit de brochure */
+  --color-brand-100: #f7e7fd;
   --color-brand-200: #eccdfa;
   --color-brand-300: #ddaaf3;
   --color-brand-400: #a02ad6;
@@ -18,32 +18,36 @@
   --color-brand-700: #63008f;
   --color-brand-800: #4d006f;
   --color-brand-900: #30004a;
-  --color-logo: #7a01b0; /* beeldmerk */
+  --color-logo: #7a01b0; /* beeldmerk; het woordmerk is zwart */
+  --color-navy: #30004a; /* donkere tekst op illustraties */
 
   /* Kleuren van de labels, voor de labelschakelaar (elk label zijn eigen kleur) */
   --color-label-reviewplus: #1818ff;
   --color-label-viewplus: #7a01b0;
 
-  --color-ink: #150e08; /* tekst uit de brochure */
+  --color-ink: #150e08;
   --color-ink-soft: #4b5563;
   --color-muted: #6b7280;
   --color-line: #e5e7eb;
   --color-line-strong: #d1d5db;
   --color-surface: #ffffff;
-  --color-surface-alt: #fafafa;
+  --color-surface-alt: #fbf9fc;
 
   --color-success: #067647;
   --color-success-bg: #ecfdf3;
+  --color-warning: #b54708;
+  --color-warning-bg: #fffaeb;
   --color-danger: #b42318;
   --color-danger-bg: #fef3f2;
 
   --radius-pill: 1000px;
-  --radius-card: 12px;
-  --radius-panel: 24px;
+  --radius-card: 24px;
+  --radius-panel: 32px;
   --radius-field: 12px;
 
   --shadow-glow: 0px 15px 44px 0px rgba(122, 1, 176, 0.25);
-  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 32px -12px rgba(122, 1, 176, 0.16);
+  --shadow-glow-soft: 0px 0px 44px 0px rgba(122, 1, 176, 0.16);
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05), 0 8px 24px -8px rgba(122, 1, 176, 0.14);
 
   /* Alle breakpoints in px: gemengde eenheden (rem/px) zet Tailwind in de verkeerde volgorde */
   --breakpoint-sm: 640px;

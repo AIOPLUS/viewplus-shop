@@ -1,15 +1,15 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHero from '@/components/sections/PageHero.astro';
+import PaginaKop from '@/components/shop/PaginaKop.astro';
 import { url } from '@/lib/url';
 ---
 <BaseLayout title="Pagina niet gevonden | View Plus Shop" description="Deze pagina bestaat niet (meer)." path="/404" noindex page="404">
-  <PageHero line1="Pagina niet" line2="gevonden" text="Deze pagina bestaat niet (meer). Misschien vind je hieronder wat je zoekt.">
+  <PaginaKop titel="Pagina niet gevonden" tekst="Deze pagina bestaat niet (meer). Misschien vind je hieronder wat je zoekt.">
     <div class="mt-4 flex flex-wrap justify-center gap-3">
       <a href={url('/')} class="btn btn-primary">Naar de shop</a>
       <a href={url('/live-volgersteller')} class="btn btn-soft">Live volgersteller</a>
       <a href={url('/nfc-volgstandaard')} class="btn btn-soft">NFC-volgstandaard</a>
       <a href={url('/contact')} class="btn btn-soft">Contact</a>
     </div>
-  </PageHero>
+  </PaginaKop>
 </BaseLayout>

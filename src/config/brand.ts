@@ -7,8 +7,11 @@ export const brand = {
   shopName: 'View Plus Shop',
   legalName: 'View Plus', // TODO Jordan: juridische naam (zoals in KvK) invullen.
   siteUrl: 'https://shop.viewplus.io',
-  /** De hoofdsite van View Plus (social media management en fotografie). */
-  hoofdsiteUrl: 'https://www.viewplus.io',
+  /**
+   * De hoofdsite van View Plus. Uit de GitHub-variabele PUBLIC_HOOFDSITE_URL:
+   * testversie https://aioplus.github.io/viewplus-site, live https://www.viewplus.io (standaard).
+   */
+  hoofdsiteUrl: (import.meta.env.PUBLIC_HOOFDSITE_URL || 'https://www.viewplus.io').replace(/\/+$/, ''),
   // LET OP: deze mailbox is nog niet actief (25-09-2026). Activeer hem vóór de livegang.
   email: 'support@viewplus.io',
   /** Rasterlogo voor schema.org/Google (min. 112px). Icoon zelf: components/layout/Logo.astro */
@@ -39,49 +42,41 @@ export const labels = [
 /** Pagina's die in beide shops bestaan: de schakelaar blijft dan op dezelfde pagina, anders naar home. */
 export const gedeeldePaden: readonly string[] = ['/'];
 
-/** Hoofdmenu van de shop. */
+/** Navigatie gelijk aan www.viewplus.io (zoals de Review Plus-shop de navigatie van www.reviewplus.io volgt). */
 export const mainNav = [
-  { label: 'Shop', href: '/' },
-  { label: 'Live tellers', href: '/live-volgersteller' },
-  { label: 'Volgstandaard', href: '/nfc-volgstandaard' },
-  { label: 'Hoe het werkt', href: '/#hoe-het-werkt' },
-  { label: 'Social media', href: brand.hoofdsiteUrl },
+  { label: 'Home', href: `${brand.hoofdsiteUrl}/` },
+  { label: 'Diensten', href: `${brand.hoofdsiteUrl}/features` },
+  { label: 'Prijzen', href: `${brand.hoofdsiteUrl}/plans` },
+  { label: 'Over ons', href: `${brand.hoofdsiteUrl}/about` },
+  { label: 'Kennisbank', href: `${brand.hoofdsiteUrl}/articles` },
 ] as const;
 
-type Link = { label: string; href: string };
-
-export const footerNav: { title: string; links: Link[] }[] = [
+export const footerNav = [
+  {
+    title: 'Bedrijf',
+    links: [
+      { label: 'Home', href: `${brand.hoofdsiteUrl}/` },
+      { label: 'Over ons', href: `${brand.hoofdsiteUrl}/about` },
+      { label: 'Contact', href: `${brand.hoofdsiteUrl}/contact` },
+      { label: 'Kennisbank', href: `${brand.hoofdsiteUrl}/articles` },
+    ],
+  },
   {
     title: 'Shop',
     links: [
-      { label: 'Alle producten', href: '/#producten' },
-      { label: 'Live volgersteller', href: '/live-volgersteller' },
-      { label: 'Live teller naar keuze', href: '/live-teller-op-maat' },
-      { label: 'NFC-volgstandaard', href: '/nfc-volgstandaard' },
-      { label: 'Winkelwagen', href: '/winkelwagen' },
-    ],
-  },
-  {
-    title: 'View Plus',
-    links: [
-      { label: 'Social media management', href: `${brand.hoofdsiteUrl}/features` },
-      { label: 'Prijzen', href: `${brand.hoofdsiteUrl}/plans` },
-      { label: 'Over ons', href: `${brand.hoofdsiteUrl}/about` },
-      { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
-    title: 'Service',
-    links: [
-      { label: 'Veelgestelde vragen', href: '/#faq' },
-      { label: 'Bezorging en retour', href: '/bezorging-en-retour' },
+      { label: 'Alle producten', href: '/', internal: true },
+      { label: 'Live volgersteller', href: '/live-volgersteller', internal: true },
+      { label: 'NFC-volgstandaard', href: '/nfc-volgstandaard', internal: true },
+      { label: 'Winkelwagen', href: '/winkelwagen', internal: true },
+      { label: 'Advies of offerte', href: '/contact', internal: true },
     ],
   },
   {
     title: 'Wettelijk',
     links: [
-      { label: 'Verkoopvoorwaarden', href: '/term-and-conditions' },
-      { label: 'Privacyverklaring', href: '/privacy-policy' },
+      { label: 'Verkoopvoorwaarden', href: '/term-and-conditions', internal: true },
+      { label: 'Bezorging en retour', href: '/bezorging-en-retour', internal: true },
+      { label: 'Privacyverklaring', href: '/privacy-policy', internal: true },
     ],
   },
-];
+] as const;

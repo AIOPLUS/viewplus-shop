@@ -1,0 +1,25 @@
+---
+/** Kop van binnenpagina's (winkelwagen, afrekenen, contact, juridisch), in de eenvoudige stijl van de Review Plus-shop. */
+interface Props {
+  titel: string;
+  tekst?: string;
+  /** Kruimelpad-label; leeg = geen kruimelpad. */
+  kruimel?: string;
+}
+import { url } from '@/lib/url';
+const { titel, tekst, kruimel } = Astro.props;
+---
+{kruimel && (
+  <nav aria-label="Kruimelpad" class="container-rp pt-6 text-sm text-muted">
+    <ol class="flex gap-2">
+      <li><a href={url('/')} class="hover:text-brand-600">Shop</a></li>
+      <li aria-hidden="true">/</li>
+      <li aria-current="page" class="text-ink">{kruimel}</li>
+    </ol>
+  </nav>
+)}
+<header class="container-rp grid gap-3 pb-6 pt-8 lg:pt-12">
+  <h1 class="text-3xl md:text-4xl">{titel}</h1>
+  {tekst && <p class="max-w-2xl text-lg leading-relaxed text-ink-soft">{tekst}</p>}
+  <slot />
+</header>

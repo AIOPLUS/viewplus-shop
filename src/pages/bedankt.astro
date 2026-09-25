@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHero from '@/components/sections/PageHero.astro';
+import PaginaKop from '@/components/shop/PaginaKop.astro';
 import { brand } from '@/config/brand';
 import { url } from '@/lib/url';
 
 /** Na het bestellen (en betalen). Niet in de sitemap, niet geïndexeerd. */
 ---
 <BaseLayout title="Bedankt voor je bestelling | View Plus Shop" description="Je bestelling is ontvangen." path="/bedankt" page="bedankt" noindex>
-  <PageHero line1="Bedankt voor" line2="je bestelling" text="We hebben je bestelling ontvangen. Je krijgt binnen een paar minuten een bevestiging per e-mail." compact />
+  <PaginaKop titel="Bedankt voor je bestelling" tekst="We hebben je bestelling ontvangen. Je krijgt binnen een paar minuten een bevestiging per e-mail." />
 
   <section class="pb-16 lg:pb-24">
     <div class="container-rp mx-auto grid max-w-[860px] gap-6">

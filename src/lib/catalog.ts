@@ -3,7 +3,7 @@ import { VERZENDING } from '@/config/site';
 import { euro } from './prijs';
 
 export type Product = CollectionEntry<'products'>;
-export type Platform = 'Instagram' | 'Facebook' | 'TikTok';
+export { platformStijl, type Platform } from './platformen';
 
 /** Alle producten, op volgorde. */
 export async function producten(): Promise<Product[]> {
@@ -34,16 +34,10 @@ export function catalogusData(lijst: Product[]) {
     producten: lijst.map((p) => ({
       slug: p.data.slug,
       naam: p.data.naam,
+      categorie: p.data.categorie,
       status: p.data.status,
       platformen: p.data.platformen,
       varianten: p.data.varianten.map((v) => ({ id: v.id, label: v.label, prijs: v.prijs })),
     })),
   };
 }
-
-/** Kleuren en iconen per platform (iconen uit Simple Icons). */
-export const platformStijl: Record<Platform, { icoon: string; achtergrond: string }> = {
-  Instagram: { icoon: 'si:instagram', achtergrond: 'linear-gradient(45deg,#feda75 0%,#fa7e1e 25%,#d62976 50%,#962fbf 75%,#4f5bd5 100%)' },
-  Facebook: { icoon: 'si:facebook', achtergrond: '#0866ff' },
-  TikTok: { icoon: 'si:tiktok', achtergrond: '#111111' },
-};

@@ -2,10 +2,10 @@
 import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProductVisual from '@/components/shop/ProductVisual.astro';
-import ProductCard from '@/components/shop/ProductCard.astro';
-import Faq from '@/components/sections/Faq.astro';
-import CtaFinal from '@/components/sections/CtaFinal.astro';
-import { PRICE_NOTE } from '@/config/site';
+import SamenPromo from '@/components/shop/SamenPromo.astro';
+import Faq from '@/components/shop/Faq.astro';
+import CtaBand from '@/components/shop/CtaBand.astro';
+import { PRICE_NOTE, VERZENDING } from '@/config/site';
 import { producten, type Product, type Platform } from '@/lib/catalog';
 import { breadcrumbSchema, faqSchema, productSchema } from '@/lib/schema';
 import { euro, inclBtwTekst } from '@/lib/prijs';
@@ -13,14 +13,13 @@ import { url } from '@/lib/url';
 
 export async function getStaticPaths() {
   const lijst = await producten();
-  return lijst.map((p) => ({ params: { product: p.data.slug }, props: { product: p, anderen: lijst.filter((x) => x.id !== p.id) } }));
+  return lijst.map((p) => ({ params: { product: p.data.slug }, props: { product: p } }));
 }
 
 interface Props {
   product: Product;
-  anderen: Product[];
 }
-const { product, anderen } = Astro.props;
+const { product } = Astro.props;
 const p = product.data;
 const { Content } = await render(product);
 const eersteVariant = p.varianten[0]!;
@@ -28,143 +27,151 @@ const isTeller = p.categorie === 'teller';
 // Illustraties per platform × aantal cijfers, vooraf gemaakt; het script toont de juiste.
 const platformen: (Platform | null)[] = p.platformen.length ? p.platformen : [null];
 const cijferOpties: (5 | 7)[] = isTeller ? [5, 7] : [5];
-const statusLabel = { beschikbaar: 'Beschikbaar', binnenkort: 'Binnenkort', 'op-aanvraag': 'Op aanvraag' }[p.status];
+const chip = p.categorie === 'standaard' ? 'Tik en volg, zonder app' : isTeller && p.platformen.length ? 'Live bijgewerkt via wifi' : 'Live via Zapier of API';
+const stappen = isTeller
+  ? [
+      ['Stroom erop en verbinden', 'met wifi (2,4 GHz) of een netwerkkabel.'],
+      ['Account koppelen', p.platformen.length ? 'via je telefoon of computer, in een paar minuten.' : 'zonder code via Zapier, of met een eigen koppeling.'],
+      ['Het getal draait mee', p.platformen.length ? 'bij elke nieuwe volger, standaard elke 6 seconden bijgewerkt.' : 'bij elke nieuwe review, gast of verkoop die je koppelt.'],
+    ]
+  : [
+      ['Je klant tikt', 'met de telefoon op de standaard, of scant de QR-code.'],
+      ['Je profiel opent direct', 'zonder app en zonder te zoeken naar je accountnaam.'],
+      ['Eén tik op Volgen', 'en je hebt er een volger bij. Met een live teller zie je het meteen.'],
+    ];
 ---
 <BaseLayout
   title={`${p.naam} | View Plus Shop`}
-  description={p.samenvatting.slice(0, 158)}
+  description={p.samenvatting.slice(0, 155).replace(/\s+\S*$/, '') + '…'}
   path={`/${p.slug}`}
   page="product"
-  schemas={[productSchema(product), faqSchema(p.faq), breadcrumbSchema([{ name: 'Shop', path: '/' }, { name: p.naam, path: `/${p.slug}` }])]}
+  schemas={[productSchema(product), breadcrumbSchema([{ name: 'Shop', path: '/' }, { name: p.naam, path: `/${p.slug}` }]), faqSchema(p.faq)]}
 >
-  <section class="pt-[140px] lg:pt-[190px]" aria-labelledby="product-title">
-    <div class="container-rp grid items-start gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-      <!-- Illustratie -->
-      <div class="grid gap-3 lg:sticky lg:top-[150px]">
-        <div class="relative grid aspect-[4/3] place-items-center overflow-hidden rounded-[var(--radius-panel)] bg-gradient-to-b from-brand-50 to-brand-100 p-8 sm:p-12">
+  <nav aria-label="Kruimelpad" class="container-rp pt-6 text-sm text-muted">
+    <ol class="flex gap-2">
+      <li><a href={url('/')} class="hover:text-brand-600">Shop</a></li>
+      <li aria-hidden="true">/</li>
+      <li aria-current="page" class="text-ink">{p.naam}</li>
+    </ol>
+  </nav>
+
+  <section class="container-rp grid gap-10 py-8 lg:grid-cols-2 lg:py-12" data-product-view={p.slug}>
+    <div class="grid content-start gap-3">
+      <div class:list={['card relative overflow-hidden !rounded-[var(--radius-panel)]', p.visual === 'standaard' ? 'aspect-square' : 'aspect-[4/3]']}>
+        <div class="rp-stage grid h-full w-full place-items-center p-[10%]">
           {platformen.map((pl) => cijferOpties.map((c) => (
             <div class="flex w-full justify-center" data-visual data-platform={pl ?? ''} data-cijfers={c} hidden={!(pl === platformen[0] && c === 5)}>
-              <ProductVisual product={product} platform={pl ?? undefined} cijfers={c} class={p.visual === 'standaard' ? 'w-[52%]' : 'w-full'} />
+              <ProductVisual product={product} platform={pl ?? undefined} cijfers={c} class={p.visual === 'standaard' ? 'w-[62%]' : 'w-full'} />
             </div>
           )))}
         </div>
-        <p class="text-center text-xs text-muted">Illustratie. Productfoto’s volgen.</p>
       </div>
+      <p class="text-center text-xs text-muted">Illustratie. Productfoto’s volgen.</p>
+    </div>
 
-      <!-- Keuzes -->
-      <div class="grid gap-7">
-        <div class="grid gap-4">
-          <a href={url('/#producten')} class="w-fit text-sm text-brand-600 hover:underline">← Alle producten</a>
-          <p class="eyebrow w-fit">{statusLabel}</p>
-          <h1 id="product-title" class="heading-lg">{p.naam}</h1>
-          <p class="lead text-ink-soft">{p.samenvatting}</p>
+    <div class="grid content-start gap-6">
+      <p class="chip w-fit">{chip}</p>
+      <h1 class="text-4xl md:text-5xl">{p.naam}</h1>
+      <p class="text-lg leading-relaxed text-ink-soft">{p.samenvatting}</p>
+
+      <form class="grid gap-6" data-product-form data-slug={p.slug} data-varianten={JSON.stringify(p.varianten)} novalidate>
+        {p.platformen.length > 0 && (
+          <fieldset class="field">
+            <legend class="mb-2">Platform</legend>
+            <div class="flex flex-wrap gap-2">
+              {p.platformen.map((pl, i) => (
+                <label class="cursor-pointer rounded-full border border-brand-200 bg-white px-5 py-2.5 text-[.95rem] text-ink transition-colors hover:bg-brand-50 has-checked:border-brand-600 has-checked:bg-brand-100 has-checked:text-brand-700 has-focus-visible:ring-4 has-focus-visible:ring-brand-100">
+                  <input type="radio" name="platform" value={pl} class="sr-only" checked={i === 0} />{pl}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        )}
+
+        {p.varianten.length > 1 && (
+          <fieldset class="field">
+            <legend class="mb-2">Uitvoering</legend>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {p.varianten.map((v, i) => (
+                <label class="grid cursor-pointer gap-1 rounded-2xl border border-brand-200 bg-white p-4 transition-colors hover:bg-brand-50 has-checked:border-brand-600 has-checked:bg-brand-50 has-focus-visible:ring-4 has-focus-visible:ring-brand-100">
+                  <input type="radio" name="variant" value={v.id} class="sr-only" checked={i === 0} />
+                  <span class="text-lg font-medium text-ink">{v.label}</span>
+                  {v.omschrijving && <span class="text-sm text-ink-soft">{v.omschrijving}</span>}
+                  <span class="text-sm text-muted">{v.prijs === null ? 'Prijs volgt' : `€ ${euro(v.prijs)} ${PRICE_NOTE}`}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        )}
+        {p.varianten.length === 1 && <input type="hidden" name="variant" value={eersteVariant.id} />}
+
+        <div class="grid gap-1" aria-live="polite">
+          <p class="flex flex-wrap items-baseline gap-x-2 text-2xl">
+            <span class="font-semibold" data-prijs>{eersteVariant.prijs === null ? 'Prijs volgt' : `€ ${euro(eersteVariant.prijs)}`}</span>
+            <span class="text-[.8em] text-muted" data-prijs-toelichting>
+              {eersteVariant.prijs === null ? 'vraag gerust een offerte aan' : `${PRICE_NOTE}, € ${inclBtwTekst(eersteVariant.prijs)} incl. 21% btw`}
+            </span>
+          </p>
+          <p class="text-sm text-muted">{VERZENDING.levertijd ? `Levertijd: ${VERZENDING.levertijd}` : 'Levertijd en verzendkosten staan in je orderbevestiging'}</p>
         </div>
 
-        <form class="grid gap-6" data-product-form data-slug={p.slug} data-varianten={JSON.stringify(p.varianten)} novalidate>
-          {p.platformen.length > 0 && (
-            <fieldset class="grid gap-3">
-              <legend class="mb-3 font-medium text-ink">Platform</legend>
-              <div class="flex flex-wrap gap-2">
-                {p.platformen.map((pl, i) => (
-                  <label class="cursor-pointer rounded-full border border-line bg-white px-5 py-2.5 text-[15px] text-ink transition-colors hover:border-brand-300 has-checked:border-brand-600 has-checked:bg-brand-100 has-checked:text-brand-700 has-focus-visible:ring-4 has-focus-visible:ring-brand-100">
-                    <input type="radio" name="platform" value={pl} class="sr-only" checked={i === 0} />{pl}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          )}
-
-          {p.varianten.length > 1 && (
-            <fieldset class="grid gap-3">
-              <legend class="mb-3 font-medium text-ink">Uitvoering</legend>
-              <div class="grid gap-3 sm:grid-cols-2">
-                {p.varianten.map((v, i) => (
-                  <label class="grid cursor-pointer gap-1 rounded-[var(--radius-card)] border border-line p-4 transition-colors hover:border-brand-400 has-checked:border-brand-600 has-checked:bg-brand-50 has-focus-visible:ring-4 has-focus-visible:ring-brand-100">
-                    <input type="radio" name="variant" value={v.id} class="sr-only" checked={i === 0} />
-                    <span class="text-lg font-medium text-ink">{v.label}</span>
-                    {v.omschrijving && <span class="text-sm text-ink-soft">{v.omschrijving}</span>}
-                    <span class="text-sm text-muted">{v.prijs === null ? 'Prijs volgt' : `€ ${euro(v.prijs)} ${PRICE_NOTE}`}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          )}
-          {p.varianten.length === 1 && <input type="hidden" name="variant" value={eersteVariant.id} />}
-
-          <div class="grid gap-1 rounded-[var(--radius-card)] bg-surface-alt p-5 ring-1 ring-line" aria-live="polite">
-            <p class="text-3xl font-medium tracking-[-0.02em] text-ink" data-prijs>{eersteVariant.prijs === null ? 'Prijs volgt' : `€ ${euro(eersteVariant.prijs)}`}</p>
-            <p class="text-sm text-muted" data-prijs-toelichting>
-              {eersteVariant.prijs === null ? 'We maken de prijs binnenkort bekend. Vraag gerust een offerte aan.' : `${PRICE_NOTE}, € ${inclBtwTekst(eersteVariant.prijs)} incl. 21% btw`}
-            </p>
+        <div class="flex flex-wrap items-center gap-3" data-bestelblok>
+          <div class="flex items-center rounded-full border border-line-strong">
+            <button type="button" class="size-11 rounded-full text-xl text-brand-600 hover:bg-brand-100" data-stap="-1" aria-label="Eén minder">−</button>
+            <label for="aantal" class="sr-only">Aantal</label>
+            <input id="aantal" name="aantal" type="number" inputmode="numeric" min="1" max="20" value="1" class="w-14 border-0 bg-transparent text-center text-lg [appearance:textfield] focus:outline-none" />
+            <button type="button" class="size-11 rounded-full text-xl text-brand-600 hover:bg-brand-100" data-stap="1" aria-label="Eén meer">+</button>
           </div>
+          <button type="submit" class="btn btn-primary btn-lg" data-toevoegen>In winkelwagen</button>
+        </div>
+        <a href={url(`/contact?product=${p.slug}`)} class="btn btn-primary btn-lg w-fit" data-offerte hidden>Vraag een offerte aan</a>
+        <p class="text-sm text-success" role="status" data-toegevoegd hidden>
+          Toegevoegd aan je winkelwagen. <a href={url('/winkelwagen')} class="font-medium underline">Bekijk je winkelwagen</a>
+        </p>
+      </form>
 
-          <div class="flex flex-wrap items-end gap-3" data-bestelblok>
-            <div class="field w-[130px]">
-              <label for="aantal">Aantal</label>
-              <input id="aantal" name="aantal" type="number" min="1" max="20" value="1" inputmode="numeric" class="input" />
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg flex-1" data-toevoegen>In winkelwagen</button>
-          </div>
-          <a href={url(`/contact?product=${p.slug}`)} class="btn btn-soft btn-lg w-full" data-offerte hidden>Vraag een offerte aan</a>
-          <p class="text-sm text-success" role="status" data-toegevoegd hidden>
-            Toegevoegd aan je winkelwagen. <a href={url('/winkelwagen')} class="font-medium underline">Bekijk je winkelwagen</a>
-          </p>
-        </form>
-
-        <ul class="grid gap-3 border-t border-line pt-6">
-          {p.voordelen.map((v) => (
-            <li class="flex items-center gap-3 text-ink">
-              <span class="grid size-6 shrink-0 place-items-center rounded-full bg-brand-600 text-white" aria-hidden="true">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-              </span>
-              {v}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul class="grid gap-2">
+        {p.voordelen.map((v) => (
+          <li class="flex gap-3 text-ink-soft"><span class="mt-0.5 text-brand-600" aria-hidden="true">✓</span>{v}</li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  <section class="py-16 lg:py-24" aria-labelledby="details-title">
-    <div class="container-rp grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-      <div class="grid content-start gap-6">
-        <h2 id="details-title" class="heading-md">Over de {p.naam.toLowerCase()}</h2>
-        <div class="prose-rp"><Content /></div>
-        {p.inDeDoos.length > 0 && (
-          <div class="soft-card grid gap-3 p-6">
-            <h3 class="font-medium text-ink">In de doos</h3>
-            <ul class="grid gap-2 text-ink-soft">{p.inDeDoos.map((x) => <li>· {x}</li>)}</ul>
-          </div>
-        )}
-      </div>
-      {p.specs.length > 0 && (
-        <div class="grid content-start gap-4">
-          <h2 class="heading-md">Specificaties</h2>
-          <dl class="overflow-hidden rounded-[var(--radius-card)] border border-line">
-            {p.specs.map((s, i) => (
-              <div class:list={['grid gap-1 px-5 py-4 sm:grid-cols-[180px_1fr]', i % 2 === 0 && 'bg-surface-alt']}>
-                <dt class="text-sm text-muted">{s.label}</dt>
-                <dd class="text-ink">{s.waarde}</dd>
-              </div>
-            ))}
-          </dl>
+  <section class="container-rp grid gap-8 py-12 lg:grid-cols-2" aria-labelledby="zo-werkt-het">
+    <div>
+      <h2 id="zo-werkt-het" class="text-3xl">Zo werkt het</h2>
+      <ol class="mt-6 grid gap-4">
+        {stappen.map(([kop, tekst], i) => (
+          <li class="flex gap-4"><span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-100 font-semibold text-brand-600">{i + 1}</span><p class="text-ink-soft"><strong class="text-ink">{kop}</strong> {tekst}</p></li>
+        ))}
+      </ol>
+      <div class="prose-rp mt-6"><Content /></div>
+      {p.inDeDoos.length > 0 && (
+        <div class="mt-6">
+          <h3 class="text-lg !text-ink">In de doos</h3>
+          <ul class="mt-2 grid gap-1 text-ink-soft">{p.inDeDoos.map((x) => <li class="flex gap-3"><span class="text-brand-600" aria-hidden="true">✓</span>{x}</li>)}</ul>
         </div>
       )}
     </div>
-  </section>
-
-  {p.faq.length > 0 && <Faq items={p.faq} line1="Vragen over" line2={`de ${p.naam.toLowerCase()}`} />}
-
-  <section class="py-16 lg:py-20" aria-labelledby="ook-title">
-    <div class="container-rp grid gap-10">
-      <h2 id="ook-title" class="heading-md text-center">Ook interessant</h2>
-      <div class="mx-auto grid w-full max-w-[880px] gap-6 md:grid-cols-2">
-        {anderen.map((a) => <ProductCard product={a} />)}
+    {p.specs.length > 0 && (
+      <div class="card h-fit p-6">
+        <h2 class="text-xl">Specificaties</h2>
+        <dl class="mt-4 divide-y divide-line">
+          {p.specs.map((s) => (
+            <div class="grid grid-cols-[140px_1fr] gap-4 py-3 text-sm">
+              <dt class="text-muted">{s.label}</dt>
+              <dd class="text-ink">{s.waarde}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-    </div>
+    )}
   </section>
 
-  <CtaFinal />
+  <SamenPromo />
+  <Faq items={p.faq} />
+  <CtaBand />
 </BaseLayout>
 
 <script>
@@ -181,13 +188,14 @@ const statusLabel = { beschikbaar: 'Beschikbaar', binnenkort: 'Binnenkort', 'op-
     const bestelblok = form.querySelector<HTMLElement>('[data-bestelblok]')!;
     const offerte = form.querySelector<HTMLElement>('[data-offerte]')!;
     const toegevoegd = form.querySelector<HTMLElement>('[data-toegevoegd]')!;
+    const aantalVeld = form.elements.namedItem('aantal') as HTMLInputElement;
 
     const update = () => {
       const variant = varianten.find((v) => v.id === keuze('variant')) ?? varianten[0]!;
       const prijs = variant.prijs;
       form.querySelector('[data-prijs]')!.textContent = prijs === null ? 'Prijs volgt' : `€ ${euro(prijs)}`;
       form.querySelector('[data-prijs-toelichting]')!.textContent =
-        prijs === null ? 'We maken de prijs binnenkort bekend. Vraag gerust een offerte aan.' : `excl. btw, € ${euro(Math.round(prijs * 121) / 100)} incl. 21% btw`;
+        prijs === null ? 'vraag gerust een offerte aan' : `excl. btw, € ${euro(Math.round(prijs * 121) / 100)} incl. 21% btw`;
       bestelblok.hidden = prijs === null;
       offerte.hidden = prijs !== null;
       // Juiste illustratie tonen (platform en aantal cijfers)
@@ -201,11 +209,16 @@ const statusLabel = { beschikbaar: 'Beschikbaar', binnenkort: 'Binnenkort', 'op-
     form.querySelectorAll('input[type=radio]').forEach((el) => el.addEventListener('change', update));
     update();
 
+    form.querySelectorAll<HTMLButtonElement>('[data-stap]').forEach((b) =>
+      b.addEventListener('click', () => {
+        aantalVeld.value = String(Math.max(1, Math.min(MAX_PER_REGEL, (Number(aantalVeld.value) || 1) + Number(b.dataset.stap))));
+      }),
+    );
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const variant = varianten.find((v) => v.id === keuze('variant'));
       if (!variant || variant.prijs === null) return;
-      const aantalVeld = form.elements.namedItem('aantal') as HTMLInputElement;
       const aantal = Math.max(1, Math.min(MAX_PER_REGEL, Math.round(Number(aantalVeld.value) || 1)));
       aantalVeld.value = String(aantal);
       toevoegen({ slug: form.dataset.slug!, variant: variant.id, platform: keuze('platform') || null, aantal });
