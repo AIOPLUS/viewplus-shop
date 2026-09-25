@@ -13,7 +13,7 @@ const catalogus = catalogusData(await producten());
   <section class="pb-16 lg:pb-24" aria-label="Winkelwagen" data-winkelwagen data-catalogus={JSON.stringify(catalogus)}>
     <div class="container-rp grid items-start gap-8 lg:grid-cols-[1fr_380px]">
       <div class="card grid gap-2 p-4 md:p-6">
-        <ul class="divide-y divide-line" data-lijnen aria-live="polite"></ul>
+        <ul class="min-h-[112px] divide-y divide-line" data-lijnen aria-live="polite"></ul>
         <div class="grid justify-items-center gap-4 p-8 text-center" data-leeg hidden>
           <p class="title">Je winkelwagen is leeg</p>
           <p class="text-ink-soft">Bekijk onze live tellers en NFC-volgstandaards.</p>
@@ -21,7 +21,7 @@ const catalogus = catalogusData(await producten());
         </div>
       </div>
 
-      <aside class="soft-card grid gap-4 p-6 lg:sticky lg:top-[150px]" aria-labelledby="totaal-title" data-totalen hidden>
+      <aside class="soft-card grid gap-4 p-6 lg:sticky lg:top-[150px]" aria-labelledby="totaal-title" data-totalen>
         <h2 id="totaal-title" class="font-medium text-ink">Overzicht</h2>
         <dl class="grid gap-3 text-sm">
           <div class="flex justify-between gap-4"><dt class="text-muted">Subtotaal excl. btw</dt><dd class="text-ink" data-t="subtotaal"></dd></div>
