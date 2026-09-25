@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import { brand } from '@/config/brand';
+import { url } from '@/lib/url';
+
+/** Na het bestellen (en betalen). Niet in de sitemap, niet geïndexeerd. */
+---
+<BaseLayout title="Bedankt voor je bestelling | View Plus Shop" description="Je bestelling is ontvangen." path="/bedankt" page="bedankt" noindex>
+  <PageHero line1="Bedankt voor" line2="je bestelling" text="We hebben je bestelling ontvangen. Je krijgt binnen een paar minuten een bevestiging per e-mail." compact />
+
+  <section class="pb-16 lg:pb-24">
+    <div class="container-rp mx-auto grid max-w-[860px] gap-6">
+      <p class="soft-card p-6 text-ink-soft" data-bedankt-tekst hidden></p>
+      <ol class="grid gap-4">
+        <li class="card grid gap-2 p-6 md:p-8">
+          <p class="eyebrow w-fit">Stap 1</p>
+          <h2 class="title">Check je mailbox</h2>
+          <p class="body-muted">In de bevestiging staan je bestelling, de factuur en de verwachte levertijd. Niets ontvangen? Kijk ook in je spamfolder of mail naar <a class="text-brand-600 underline" href={`mailto:${brand.email}`}>{brand.email}</a>.</p>
+        </li>
+        <li class="card grid gap-2 p-6 md:p-8">
+          <p class="eyebrow w-fit">Stap 2</p>
+          <h2 class="title">Zorg dat je account klaarstaat</h2>
+          <p class="body-muted">Voor een live volgersteller op Instagram heb je een Instagram Business-account nodig dat gekoppeld is aan een professionele Facebook-pagina. Zet dat alvast klaar, dan ben je na de levering in een paar minuten live.</p>
+        </li>
+        <li class="card grid gap-2 p-6 md:p-8">
+          <p class="eyebrow w-fit">Stap 3</p>
+          <h2 class="title">Meer halen uit je nieuwe volgers?</h2>
+          <p class="body-muted">Met View Plus Online nemen we je social media volledig uit handen, van fotografie tot posts en reacties.</p>
+          <a href={`${brand.hoofdsiteUrl}/plans`} class="btn btn-soft mt-2 w-fit">Bekijk View Plus Online</a>
+        </li>
+      </ol>
+      <a href={url('/')} class="text-center text-brand-600 underline">Terug naar de shop</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { readJSON } from '@/lib/client/storage';
+
+  const d = readJSON<{ ref: string; totaal: number; email: string } | null>('session', 'vp_bestelling', null);
+  const ref = new URLSearchParams(location.search).get('ref');
+  if (d && d.ref === ref) {
+    const el = document.querySelector<HTMLElement>('[data-bedankt-tekst]')!;
+    el.textContent = `Bestelnummer ${d.ref}, totaal € ${d.totaal.toLocaleString('nl-NL', { minimumFractionDigits: 2 })} incl. btw. De bevestiging gaat naar ${d.email}.`;
+    el.hidden = false;
+  }
+</script>

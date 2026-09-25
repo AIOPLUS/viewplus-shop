@@ -1,0 +1,20 @@
+---
+/** Sectiekop zoals op de Framer-site: label, dan een zwarte regel en een blauwe regel. */
+interface Props {
+  eyebrow?: string;
+  line1: string;
+  line2?: string;
+  as?: 'h1' | 'h2';
+  align?: 'center' | 'left';
+  id?: string;
+  class?: string;
+}
+const { eyebrow, line1, line2, as: Tag = 'h2', align = 'center', id, class: cls = '' } = Astro.props;
+---
+<div class={`grid gap-5 ${align === 'center' ? 'justify-items-center text-center' : 'justify-items-start'} ${cls}`}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag class="display" id={id}>
+    <span class="block text-ink">{line1}</span>
+    {line2 && <span class="block text-brand-600">{line2}</span>}
+  </Tag>
+</div>

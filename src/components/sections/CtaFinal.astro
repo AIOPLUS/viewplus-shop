@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets';
+import ArrowButton from '@/components/ui/ArrowButton.astro';
+import { url } from '@/lib/url';
+import bg from '@/assets/img/cta-bg.png';
+import bar from '@/assets/img/foto-bar.jpg';
+import cafe from '@/assets/img/foto-cafe.jpg';
+---
+<section class="pt-10" aria-labelledby="cta-title">
+  <div class="container-rp">
+    <div class="reveal relative isolate overflow-hidden rounded-[24px] bg-brand-500 px-6 py-20 text-center text-white lg:py-28">
+      <Image src={bg} alt="" class="absolute inset-0 -z-10 size-full object-cover" widths={[800, 1600]} sizes="(min-width: 1360px) 1296px, 100vw" />
+      <Image src={bar} alt="" widths={[360, 720]} sizes="340px" class="absolute -left-10 bottom-[-12%] hidden aspect-[4/3] w-[340px] -rotate-12 rounded-xl border-[6px] border-white/90 object-cover opacity-90 shadow-2xl lg:block" />
+      <Image src={cafe} alt="" widths={[360, 720]} sizes="340px" class="absolute -right-10 bottom-[-10%] hidden aspect-[4/3] w-[340px] rotate-12 rounded-xl border-[6px] border-white/90 object-cover opacity-90 shadow-2xl lg:block" />
+      <div class="relative mx-auto grid max-w-[640px] justify-items-center gap-6">
+        <h2 id="cta-title" class="display text-white">Twijfel je welke teller past?</h2>
+        <p class="lead text-white/90">Vertel ons over jouw zaak, dan adviseren we welke teller of standaard het best past.</p>
+        <ArrowButton href={url('/contact')} label="Vraag advies" variant="white" track="advies_klik" />
+      </div>
+    </div>
+  </div>
+</section>

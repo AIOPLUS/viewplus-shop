@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import patroon1 from '@/assets/img/patroon-1.svg';
+import patroon2 from '@/assets/img/patroon-2.svg';
+import glow from '@/assets/img/pagina-hero-bg.png';
+
+/** Kop van binnenpagina's (functies, prijzen, contact…), zoals op de Framer-site. */
+interface Props {
+  line1: string;
+  line2?: string;
+  text?: string;
+  eyebrow?: string;
+  compact?: boolean;
+}
+const { line1, line2, text, eyebrow, compact = false } = Astro.props;
+---
+<section class:list={['relative isolate overflow-hidden pt-[140px] lg:pt-[200px]', compact ? 'pb-10' : 'pb-16 lg:pb-24']}>
+  <Image src={glow} alt="" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[70%] w-full object-cover opacity-70" widths={[800, 1600]} sizes="100vw" loading="eager" />
+  <Image src={patroon1} alt="" class="pointer-events-none absolute left-[12%] top-[120px] -z-10 hidden w-[240px] lg:block" loading="eager" />
+  <Image src={patroon2} alt="" class="pointer-events-none absolute right-[12%] top-[260px] -z-10 hidden w-[240px] lg:block" loading="eager" />
+  <div class="container-rp grid justify-items-center gap-6 text-center">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1 class="display max-w-[900px]">
+      <span class="text-ink">{line1}</span>
+      {line2 && <> <span class="text-brand-600">{line2}</span></>}
+    </h1>
+    {text && (
+      <>
+        <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--color-brand-400)" stroke-width="1.5" aria-hidden="true"><path d="M17 0v34M0 17h34" /></svg>
+        <p class="lead max-w-[560px] text-ink-soft">{text}</p>
+      </>
+    )}
+    <slot />
+  </div>
+</section>

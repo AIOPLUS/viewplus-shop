@@ -1,0 +1,38 @@
+---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+
+interface Props {
+  items: readonly { vraag: string; antwoord: string }[];
+  line1?: string;
+  line2?: string;
+}
+const { items, line1 = 'Veelgestelde vragen', line2 } = Astro.props;
+---
+<section id="faq" class="scroll-mt-32 py-20 lg:py-28" aria-labelledby="faq-title">
+  <div class="container-rp">
+    <SectionHeader id="faq-title" eyebrow="FAQ" line1={line1} line2={line2} class="reveal" />
+    <div class="reveal mx-auto mt-14 grid max-w-[1040px] gap-4 lg:mt-20" data-faq>
+      {items.map((f, i) => (
+        <details class="group rounded-[var(--radius-card)] border border-line bg-white transition-colors open:border-transparent open:bg-brand-100" open={i === 0}>
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-lg font-medium text-ink group-open:text-brand-600 lg:px-10 lg:py-7 [&::-webkit-details-marker]:hidden">
+            {f.vraag}
+            <svg class="shrink-0 transition-transform group-open:rotate-180" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+          </summary>
+          <div class="mx-6 border-t border-brand-200 pb-7 pt-5 lg:mx-10">
+            <p class="text-ink-soft">{f.antwoord}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Eén vraag tegelijk open, zoals op de Framer-site.
+  document.querySelectorAll('[data-faq]').forEach((wrap) => {
+    const items = wrap.querySelectorAll('details');
+    items.forEach((d) => d.addEventListener('toggle', () => {
+      if (d.open) items.forEach((o) => { if (o !== d) o.open = false; });
+    }));
+  });
+</script>

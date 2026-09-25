@@ -1,0 +1,23 @@
+---
+/** Pil-knop met rond pijl-icoon, zoals "Plan een kennismaking ↗", gelijk aan reviewplus.io. */
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'soft' | 'white';
+  external?: boolean;
+  track?: string;
+  class?: string;
+}
+const { href, label, variant = 'soft', external = /^https?:/.test(href), track, class: cls = '' } = Astro.props;
+---
+<a
+  href={href}
+  class={`btn-arrow ${variant === 'white' ? 'btn-arrow--white' : ''} ${cls}`}
+  {...(external ? { target: '_blank', rel: 'noopener' } : {})}
+  {...(track ? { 'data-track': track } : {})}
+>
+  <span>{label}{external && <span class="sr-only"> (opent in een nieuw tabblad)</span>}</span>
+  <span class="arrow" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
+  </span>
+</a>

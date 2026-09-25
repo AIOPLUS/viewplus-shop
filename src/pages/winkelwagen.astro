@@ -1,0 +1,94 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import { producten, catalogusData } from '@/lib/catalog';
+import { url } from '@/lib/url';
+
+/** Winkelwagen (inhoud in localStorage, zie lib/client/winkelwagen.ts). Niet geïndexeerd. */
+const catalogus = catalogusData(await producten());
+---
+<BaseLayout title="Winkelwagen | View Plus Shop" description="Je winkelwagen in de View Plus Shop." path="/winkelwagen" page="winkelwagen" noindex>
+  <PageHero line1="Je" line2="winkelwagen" compact />
+
+  <section class="pb-16 lg:pb-24" aria-label="Winkelwagen" data-winkelwagen data-catalogus={JSON.stringify(catalogus)}>
+    <div class="container-rp grid items-start gap-8 lg:grid-cols-[1fr_380px]">
+      <div class="card grid gap-2 p-4 md:p-6">
+        <ul class="divide-y divide-line" data-lijnen aria-live="polite"></ul>
+        <div class="grid justify-items-center gap-4 p-8 text-center" data-leeg hidden>
+          <p class="title">Je winkelwagen is leeg</p>
+          <p class="text-ink-soft">Bekijk onze live tellers en NFC-volgstandaards.</p>
+          <a href={url('/#producten')} class="btn btn-primary">Naar de producten</a>
+        </div>
+      </div>
+
+      <aside class="soft-card grid gap-4 p-6 lg:sticky lg:top-[150px]" aria-labelledby="totaal-title" data-totalen hidden>
+        <h2 id="totaal-title" class="font-medium text-ink">Overzicht</h2>
+        <dl class="grid gap-3 text-sm">
+          <div class="flex justify-between gap-4"><dt class="text-muted">Subtotaal excl. btw</dt><dd class="text-ink" data-t="subtotaal"></dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-muted">Verzending</dt><dd class="text-right text-ink" data-t="verzending"></dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-muted">Btw 21%</dt><dd class="text-ink" data-t="btw"></dd></div>
+          <div class="flex justify-between gap-4 border-t border-line pt-3 font-medium"><dt class="text-ink">Totaal incl. btw</dt><dd class="text-ink" data-t="totaal"></dd></div>
+        </dl>
+        <a href={url('/afrekenen')} class="btn btn-primary btn-lg w-full" data-track="afrekenen_start">Verder naar afrekenen</a>
+        <a href={url('/#producten')} class="text-center text-sm text-brand-600 underline">Verder winkelen</a>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { regels, zetAantal, bijWijziging, MAX_PER_REGEL } from '@/lib/client/winkelwagen';
+  import { bereken, euro, type Catalogus } from '@/lib/client/bestelling';
+  import { url } from '@/lib/url';
+
+  const wrap = document.querySelector<HTMLElement>('[data-winkelwagen]');
+  if (wrap) {
+    const cat = JSON.parse(wrap.dataset.catalogus ?? '{}') as Catalogus;
+    const lijst = wrap.querySelector<HTMLElement>('[data-lijnen]')!;
+    const el = (tag: string, cls = '', tekst = '') => {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (tekst) e.textContent = tekst;
+      return e;
+    };
+
+    const toon = () => {
+      const b = bereken(regels(), cat);
+      lijst.replaceChildren();
+      b.lijnen.forEach((l) => {
+        const li = el('li', 'grid gap-4 py-5 sm:grid-cols-[1fr_auto_auto] sm:items-center');
+        const info = el('div', 'grid gap-1');
+        const naam = el('a', 'font-medium text-ink hover:text-brand-600', l.naam) as HTMLAnchorElement;
+        naam.href = url(`/${l.slug}`);
+        info.append(naam, el('p', 'text-sm text-muted', [l.variant, l.platform].filter(Boolean).join(' · ')), el('p', 'text-sm text-ink-soft', `${euro(l.prijs)} per stuk excl. btw`));
+
+        const aantal = el('div', 'flex items-center gap-2');
+        const label = el('label', 'sr-only', `Aantal ${l.naam}`) as HTMLLabelElement;
+        const id = `aantal-${l.index}`;
+        label.htmlFor = id;
+        const input = el('input', 'input !min-h-[44px] w-[84px] text-center') as HTMLInputElement;
+        Object.assign(input, { id, type: 'number', min: '0', max: String(MAX_PER_REGEL), value: String(l.aantal), inputMode: 'numeric' });
+        input.addEventListener('change', () => zetAantal(l.index, Number(input.value)));
+        const weg = el('button', 'grid size-11 place-items-center rounded-full text-muted hover:bg-danger-bg hover:text-danger') as HTMLButtonElement;
+        weg.type = 'button';
+        weg.setAttribute('aria-label', `${l.naam} verwijderen`);
+        weg.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>';
+        weg.addEventListener('click', () => zetAantal(l.index, 0));
+        aantal.append(label, input, weg);
+
+        li.append(info, aantal, el('p', 'font-medium text-ink sm:w-[110px] sm:text-right', euro(l.totaal)));
+        lijst.append(li);
+      });
+      const leeg = b.lijnen.length === 0;
+      wrap.querySelector<HTMLElement>('[data-leeg]')!.hidden = !leeg;
+      wrap.querySelector<HTMLElement>('[data-totalen]')!.hidden = leeg;
+      const zet = (k: string, v: string) => { wrap.querySelector(`[data-t="${k}"]`)!.textContent = v; };
+      zet('subtotaal', euro(b.subtotaal));
+      zet('verzending', b.verzending === null ? 'Volgt bij afrekenen' : b.verzending === 0 ? 'Gratis' : euro(b.verzending));
+      zet('btw', euro(b.btw));
+      zet('totaal', euro(b.totaal));
+    };
+    toon();
+    bijWijziging(toon);
+  }
+</script>

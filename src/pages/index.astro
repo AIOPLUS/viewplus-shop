@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PlatformBand from '@/components/sections/PlatformBand.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import ArrowButton from '@/components/ui/ArrowButton.astro';
+import ProductCard from '@/components/shop/ProductCard.astro';
+import Teller from '@/components/shop/Teller.astro';
+import Volgstandaard from '@/components/shop/Volgstandaard.astro';
+import LabelBand from '@/components/sections/LabelBand.astro';
+import Faq from '@/components/sections/Faq.astro';
+import CtaFinal from '@/components/sections/CtaFinal.astro';
+import { brand } from '@/config/brand';
+import { faq, stappen } from '@/config/content';
+import { producten } from '@/lib/catalog';
+import { faqSchema, websiteSchema, productenSchema } from '@/lib/schema';
+import { url } from '@/lib/url';
+import patroon1 from '@/assets/img/patroon-1.svg';
+import patroon2 from '@/assets/img/patroon-2.svg';
+
+const lijst = await producten();
+---
+<BaseLayout
+  title="View Plus Shop – live volgerstellers en NFC-volgstandaards voor je zaak"
+  description="Maak je volgers zichtbaar in je zaak: live tellers met klapcijfers voor Instagram, Facebook en TikTok, en NFC-volgstandaards waarmee gasten je met één tik volgen."
+  path="/"
+  page="home"
+  schemas={[websiteSchema(), productenSchema(lijst), faqSchema(faq)]}
+>
+  <!-- Hero met een teller die je zelf laat klappen -->
+  <section class="relative pt-[140px] lg:pt-[184px]" aria-labelledby="hero-title">
+    <Image src={patroon1} alt="" class="pointer-events-none absolute left-[26%] top-[110px] hidden w-[240px] opacity-80 lg:block" loading="eager" />
+    <Image src={patroon2} alt="" class="pointer-events-none absolute right-[22%] top-[300px] hidden w-[240px] opacity-80 lg:block" loading="eager" />
+    <div class="container-rp relative grid items-center gap-12 lg:grid-cols-[1fr_1.05fr]">
+      <div class="grid gap-8">
+        <p class="eyebrow w-fit">View Plus Shop</p>
+        <h1 id="hero-title" class="display text-ink">
+          <span class="block">Maak je volgers</span>
+          <span class="flex items-center gap-4 text-brand-600"><span class="hidden h-px w-[72px] bg-line-strong sm:block lg:w-[120px]" aria-hidden="true"></span>zichtbaar</span>
+        </h1>
+        <p class="lead max-w-[560px] text-ink-soft">Live tellers met klapcijfers en NFC-volgstandaards voor je zaak. Gasten zien je volgers, tikken, volgen en zien het getal meteen meedraaien.</p>
+        <div class="flex flex-wrap items-center gap-3">
+          <ArrowButton href={url('/#producten')} label="Bekijk de producten" class="w-fit" />
+          <a href={url('/contact')} class="btn btn-white border-line text-ink hover:border-brand-200">Vraag advies</a>
+        </div>
+      </div>
+
+      <div class="grid gap-5 rounded-[var(--radius-panel)] bg-gradient-to-b from-brand-50 to-brand-100 p-6 sm:p-10">
+        <Teller id="demo-teller" platform="Instagram" waarde={1248} class="w-full" label="Voorbeeld van een live volgersteller" />
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="grid gap-0.5">
+            <p class="font-medium text-ink">Probeer het zelf</p>
+            <p class="text-sm text-ink-soft">Klik op Volgen en zie de cijfers omklappen.</p>
+          </div>
+          <button type="button" class="btn btn-primary" data-demo-volg aria-controls="demo-teller">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+            Volgen
+          </button>
+        </div>
+        <p class="sr-only" aria-live="polite" data-demo-status></p>
+      </div>
+    </div>
+    <div class="container-rp mt-16 lg:mt-24">
+      <PlatformBand />
+    </div>
+  </section>
+
+  <!-- Producten -->
+  <section id="producten" class="scroll-mt-32 py-20 lg:py-28" aria-labelledby="producten-title">
+    <div class="container-rp">
+      <SectionHeader id="producten-title" eyebrow="Producten" line1="Van tik" line2="tot teller" class="reveal" />
+      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
+        {lijst.map((p) => <ProductCard product={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Beter samen -->
+  <section class="py-16 lg:py-24" aria-labelledby="samen-title">
+    <div class="container-rp grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="reveal relative grid min-h-[380px] place-items-center overflow-hidden rounded-[var(--radius-panel)] bg-gradient-to-b from-brand-50 to-brand-100 p-8">
+        <div class="grid w-full max-w-[520px] grid-cols-[0.8fr_1.6fr] items-end gap-6">
+          <Volgstandaard platform="Instagram" />
+          <Teller platform="Instagram" waarde={1249} class="mb-8" />
+        </div>
+      </div>
+      <div class="reveal grid gap-6">
+        <p class="eyebrow w-fit">Beter samen</p>
+        <h2 id="samen-title" class="heading-lg">Tikken, volgen en het getal zien meedraaien</h2>
+        <p class="lead text-ink-soft">De volgstandaard maakt volgen zo makkelijk als tikken. De teller laat het resultaat zien. Gasten zien het getal veranderen op het moment dat ze je volgen, en dat vertellen ze verder.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href={url('/live-volgersteller')} class="btn btn-primary">Live volgersteller</a>
+          <a href={url('/nfc-volgstandaard')} class="btn btn-soft">NFC-volgstandaard</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hoe het werkt -->
+  <section id="hoe-het-werkt" class="scroll-mt-32 py-20 lg:py-28" aria-labelledby="stappen-title">
+    <div class="container-rp">
+      <SectionHeader id="stappen-title" eyebrow="Hoe het werkt" line1="In vier stappen" line2="zichtbaar" class="reveal" />
+      <ol class="mt-14 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+        {stappen.map((s, i) => (
+          <li class="soft-card reveal grid content-start gap-4 p-8">
+            <span class="text-[48px] font-light leading-none tracking-[-0.03em] text-brand-600" aria-hidden="true">0{i + 1}</span>
+            <h3 class="title">{s.titel}</h3>
+            <p class="body-muted">{s.tekst}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Brug naar View Plus Online -->
+  <section class="py-10" aria-labelledby="online-title">
+    <div class="container-rp">
+      <div class="reveal grid items-center gap-6 rounded-[var(--radius-panel)] border border-brand-200 bg-white p-8 md:grid-cols-[1fr_auto] lg:p-12">
+        <div class="grid gap-2">
+          <p class="eyebrow w-fit">View Plus Online</p>
+          <h2 id="online-title" class="heading-md">Nieuwe volgers verdienen sterke content</h2>
+          <p class="max-w-[640px] text-ink-soft">Met View Plus Online nemen we je social media volledig uit handen: professionele fotografie, een contentkalender en 2 tot 3 posts per week.</p>
+        </div>
+        <a href={`${brand.hoofdsiteUrl}/plans`} class="btn btn-primary w-fit">Bekijk View Plus Online</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faq} />
+  <LabelBand />
+  <CtaFinal />
+</BaseLayout>
+
+<script>
+  import { setTeller } from '@/lib/client/teller';
+  import { track } from '@/lib/client/analytics';
+
+  const kast = document.querySelector<HTMLElement>('#demo-teller');
+  const knop = document.querySelector<HTMLButtonElement>('[data-demo-volg]');
+  const status = document.querySelector<HTMLElement>('[data-demo-status]');
+  let bezig = false;
+  knop?.addEventListener('click', async () => {
+    if (!kast || bezig) return;
+    bezig = true;
+    const nieuw = Number(kast.dataset.waarde ?? 0) + 1;
+    await setTeller(kast, nieuw);
+    if (status) status.textContent = `Teller staat nu op ${nieuw.toLocaleString('nl-NL')}`;
+    track('demo_teller', {});
+    bezig = false;
+  });
+</script>

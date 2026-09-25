@@ -1,0 +1,221 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import { brand } from '@/config/brand';
+import { LEAD } from '@/config/site';
+import { producten } from '@/lib/catalog';
+
+const lijst = await producten();
+import { breadcrumbSchema } from '@/lib/schema';
+import { url } from '@/lib/url';
+---
+<BaseLayout
+  title="Advies en contact | View Plus Shop"
+  description="Vraag advies over een live volgersteller of NFC-volgstandaard, of vraag een offerte aan. We reageren binnen één werkdag."
+  path="/contact"
+  page="contact"
+  schemas={[breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]}
+>
+  <PageHero line1="Vraag" line2="advies" text="Twijfel je welke teller of standaard past, of wil je een offerte? Vertel ons over jouw zaak, dan nemen we snel contact met je op." compact />
+
+  <section class="pb-10" aria-label="Contactformulier">
+    <div class="container-rp grid gap-8 lg:grid-cols-[1fr_380px]">
+      <form
+        class="card grid gap-5 p-6 md:p-10"
+        novalidate
+        data-contact
+        data-webhook={LEAD.webhookUrl}
+        data-turnstile={LEAD.turnstileSiteKey}
+        data-email={LEAD.fallbackEmail}
+      >
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div class="field">
+            <label for="voornaam">Voornaam <span class="req" aria-hidden="true">*</span></label>
+            <input id="voornaam" name="voornaam" class="input" autocomplete="given-name" required />
+          </div>
+          <div class="field">
+            <label for="achternaam">Achternaam <span class="req" aria-hidden="true">*</span></label>
+            <input id="achternaam" name="achternaam" class="input" autocomplete="family-name" required />
+          </div>
+          <div class="field">
+            <label for="email">E-mailadres <span class="req" aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" class="input" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="telefoon">Telefoonnummer</label>
+            <input id="telefoon" name="telefoon" type="tel" class="input" autocomplete="tel" />
+          </div>
+          <div class="field sm:col-span-2">
+            <label for="bedrijf">Bedrijfsnaam</label>
+            <input id="bedrijf" name="bedrijf" class="input" autocomplete="organization" />
+          </div>
+          <div class="field sm:col-span-2">
+            <label for="dienst">Over welk product gaat je vraag?</label>
+            <select id="dienst" name="dienst" class="input">
+              <option value="">Maak een keuze</option>
+              {lijst.map((p) => <option value={p.data.slug}>{p.data.naam}</option>)}
+              <option value="meerdere">Meerdere producten</option>
+              <option value="anders">Iets anders</option>
+            </select>
+          </div>
+          <div class="field sm:col-span-2">
+            <label for="bericht">Bericht <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="bericht" name="bericht" class="input" required></textarea>
+          </div>
+        </div>
+                <!-- Honeypot tegen spam: echte bezoekers zien dit veld niet -->
+        <div class="sr-only" aria-hidden="true">
+          <label for="website_url">Laat dit veld leeg</label>
+          <input id="website_url" name="website_url" tabindex="-1" autocomplete="off" />
+        </div>
+        <label class="check">
+          <input type="checkbox" name="akkoord" required />
+          <span>Ik ga akkoord met de <a class="text-brand-600 underline" href={url('/privacy-policy')}>privacyverklaring</a>. <span class="req" aria-hidden="true">*</span></span>
+        </label>
+        <div data-turnstile-slot class="min-h-[65px]" hidden={!LEAD.turnstileSiteKey}></div>
+        <p class="error" data-form-error hidden role="alert"></p>
+        <button type="submit" class="btn btn-primary btn-lg w-full sm:w-fit">Verstuur bericht</button>
+      </form>
+
+      <aside class="grid content-start gap-4">
+        <div class="soft-card grid gap-2 p-6">
+          <p class="font-medium text-ink">Offerte of meerdere locaties?</p>
+          <p class="body-muted">Bestel je voor meerdere vestigingen, of wil je eerst een offerte? Laat het ons weten, dan maken we een voorstel op maat.</p>
+        </div>
+        <div class="soft-card grid gap-2 p-6">
+          <p class="font-medium text-ink">Mail ons</p>
+          <a href={`mailto:${brand.email}`} class="text-brand-600 underline">{brand.email}</a>
+          <p class="body-muted">We reageren binnen één werkdag.</p>
+        </div>
+        <div class="soft-card grid gap-2 p-6">
+          <p class="font-medium text-ink">Liever meteen bestellen?</p>
+          <a href={url('/#producten')} class="text-brand-600 underline">Bekijk de producten</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="container-rp" data-contact-success hidden>
+    <div class="soft-card mx-auto grid max-w-[640px] justify-items-center gap-4 p-10 text-center" tabindex="-1" data-success-focus>
+      <span class="grid size-14 place-items-center rounded-full bg-success-bg text-2xl text-success" aria-hidden="true">✓</span>
+      <h2 class="heading-md">Bedankt voor je bericht!</h2>
+      <p class="text-ink-soft">We nemen binnen één werkdag contact met je op. Een kopie van je bericht staat in je mailbox.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { track } from '@/lib/client/analytics';
+  import { validateEmail } from '@/lib/validation';
+
+  declare global {
+    interface Window {
+      turnstile?: {
+        render: (el: Element, opts: Record<string, unknown>) => string;
+        getResponse: (id?: string) => string | undefined;
+        reset: (id?: string) => void;
+      };
+    }
+  }
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact]');
+  if (form) {
+    const webhook = form.dataset.webhook ?? '';
+    const siteKey = form.dataset.turnstile ?? '';
+    const errorBox = form.querySelector<HTMLElement>('[data-form-error]')!;
+    const submit = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    let widgetId: string | undefined;
+
+    // Vanaf een productpagina: /contact?product=<slug> vult het product alvast in.
+    const dienst = new URLSearchParams(location.search).get('product');
+    const keuze = form.elements.namedItem('dienst') as HTMLSelectElement;
+    if (dienst && [...keuze.options].some((o) => o.value === dienst)) keuze.value = dienst;
+
+    // Turnstile pas laden zodra iemand het formulier gebruikt.
+    const loadTurnstile = () => {
+      const slot = form.querySelector('[data-turnstile-slot]');
+      if (!siteKey || !slot || widgetId !== undefined || document.querySelector('script[data-ts]')) return;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.dataset.ts = '';
+      s.onload = () => { widgetId = window.turnstile?.render(slot, { sitekey: siteKey, language: 'nl', appearance: 'interaction-only', action: 'contact' }); };
+      document.head.appendChild(s);
+    };
+    form.addEventListener('focusin', loadTurnstile, { once: true });
+
+    const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
+    const val = (name: string) => field(name)?.value.trim() ?? '';
+    const fail = (message: string, focus?: HTMLElement) => {
+      errorBox.textContent = message;
+      errorBox.hidden = false;
+      focus?.focus();
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.hidden = true;
+      form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+
+      for (const name of ['voornaam', 'achternaam', 'bericht']) {
+        if (!val(name)) {
+          field(name).setAttribute('aria-invalid', 'true');
+          return fail('Vul alle verplichte velden in.', field(name));
+        }
+      }
+      const email = validateEmail(val('email'));
+      if (!email.ok) {
+        field('email').setAttribute('aria-invalid', 'true');
+        return fail(email.error ?? 'Vul een geldig e-mailadres in.', field('email'));
+      }
+      if (!(field('akkoord') as HTMLInputElement).checked) return fail('Ga akkoord met de privacyverklaring.', field('akkoord'));
+      if (val('website_url')) return; // honeypot
+      if (!webhook) return fail(`Het formulier is nog niet gekoppeld. Mail ons via ${form.dataset.email}.`);
+
+      submit.disabled = true;
+      submit.textContent = 'Bezig met versturen…';
+      try {
+        let token: string | null = null;
+        if (siteKey) {
+          loadTurnstile();
+          for (let i = 0; i < 24 && !token; i++) {
+            token = window.turnstile?.getResponse(widgetId) || null;
+            if (!token) await new Promise((r) => setTimeout(r, 250));
+          }
+          if (!token) throw new Error('turnstile');
+        }
+        const res = await fetch(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            request_type: 'contact',
+            bron: 'shop',
+            merk: 'viewplus',
+            lead_source: 'site',
+            submitted_at: new Date().toISOString(),
+            pagina: location.href,
+            contact: { voornaam: val('voornaam'), achternaam: val('achternaam'), email: email.value, telefoon: val('telefoon') },
+            bedrijf: { naam: val('bedrijf') },
+            dienst: val('dienst') || null,
+            bericht: val('bericht'),
+            turnstile_token: token,
+          }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        track('contact_verzonden', { dienst: val('dienst') || 'geen' });
+        form.closest('section')!.hidden = true;
+        const success = document.querySelector<HTMLElement>('[data-contact-success]')!;
+        success.hidden = false;
+        success.querySelector<HTMLElement>('[data-success-focus]')?.focus();
+      } catch (err) {
+        window.turnstile?.reset(widgetId);
+        fail(err instanceof Error && err.message === 'turnstile'
+          ? 'De beveiligingscontrole is nog niet afgerond. Staat er een vakje "Ik ben geen robot"? Vink het aan en klik daarna opnieuw op versturen.'
+          : `Versturen is niet gelukt. Probeer het opnieuw of mail naar ${form.dataset.email}.`);
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Verstuur bericht';
+      }
+    });
+  }
+</script>

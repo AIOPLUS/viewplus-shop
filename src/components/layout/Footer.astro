@@ -1,0 +1,80 @@
+---
+import Logo from './Logo.astro';
+import { brand, footerNav, labels } from '@/config/brand';
+import { PIXELS } from '@/config/site';
+import { brandIcon } from '@/lib/icons';
+import { url } from '@/lib/url';
+
+const hasPixels = Boolean(PIXELS.metaPixelId || PIXELS.gadsId);
+const socials = [
+  { href: brand.social.instagram, label: 'Instagram', icoon: 'si:instagram' },
+  { href: brand.social.facebook, label: 'Facebook', icoon: 'si:facebook' },
+  { href: brand.social.tiktok, label: 'TikTok', icoon: 'si:tiktok' },
+  { href: brand.social.linkedin, label: 'LinkedIn', icoon: 'si:linkedin' },
+]
+  .filter((s) => s.href)
+  .map((s) => ({ ...s, svg: brandIcon(s.icoon) }));
+const anderLabel = labels.find((l) => l.id !== brand.id && l.url);
+const year = new Date().getFullYear();
+---
+<footer class="mt-24">
+  <div class="container-rp">
+    <div class="grid gap-12 border-b border-line pb-14 lg:grid-cols-[1fr_2.2fr]">
+      <div class="grid content-start gap-5">
+        <a href={url('/')} class="w-fit" aria-label={`${brand.name} – home`}><Logo size={34} wordmark /></a>
+        <p class="max-w-[360px] text-ink-soft">{brand.slogan} {brand.tagline}</p>
+        <form class="grid max-w-[420px] gap-3" data-newsletter novalidate>
+          <label for="nb-email" class="text-base font-medium">Abonneer op onze nieuwsbrief</label>
+          <div class="flex items-center gap-2 rounded-full border border-line bg-white p-1.5 pl-5 focus-within:border-brand-600">
+            <input id="nb-email" name="email" type="email" autocomplete="email" required placeholder="Je e-mailadres"
+              class="min-w-0 flex-1 bg-transparent text-[15px] outline-none" aria-describedby="nb-status" />
+            <button type="submit" class="btn btn-primary !min-h-[42px] !px-5 shrink-0">Aanmelden</button>
+          </div>
+          <p id="nb-status" class="hint" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <nav aria-label="Footer" class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        {footerNav.map((col) => (
+          <div>
+            <p class="mb-4 font-medium text-ink">{col.title}</p>
+            <ul class="grid gap-3 text-[15px] text-muted">
+              {col.links.map((l) => (
+                <li><a class="hover:text-brand-600" href={url(l.href)}>{l.label}</a></li>
+              ))}
+              {col.title === 'Wettelijk' && hasPixels && (
+                <li><button type="button" data-open-consent class="cursor-pointer text-left hover:text-brand-600">Cookie-instellingen</button></li>
+              )}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </div>
+
+    {anderLabel && (
+      <a href={anderLabel.url} class="group mt-8 flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-card)] border border-line px-6 py-5 transition-colors hover:border-[var(--label)]" style={`--label:${anderLabel.kleur}`} data-track="label_wissel" data-track-plek="footer">
+        <span class="flex items-center gap-3">
+          <svg width="20" height="21" viewBox="0 0 906 958" fill={anderLabel.kleur} aria-hidden="true"><path d="M0 0H386V410A386 410 0 0 1 0 0Z" /><rect x="520" width="386" height="410" /><path d="M386 548V958H0A386 410 0 0 1 386 548Z" /><rect x="520" y="548" width="386" height="410" /></svg>
+          <span class="text-ink"><span class="font-semibold">{anderLabel.naam[0]}</span> {anderLabel.naam[1]}<span class="text-muted"> · ons zusterlabel. {anderLabel.slogan}</span></span>
+        </span>
+        <span class="text-sm font-medium" style={`color:${anderLabel.kleur}`}>Naar {anderLabel.naam.join(' ')} →</span>
+      </a>
+    )}
+
+    <div class="flex flex-wrap items-center justify-between gap-4 py-8 text-sm text-muted">
+      <p>© {year} {brand.name}. Alle rechten voorbehouden.</p>
+      {socials.length > 0 && (
+        <ul class="flex gap-2" aria-label="Social media">
+          {socials.map((s) => (
+            <li><a href={s.href} rel="noopener" target="_blank" class="grid size-9 place-items-center rounded-full border border-line text-ink hover:text-brand-600" aria-label={s.label}>
+              <svg width="15" height="15" viewBox={s.svg.viewBox} fill="currentColor" aria-hidden="true" set:html={s.svg.body} />
+            </a></li>
+          ))}
+        </ul>
+      )}
+      <a href={url('/contact')} data-track="advies_klik" data-track-plek="footer" class="btn !min-h-[42px] border-brand-600 text-brand-600 hover:bg-brand-100">
+        Vraag advies
+      </a>
+    </div>
+  </div>
+</footer>

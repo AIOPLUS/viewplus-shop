@@ -1,0 +1,34 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import { breadcrumbSchema } from '@/lib/schema';
+
+interface Props {
+  id: 'privacyverklaring' | 'algemene-voorwaarden' | 'bezorging-en-retour';
+  path: string;
+}
+const { id, path } = Astro.props;
+const entry = (await getEntry('legal', id))!;
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
+---
+<BaseLayout
+  title={`${entry.data.title} | View Plus Shop`}
+  description={entry.data.description}
+  path={path}
+  page="juridisch"
+  schemas={[breadcrumbSchema([{ name: 'Home', path: '/' }, { name: entry.data.title, path }])]}
+>
+  <PageHero line1={entry.data.title} text={`Ingangsdatum: ${entry.data.ingangsdatum}`} compact />
+  <div class="container-rp grid gap-12 pb-10 lg:grid-cols-[260px_1fr]">
+    <nav aria-label="Inhoud" class="hidden lg:block">
+      <ol class="sticky top-32 grid gap-2 text-sm text-muted">
+        {toc.map((h) => <li><a href={`#${h.slug}`} class="hover:text-brand-600">{h.text}</a></li>)}
+      </ol>
+    </nav>
+    <article class="prose-rp max-w-[760px] [&_h2]:scroll-mt-32">
+      <Content />
+    </article>
+  </div>
+</BaseLayout>

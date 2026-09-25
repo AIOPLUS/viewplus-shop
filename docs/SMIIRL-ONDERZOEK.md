@@ -1,0 +1,74 @@
+# Onderzoek Smiirl (25-09-2026)
+
+Bron: de openbare site https://www.smiirl.com (Engelse versie, regio Nederland ingesteld voor europrijzen). Niet ingelogd op my.smiirl.com. Alles hieronder is wat Smiirl zelf publiceert; controleer het bij je aanmelding als reseller.
+
+## Wat Smiirl verkoopt
+
+| Product | Wat | Adviesprijs NL (excl. btw, 25-09-2026) |
+|---|---|---|
+| Instagram Counter 5 cijfers | Live volgersteller tot 99.999 | € 299 |
+| Instagram Counter 7 cijfers | Live volgersteller tot 9.999.999 | € 449 |
+| Facebook Counter 5 / 7 cijfers | Zelfde teller, voor Facebook | Op de Engelse site gelijk aan Instagram ($ 399 / $ 559) |
+| TikTok Counter 5 / 7 cijfers | Zelfde teller, voor TikTok | Idem |
+| Custom Counter 5 / 7 cijfers | Toont elk getal dat je zelf aanlevert (via Zapier zonder code, of via een eigen API-koppeling), bijvoorbeeld het aantal Google-reviews | € 399 / € 549 |
+| The Tag | NFC- en QR-bord (18 × 28 cm, staal met houten voet, 21 magneten) met een actiepagina (reviews, volgers, menu, wifi…). Voorverkoop, levering november 2026 | Startpakket € 24 (introductie, normaal € 48) + € 10 per maand software (verplicht) |
+| Refurbished Counters | Gereviseerde tellers | 20% onder de nieuwprijs |
+
+Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Custom Counter.
+
+## Specificaties van de teller (5 cijfers)
+
+- **Afmeting en gewicht:** 42 × 10,5 × 10,1 cm, 2,1 kg (7 cijfers: 56,4 cm breed, 2,7 kg).
+- **Voorkant:** lindehout multiplex met een transparant polycarbonaat scherm. Mechanische klapcijfers, "zoals een ouderwets stationsbord".
+- **Netwerk:**
+  - wifi 2,4 GHz (802.11 b/g/n) of ethernet (kabel niet meegeleverd);
+  - werkt ook via de hotspot van een telefoon;
+  - netwerken met inlogpagina alleen met instellingen van de netwerkbeheerder;
+  - statisch IP mogelijk.
+- **Stroom:** 5V-adapter met stekkers voor EU, UK, VS en AUS, en een kabel van 2,5 m.
+- **Bijwerken:** standaard elke 6 seconden. Instelbaar van 30 seconden tot 24 uur.
+- **Plaatsing:** op de toonbank, aan de muur (ophanghaken, 30,1 cm uit elkaar), in de etalage, of onderweg met een powerbank en hotspot.
+- **Instagram-eis:**
+  - een Instagram Business-account, gekoppeld aan een professionele Facebook-pagina;
+  - geen abonnement nodig.
+- **Installatie:** stroom erop, koppelen via my.smiirl.com, wifi kiezen, account koppelen.
+
+## Resellerprogramma (smiirl.com/en/business/reseller)
+
+- Smiirl zoekt gevestigde bedrijven met ervaring in sales en social media.
+- **Er is een minimale afname.** Het aantal staat niet op de site; vraag het op.
+- **Wat Smiirl levert:** onboarding, marketingmateriaal en ondersteuning.
+- **Geen exclusiviteit per regio.** Er kunnen dus meer resellers in Nederland zijn.
+- **Omvang volgens Smiirl:** 29 partners wereldwijd, en meer dan 3.800 tellers verkocht via resellers in het afgelopen jaar.
+
+## Wat dit betekent voor de View Plus Shop
+
+1. **Concurrentie op prijs:** klanten kunnen ook direct bij Smiirl kopen, tegen de adviesprijs. De meerwaarde van View Plus zit in:
+   - het advies;
+   - de installatie en het koppelen van het Instagram Business-account;
+   - de combinatie met de NFC-volgstandaard;
+   - en vooral met View Plus Online (social media management). Die combinatie verkopen we als bundel.
+2. **Brug naar Review Plus:** de Custom Counter kan het aantal Google-reviews tonen. Dat past bij Review Plus.
+3. **The Tag (Smiirl)** lijkt op onze eigen NFC-standaard. Onze standaard moet zich onderscheiden:
+   - eenmalige aankoop, zonder maandabonnement;
+   - direct leverbaar;
+   - in onze eigen huisstijl.
+
+## Vragen voor Jordan
+
+1. Ben je al goedgekeurd als Smiirl-reseller? Zo ja:
+   - wat is de minimale afname?
+   - wat zijn je inkoopprijzen?
+   - mogen we de naam Smiirl en hun productfoto's gebruiken?
+2. **Levering:** verstuurt Smiirl rechtstreeks naar de klant (dropship), of houden we zelf voorraad aan? En wat is de levertijd?
+3. **Verkoopprijzen:** welke prijzen hanteren we? Adviesprijs, of een pakketprijs met installatie?
+4. **Garantie en retour:** wat is de garantietermijn van Smiirl, en wat bieden wij? Mag de klant binnen 14 dagen retour sturen, en wie betaalt dat?
+5. **Wat betekent "ons eigen label" precies?**
+   - verkopen onder de naam View Plus, met de Smiirl-teller zelf;
+   - of tellers met een eigen View Plus-uitvoering.
+6. **NFC-volgstandaard:**
+   - Is het dezelfde acrylaat L-standaard als de Review Plus-totem, met een View Plus-ontwerp?
+   - Specificaties (afmeting, chip)?
+   - Prijs?
+   - Leveren we ook een variant voor TikTok of Facebook?
+7. **Installatie op locatie:** bieden we dit aan, bijvoorbeeld als aanvulling op een shootdag?

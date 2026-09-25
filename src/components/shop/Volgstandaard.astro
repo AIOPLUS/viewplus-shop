@@ -1,0 +1,75 @@
+---
+/**
+ * Illustratie van de NFC-volgstandaard (geen productfoto): acrylaat L-standaard met een View Plus-ontwerp,
+ * in dezelfde stijl als de NFC-totem van Review Plus. Schaalt mee met de breedte (container query units).
+ */
+import { brandIcon } from '@/lib/icons';
+import { platformStijl, type Platform } from '@/lib/catalog';
+
+interface Props {
+  platform?: Platform;
+  handle?: string;
+  class?: string;
+  /** Licht gedraaid, alsof hij op tafel staat. */
+  schuin?: boolean;
+}
+const { platform = 'Instagram', handle = '@jouwzaak', class: cls = '', schuin = true } = Astro.props;
+const stijl = platformStijl[platform];
+const svg = brandIcon(stijl.icoon);
+const logo = '<path d="M0 0H386V410A386 410 0 0 1 0 0Z"/><rect x="520" width="386" height="410"/><path d="M386 548V958H0A386 410 0 0 1 386 548Z"/><rect x="520" y="548" width="386" height="410"/>';
+---
+<div class={`@container ${cls}`} role="img" aria-label={`Illustratie van de NFC-volgstandaard: "Volg ons op ${platform}", ${handle}, met NFC en QR-code`}>
+  <div class="standaard" data-schuin={schuin ? '' : undefined}>
+    <div class="plaat">
+      <div class="inhoud">
+        <span class="merk"><svg viewBox="0 0 906 958" fill="var(--color-logo)" set:html={logo} /><span><b>View</b> Plus</span></span>
+        <span class="kop">Volg ons op<br />{platform}</span>
+        <span class="platform" style={`background:${stijl.achtergrond}`}><svg viewBox={svg.viewBox} fill="#fff" style="color:#fff" set:html={svg.body} /></span>
+        <span class="handle">{handle}</span>
+        <span class="tik">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2ZM9.5 18h2M18 4.5a5 5 0 0 1 0 7M20.5 2.5a8 8 0 0 1 0 11" /></svg>
+        </span>
+      </div>
+      <span class="hoek links" aria-hidden="true"></span>
+      <span class="hoek rechts" aria-hidden="true"></span>
+      <span class="voettekst">Tap. Follow.</span>
+      <span class="qr" aria-hidden="true">
+        <svg viewBox="0 0 7 7" shape-rendering="crispEdges"><path fill="#150e08" d="M0 0h3v3H0zM4 0h3v3H4zM0 4h3v3H0zM1 1h1v1H1zM5 1h1v1H5zM1 5h1v1H1zM4 4h1v1H4zM6 4h1v1H6zM5 5h1v1H5zM4 6h1v1H4zM6 6h1v1H6z" /><path fill="#fff" d="M1 1h1v1H1zM5 1h1v1H5zM1 5h1v1H1z" /></svg>
+      </span>
+    </div>
+    <div class="voet" aria-hidden="true"></div>
+  </div>
+</div>
+
+<style>
+  .standaard { position: relative; width: 100%; padding-bottom: 6cqw; perspective: 220cqw; }
+  .plaat {
+    position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 5cqw; background: #fff;
+    box-shadow: inset 0 0 0 1.2cqw rgba(255,255,255,.9), 0 0 0 0.5cqw rgba(221,170,243,.55), 0 6cqw 12cqw -4cqw rgba(48,0,74,.35);
+    transform-origin: 50% 100%;
+  }
+  [data-schuin] .plaat { transform: rotateY(-16deg) rotateX(3deg); }
+  .inhoud { position: relative; z-index: 1; display: grid; justify-items: center; gap: 3.2cqw; padding: 9cqw 8cqw 0; text-align: center; color: var(--color-ink); }
+  .merk { display: inline-flex; align-items: center; gap: 2cqw; font-size: 5cqw; color: var(--color-ink); }
+  .merk svg { width: 6cqw; height: auto; }
+  .kop { font-size: 10.5cqw; font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; }
+  .platform { display: grid; place-items: center; width: 17cqw; aspect-ratio: 1; border-radius: 4.5cqw; }
+  .platform svg { width: 55%; height: auto; }
+  .handle { font-size: 6cqw; font-weight: 500; color: var(--color-brand-700); }
+  .tik { width: 11cqw; color: var(--color-ink); }
+  .tik svg { width: 100%; height: auto; }
+  .hoek { position: absolute; bottom: -22cqw; width: 58cqw; aspect-ratio: 1; background: var(--color-brand-600);
+    background-image: linear-gradient(to right, rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 7cqw 7cqw; }
+  .hoek.links { left: -22cqw; border-radius: 0 100% 0 0; }
+  .hoek.rechts { right: -22cqw; border-radius: 100% 0 0 0; }
+  .voettekst { position: absolute; z-index: 1; left: 0; right: 0; bottom: 5cqw; text-align: center; font-size: 4cqw; font-weight: 500; color: var(--color-brand-700); }
+  .qr { position: absolute; z-index: 1; left: 7cqw; bottom: 6cqw; width: 12cqw; padding: 1.2cqw; background: #fff; border-radius: 1.5cqw; }
+  .qr svg { display: block; width: 100%; height: auto; }
+  .voet {
+    position: absolute; left: 4%; right: 4%; bottom: 0; height: 9cqw; border-radius: 0 0 4cqw 4cqw;
+    background: linear-gradient(180deg, rgba(236,205,250,.55), rgba(255,255,255,.85));
+    box-shadow: 0 3cqw 6cqw -3cqw rgba(48,0,74,.35), inset 0 0 0 0.4cqw rgba(255,255,255,.8);
+    transform: perspective(60cqw) rotateX(55deg); transform-origin: 50% 100%;
+  }
+</style>

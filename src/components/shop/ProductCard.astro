@@ -1,0 +1,33 @@
+---
+/** Productkaart in de stijl van de prijskaarten op viewplus.io: illustratie op een lichtpaars vlak, naam, prijs en knop. */
+import ProductVisual from './ProductVisual.astro';
+import { prijsLabel, vanafPrijs, type Product } from '@/lib/catalog';
+import { PRICE_NOTE } from '@/config/site';
+import { url } from '@/lib/url';
+
+interface Props {
+  product: Product;
+  kop?: 'h2' | 'h3';
+}
+const { product, kop: Kop = 'h3' } = Astro.props;
+const p = product.data;
+const heeftPrijs = vanafPrijs(product) !== null;
+---
+<article class="reveal group relative flex flex-col overflow-hidden rounded-[var(--radius-panel)] border border-brand-200 bg-white transition-shadow hover:shadow-[var(--shadow-card)]">
+  <div class="grid aspect-[4/3] place-items-center bg-gradient-to-b from-brand-50 to-brand-100 p-8">
+    <ProductVisual product={product} class={p.visual === 'standaard' ? 'w-[46%]' : 'w-full'} />
+  </div>
+  <div class="flex flex-1 flex-col gap-3 p-6">
+    <p class="flex flex-wrap gap-2 text-xs">
+      {p.platformen.map((pl) => <span class="rounded-full bg-surface-alt px-2.5 py-1 text-ink-soft ring-1 ring-line">{pl}</span>)}
+      {p.visual === 'teller-op-maat' && <span class="rounded-full bg-surface-alt px-2.5 py-1 text-ink-soft ring-1 ring-line">Reviews, gasten, verkoop…</span>}
+    </p>
+    <Kop class="title"><a href={url(`/${p.slug}`)} class="after:absolute after:inset-0">{p.naam}</a></Kop>
+    <p class="body-muted">{p.kort}</p>
+    <p class="mt-auto flex items-baseline justify-between gap-3 border-t border-line pt-4">
+      <span class:list={['text-xl font-medium', heeftPrijs ? 'text-ink' : 'text-brand-700']}>{prijsLabel(product)}</span>
+      {heeftPrijs && <span class="text-sm text-muted">{PRICE_NOTE}</span>}
+      <span class="text-sm font-medium text-brand-600 group-hover:underline" aria-hidden="true">Bekijk →</span>
+    </p>
+  </div>
+</article>

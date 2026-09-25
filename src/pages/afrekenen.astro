@@ -1,0 +1,343 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import { LEAD } from '@/config/site';
+import { producten, catalogusData } from '@/lib/catalog';
+import { url } from '@/lib/url';
+
+/**
+ * Afrekenen, in dezelfde opbouw als /aanmelden op viewplus.io.
+ * Payload: request_type "bestelling", merk "viewplus". Make rekent opnieuw met /products.json en antwoordt met
+ * { ok, checkoutUrl } (Mollie). Zonder webhook: melding met het e-mailadres. Niet geïndexeerd.
+ */
+const catalogus = catalogusData(await producten());
+const voorwaarden = await getEntry('legal', 'algemene-voorwaarden');
+const avVersie = voorwaarden?.data.ingangsdatum ?? '';
+---
+<BaseLayout title="Afrekenen | View Plus Shop" description="Rond je bestelling af in de View Plus Shop." path="/afrekenen" page="afrekenen" noindex>
+  <PageHero line1="Bestelling" line2="afronden" text="Vul je bedrijfsgegevens en bezorgadres in. Daarna betaal je veilig online." compact />
+
+  <section class="pb-16 lg:pb-24" aria-label="Afrekenen">
+    <form
+      class="container-rp grid items-start gap-8 lg:grid-cols-[1fr_380px]"
+      novalidate
+      data-afrekenen
+      data-webhook={LEAD.webhookUrl}
+      data-turnstile={LEAD.turnstileSiteKey}
+      data-email={LEAD.fallbackEmail}
+      data-av-versie={avVersie}
+      data-catalogus={JSON.stringify(catalogus)}
+    >
+      <div class="grid gap-6">
+        <div class="soft-card grid justify-items-center gap-4 p-8 text-center" data-leeg hidden>
+          <p class="title">Je winkelwagen is leeg</p>
+          <a href={url('/#producten')} class="btn btn-primary">Naar de producten</a>
+        </div>
+
+        <!-- 1. Bedrijf -->
+        <fieldset class="card grid gap-5 p-6 md:p-8" data-stap>
+          <legend class="sr-only">Bedrijfsgegevens</legend>
+          <h2 class="title" aria-hidden="true"><span class="text-brand-600">1.</span> Bedrijfsgegevens</h2>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div class="field">
+              <label for="land">Land <span class="req" aria-hidden="true">*</span></label>
+              <select id="land" name="land" class="input" autocomplete="country">
+                <option value="NL">Nederland</option>
+                <option value="BE">België</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="bedrijf">Bedrijfsnaam <span class="req" aria-hidden="true">*</span></label>
+              <input id="bedrijf" name="bedrijf" class="input" autocomplete="organization" required />
+            </div>
+            <div class="field">
+              <label for="bedrijfsnummer" data-nummer-label>KvK-nummer <span class="req" aria-hidden="true">*</span></label>
+              <input id="bedrijfsnummer" name="bedrijfsnummer" class="input" inputmode="numeric" required />
+            </div>
+            <div class="field">
+              <label for="btw">Btw-nummer</label>
+              <input id="btw" name="btw" class="input" placeholder="NL123456789B01" />
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 2. Bezorgadres -->
+        <fieldset class="card grid gap-5 p-6 md:p-8" data-stap>
+          <legend class="sr-only">Bezorgadres</legend>
+          <h2 class="title" aria-hidden="true"><span class="text-brand-600">2.</span> Bezorgadres</h2>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div class="field">
+              <label for="postcode">Postcode <span class="req" aria-hidden="true">*</span></label>
+              <input id="postcode" name="postcode" class="input" autocomplete="postal-code" required aria-describedby="adres-status" />
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="field">
+                <label for="huisnummer">Huisnummer <span class="req" aria-hidden="true">*</span></label>
+                <input id="huisnummer" name="huisnummer" class="input" required aria-describedby="adres-status" />
+              </div>
+              <div class="field">
+                <label for="toevoeging">Toevoeging</label>
+                <input id="toevoeging" name="toevoeging" class="input" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="straat">Straat <span class="req" aria-hidden="true">*</span></label>
+              <input id="straat" name="straat" class="input" autocomplete="address-line1" required />
+            </div>
+            <div class="field">
+              <label for="plaats">Plaats <span class="req" aria-hidden="true">*</span></label>
+              <input id="plaats" name="plaats" class="input" autocomplete="address-level2" required />
+            </div>
+          </div>
+          <p class="hint" id="adres-status" aria-live="polite" data-adres-status>Vul postcode en huisnummer in, dan vullen we straat en plaats automatisch aan.</p>
+        </fieldset>
+
+        <!-- 3. Contact -->
+        <fieldset class="card grid gap-5 p-6 md:p-8" data-stap>
+          <legend class="sr-only">Contactpersoon</legend>
+          <h2 class="title" aria-hidden="true"><span class="text-brand-600">3.</span> Contactpersoon</h2>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div class="field">
+              <label for="voornaam">Voornaam <span class="req" aria-hidden="true">*</span></label>
+              <input id="voornaam" name="voornaam" class="input" autocomplete="given-name" required />
+            </div>
+            <div class="field">
+              <label for="achternaam">Achternaam <span class="req" aria-hidden="true">*</span></label>
+              <input id="achternaam" name="achternaam" class="input" autocomplete="family-name" required />
+            </div>
+            <div class="field">
+              <label for="telefoon">Telefoonnummer <span class="req" aria-hidden="true">*</span></label>
+              <input id="telefoon" name="telefoon" type="tel" class="input" autocomplete="tel" required />
+            </div>
+            <div class="field">
+              <label for="email">E-mailadres <span class="req" aria-hidden="true">*</span></label>
+              <input id="email" name="email" type="email" class="input" autocomplete="email" required />
+            </div>
+            <div class="field sm:col-span-2">
+              <label for="account">Welk account koppel je aan de teller of standaard?</label>
+              <input id="account" name="account" class="input" placeholder="@jouwzaak" aria-describedby="account-hint" />
+              <p class="hint" id="account-hint">Handig voor de volgstandaard: dan zetten we de juiste link erop.</p>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 4. Akkoord -->
+        <fieldset class="card grid gap-5 p-6 md:p-8" data-stap>
+          <legend class="sr-only">Akkoord</legend>
+          <h2 class="title" aria-hidden="true"><span class="text-brand-600">4.</span> Akkoord</h2>
+          <label class="check">
+            <input type="checkbox" name="akkoord_voorwaarden" required />
+            <span>Ik ga akkoord met de <a class="text-brand-600 underline" href={url('/term-and-conditions')} target="_blank" rel="noopener">verkoopvoorwaarden<span class="sr-only"> (opent in een nieuw tabblad)</span></a> (versie {avVersie}) en de <a class="text-brand-600 underline" href={url('/privacy-policy')} target="_blank" rel="noopener">privacyverklaring<span class="sr-only"> (opent in een nieuw tabblad)</span></a>. <span class="req" aria-hidden="true">*</span></span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="akkoord_bevoegd" required />
+            <span>Ik bestel namens dit bedrijf en ben daartoe bevoegd. <span class="req" aria-hidden="true">*</span></span>
+          </label>
+          <!-- Honeypot tegen spam: echte bezoekers zien dit veld niet -->
+          <div class="sr-only" aria-hidden="true">
+            <label for="website_url">Laat dit veld leeg</label>
+            <input id="website_url" name="website_url" tabindex="-1" autocomplete="off" />
+          </div>
+          <div data-turnstile-slot class="min-h-[65px]" hidden={!LEAD.turnstileSiteKey}></div>
+          <p class="error" data-form-error hidden role="alert"></p>
+          <button type="submit" class="btn btn-primary btn-lg w-full sm:w-fit">Bestellen en betalen</button>
+          <p class="hint">Alleen voor bedrijven. Na het bestellen ga je naar een beveiligde betaalpagina.</p>
+        </fieldset>
+      </div>
+
+      <!-- Bestelling -->
+      <aside class="soft-card grid gap-4 p-6 lg:sticky lg:top-[150px]" aria-labelledby="bestelling-title" aria-live="polite">
+        <div class="flex items-baseline justify-between gap-4">
+          <h2 id="bestelling-title" class="font-medium text-ink">Je bestelling</h2>
+          <a href={url('/winkelwagen')} class="text-sm text-brand-600 underline">Wijzigen</a>
+        </div>
+        <ul class="grid gap-3 text-sm" data-samenvatting></ul>
+        <dl class="grid gap-3 border-t border-line pt-3 text-sm">
+          <div class="flex justify-between gap-4"><dt class="text-muted">Subtotaal excl. btw</dt><dd class="text-ink" data-t="subtotaal"></dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-muted">Verzending</dt><dd class="text-right text-ink" data-t="verzending"></dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-muted" data-t="btwlabel">Btw 21%</dt><dd class="text-ink" data-t="btw"></dd></div>
+          <div class="flex justify-between gap-4 font-medium"><dt class="text-ink">Totaal incl. btw</dt><dd class="text-ink" data-t="totaal"></dd></div>
+        </dl>
+        <p class="text-xs text-muted">Belgisch bedrijf met btw-nummer? Dan wordt de btw verlegd.</p>
+      </aside>
+    </form>
+  </section>
+</BaseLayout>
+
+<script>
+  import { regels, leegmaken } from '@/lib/client/winkelwagen';
+  import { bereken, euro, type Catalogus } from '@/lib/client/bestelling';
+  import { zoekAdres } from '@/lib/client/pdok';
+  import { track } from '@/lib/client/analytics';
+  import { validateCompanyNumber, validateEmail, validatePhone, validatePostcode, validateVat, type CountryCode } from '@/lib/validation';
+  import { writeJSON } from '@/lib/client/storage';
+  import { url } from '@/lib/url';
+
+  const form = document.querySelector<HTMLFormElement>('[data-afrekenen]');
+  if (form) {
+    const cat = JSON.parse(form.dataset.catalogus ?? '{}') as Catalogus;
+    const webhook = form.dataset.webhook ?? '';
+    const siteKey = form.dataset.turnstile ?? '';
+    const mail = form.dataset.email ?? '';
+    const errorBox = form.querySelector<HTMLElement>('[data-form-error]')!;
+    const submit = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    let widgetId: string | undefined;
+
+    const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
+    const val = (name: string) => field(name)?.value.trim() ?? '';
+    const land = () => (val('land') === 'BE' ? 'BE' : 'NL') as CountryCode;
+    const verlegd = () => land() === 'BE' && /^BE[01]\d{9}$/.test(val('btw').replace(/[\s.-]/g, '').toUpperCase());
+    const zet = (k: string, v: string) => { form.querySelector(`[data-t="${k}"]`)!.textContent = v; };
+
+    const toon = () => {
+      const b = bereken(regels(), cat, verlegd());
+      const lijst = form.querySelector<HTMLElement>('[data-samenvatting]')!;
+      lijst.replaceChildren(...b.lijnen.map((l) => {
+        const li = document.createElement('li');
+        li.className = 'flex justify-between gap-4';
+        const links = document.createElement('span');
+        links.className = 'text-ink';
+        links.textContent = `${l.aantal} × ${l.naam} (${[l.variant, l.platform].filter(Boolean).join(', ')})`;
+        const rechts = document.createElement('span');
+        rechts.className = 'shrink-0 text-ink';
+        rechts.textContent = euro(l.totaal);
+        li.append(links, rechts);
+        return li;
+      }));
+      zet('subtotaal', euro(b.subtotaal));
+      zet('verzending', b.verzending === null ? 'Volgt in de bevestiging' : b.verzending === 0 ? 'Gratis' : euro(b.verzending));
+      zet('btwlabel', b.verlegd ? 'Btw verlegd' : 'Btw 21%');
+      zet('btw', euro(b.btw));
+      zet('totaal', euro(b.totaal));
+      const leeg = b.lijnen.length === 0;
+      form.querySelector<HTMLElement>('[data-leeg]')!.hidden = !leeg;
+      form.querySelectorAll<HTMLElement>('[data-stap]').forEach((s) => (s.hidden = leeg));
+      return b;
+    };
+    toon();
+
+    // Land bepaalt KvK/KBO, het voorbeeld-btw-nummer en of we het adres aanvullen
+    field('land').addEventListener('change', () => {
+      const label = form.querySelector('[data-nummer-label]');
+      if (label) label.firstChild!.textContent = land() === 'NL' ? 'KvK-nummer ' : 'Ondernemingsnummer (KBO) ';
+      field('btw').placeholder = land() === 'NL' ? 'NL123456789B01' : 'BE0123456789';
+      form.querySelector('[data-adres-status]')!.textContent = land() === 'NL' ? 'Vul postcode en huisnummer in, dan vullen we straat en plaats automatisch aan.' : '';
+      toon();
+    });
+    field('btw').addEventListener('input', toon);
+
+    // Adres aanvullen (NL, PDOK Locatieserver)
+    const vulAdres = async () => {
+      if (land() !== 'NL') return;
+      const status = form.querySelector<HTMLElement>('[data-adres-status]')!;
+      const r = await zoekAdres(val('postcode'), val('huisnummer'));
+      if (r === 'ongeldig') return;
+      if (r === null) { status.textContent = 'We konden dit adres niet automatisch vinden. Vul straat en plaats zelf in.'; return; }
+      for (const [name, waarde] of [['straat', r.straat], ['plaats', r.plaats]] as const) {
+        const el = field(name);
+        if (!el.value || el.dataset.auto === '1') { el.value = waarde; el.dataset.auto = '1'; }
+      }
+      status.textContent = `Gevonden: ${r.straat} ${val('huisnummer')}, ${r.plaats}. Klopt dit niet? Pas het aan.`;
+    };
+    field('postcode').addEventListener('change', vulAdres);
+    field('huisnummer').addEventListener('change', vulAdres);
+
+    // Turnstile pas laden zodra iemand het formulier invult.
+    const loadTurnstile = () => {
+      const slot = form.querySelector('[data-turnstile-slot]');
+      if (!siteKey || !slot || widgetId !== undefined || document.querySelector('script[data-ts]')) return;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.dataset.ts = '';
+      s.onload = () => { widgetId = window.turnstile?.render(slot, { sitekey: siteKey, language: 'nl', appearance: 'interaction-only', action: 'bestelling' }); };
+      document.head.appendChild(s);
+    };
+    form.addEventListener('input', loadTurnstile, { once: true });
+
+    const fail = (message: string, focus?: HTMLElement) => {
+      errorBox.textContent = message;
+      errorBox.hidden = false;
+      focus?.focus();
+    };
+    const invalid = (name: string, message: string) => {
+      field(name).setAttribute('aria-invalid', 'true');
+      fail(message, field(name));
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.hidden = true;
+      form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+      const c = land();
+      const b = toon();
+      if (!b.lijnen.length) return fail('Je winkelwagen is leeg.');
+
+      if (!val('bedrijf')) return invalid('bedrijf', 'Vul je bedrijfsnaam in.');
+      const nummer = validateCompanyNumber(c, val('bedrijfsnummer'));
+      if (!nummer.ok) return invalid('bedrijfsnummer', nummer.error!);
+      const btw = validateVat(c, val('btw'));
+      const postcode = validatePostcode(c, val('postcode'));
+      if (!postcode.ok) return invalid('postcode', postcode.error!);
+      for (const [name, msg] of [['huisnummer', 'Vul je huisnummer in.'], ['straat', 'Vul je straat in.'], ['plaats', 'Vul je plaats in.'], ['voornaam', 'Vul je voornaam in.'], ['achternaam', 'Vul je achternaam in.']] as const) {
+        if (!val(name)) return invalid(name, msg);
+      }
+      const telefoon = validatePhone(c, val('telefoon'));
+      if (!telefoon.ok) return invalid('telefoon', telefoon.error!);
+      const email = validateEmail(val('email'));
+      if (!email.ok) return invalid('email', email.error!);
+      if (!(field('akkoord_voorwaarden') as HTMLInputElement).checked) return fail('Ga akkoord met de verkoopvoorwaarden om te bestellen.', field('akkoord_voorwaarden'));
+      if (!(field('akkoord_bevoegd') as HTMLInputElement).checked) return fail('Bevestig dat je namens dit bedrijf bestelt.', field('akkoord_bevoegd'));
+      if (val('website_url')) return; // honeypot
+      if (!webhook) return fail(`Online bestellen is nog niet gekoppeld. Mail je bestelling naar ${mail}, dan nemen we contact met je op.`);
+
+      const ref = `VPS-${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).slice(2, 5).toUpperCase()}`;
+      submit.disabled = true;
+      submit.textContent = 'Bezig met bestellen…';
+      try {
+        let token: string | null = null;
+        if (siteKey) {
+          loadTurnstile();
+          for (let i = 0; i < 24 && !token; i++) {
+            token = window.turnstile?.getResponse(widgetId) || null;
+            if (!token) await new Promise((r) => setTimeout(r, 250));
+          }
+          if (!token) throw new Error('turnstile');
+        }
+        const res = await fetch(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            request_type: 'bestelling',
+            merk: 'viewplus',
+            lead_source: 'shop',
+            lead_ref: ref,
+            submitted_at: new Date().toISOString(),
+            pagina: location.href,
+            regels: b.lijnen.map((l) => ({ product: l.slug, variant: l.variantId, platform: l.platform, aantal: l.aantal })),
+            bedrijf: { naam: val('bedrijf'), land: c, bedrijfsnummer_type: c === 'NL' ? 'kvk' : 'kbo', bedrijfsnummer: nummer.value, btw_nummer: btw.value },
+            adres: { straat: val('straat'), huisnummer: val('huisnummer'), toevoeging: val('toevoeging'), postcode: postcode.value, plaats: val('plaats'), land: c },
+            contact: { voornaam: val('voornaam'), achternaam: val('achternaam'), email: email.value, telefoon: telefoon.value },
+            account: val('account'),
+            akkoord: { voorwaarden: true, bevoegd: true, voorwaarden_versie: form.dataset.avVersie, tijdstip: new Date().toISOString() },
+            turnstile_token: token,
+          }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const antwoord = (await res.json().catch(() => ({}))) as { checkoutUrl?: string };
+        track('bestelling_verzonden', { regels: b.lijnen.length });
+        writeJSON('session', 'vp_bestelling', { ref, totaal: b.totaal, email: email.value });
+        leegmaken();
+        location.href = antwoord.checkoutUrl && /^https:\/\//.test(antwoord.checkoutUrl) ? antwoord.checkoutUrl : url(`/bedankt?ref=${encodeURIComponent(ref)}`);
+      } catch (err) {
+        window.turnstile?.reset(widgetId);
+        submit.disabled = false;
+        submit.textContent = 'Bestellen en betalen';
+        fail(err instanceof Error && err.message === 'turnstile'
+          ? 'De beveiligingscontrole is nog niet afgerond. Staat er een vakje "Ik ben geen robot"? Vink het aan en klik daarna opnieuw op bestellen.'
+          : `Bestellen is niet gelukt. Probeer het opnieuw of mail naar ${mail}.`);
+      }
+    });
+  }
+</script>
