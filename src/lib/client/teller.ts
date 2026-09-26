@@ -2,6 +2,7 @@
  * Live teller (components/shop/Teller.astro) aansturen in de browser:
  * - setTeller: naar een nieuw getal klappen, cijfer voor cijfer;
  * - zetPlatform: de tegel links wisselen (icoon en kleur, of "Jouw logo");
+ * - zetLogo: een eigen logo als voorbeeld in de tegel;
  * - zetCijfers: tussen 5 en 7 cijfers wisselen.
  * Zonder animatie als de bezoeker minder beweging wil.
  */
@@ -49,6 +50,23 @@ export function zetPlatform(kast: HTMLElement, platform: string, iconen: Record<
   }
   const wrap = kast.closest<HTMLElement>('[data-teller-wrap]');
   if (wrap) wrap.setAttribute('aria-label', `Illustratie van een live teller met ${kast.dataset.cijfers} cijfers${icoon ? ` voor ${platform}` : ' met je eigen logo'}`);
+}
+
+/** Eigen logo in de tegel (alleen een voorbeeld in de browser), of terug naar "Jouw logo" met src = null. */
+export function zetLogo(kast: HTMLElement, src: string | null): void {
+  const tegel = kast.querySelector<HTMLElement>('.teller-icoon');
+  if (!tegel) return;
+  tegel.setAttribute('data-op-maat', '');
+  tegel.style.background = '';
+  if (src) {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.className = 'teller-eigen-logo';
+    tegel.replaceChildren(img);
+  } else {
+    tegel.innerHTML = '<span class="teller-logo">Jouw<br>logo</span>';
+  }
 }
 
 export function zetCijfers(kast: HTMLElement, cijfers: 5 | 7): void {

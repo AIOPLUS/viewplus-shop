@@ -1,12 +1,14 @@
 /**
  * Privacyvriendelijke events (Plausible of Umami). Zonder geconfigureerde provider is dit een no-op.
- * Eventnamen: advies_klik, label_wissel, demo_teller, winkelwagen_klik, product_toegevoegd, afrekenen_start, bestelling_verzonden, contact_verzonden, nieuwsbrief_aangemeld
+ * Eventnamen: advies_klik, label_wissel, demo_teller, probeer_getal, probeer_logo, winkelwagen_klik, product_toegevoegd, afrekenen_start, bestelling_verzonden, contact_verzonden, nieuwsbrief_aangemeld
  */
 export type EventName =
   | 'advies_klik'
   | 'kennismaking_klik'
   | 'label_wissel'
   | 'demo_teller'
+  | 'probeer_getal'
+  | 'probeer_logo'
   | 'winkelwagen_klik'
   | 'product_toegevoegd'
   | 'afrekenen_start'

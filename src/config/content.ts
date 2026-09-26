@@ -11,6 +11,21 @@ export const stappen = [
   { titel: 'Zie je volgers groeien', tekst: 'Gasten zien het getal, pakken hun telefoon en volgen je. Bij elke nieuwe volger klappen de cijfers om.' },
 ] as const;
 
+/**
+ * Ideeën per soort zaak (homepage), naar het voorbeeld van smiirl.com. Alleen ideeën, geen resultaten of klantnamen.
+ * `sector` linkt naar een sectorpagina als die bestaat; anders naar het product.
+ */
+export const ideeen: { titel: string; tekst: string; product: 'live-volgersteller' | 'live-teller-op-maat'; sector?: string }[] = [
+  { titel: 'Café en bar', tekst: 'Trakteer bij elke 1.000 volgers op een rondje. De teller laat iedereen zien wanneer het zover is.', product: 'live-volgersteller', sector: 'horeca' },
+  { titel: 'Restaurant', tekst: 'Zet de teller bij de ingang of de kassa. Gasten zien hem bij binnenkomst en bij het afrekenen.', product: 'live-volgersteller', sector: 'horeca' },
+  { titel: 'Kapper en salon', tekst: 'Je klanten zitten er even. Zet de teller in hun zicht en laat op TikTok of Instagram je werk zien.', product: 'live-volgersteller', sector: 'beauty-en-wellness' },
+  { titel: 'Sportschool', tekst: 'Vier mijlpalen samen met je leden, bijvoorbeeld met een challenge bij elke 100 nieuwe volgers.', product: 'live-volgersteller', sector: 'beauty-en-wellness' },
+  { titel: 'Winkel en boutique', tekst: 'In de etalage trekken de omklappende cijfers de aandacht van voorbijgangers.', product: 'live-volgersteller', sector: 'winkels' },
+  { titel: 'Markten en beurzen', tekst: 'Neem de teller mee. Met een powerbank en de hotspot van je telefoon werkt hij ook onderweg.', product: 'live-volgersteller' },
+  { titel: 'Kantoor en B2B', tekst: 'Laat je LinkedIn-volgers of YouTube-abonnees zien op kantoor, bij de receptie of op je beursstand.', product: 'live-volgersteller' },
+  { titel: 'Goed doel en team', tekst: 'Tel opgehaalde donaties, leveringen of Google-reviews live mee met de teller naar keuze.', product: 'live-teller-op-maat' },
+];
+
 export const faq = [
   {
     vraag: 'Wat is een live volgersteller?',

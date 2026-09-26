@@ -62,7 +62,31 @@ const stappen = [
           <Teller id="product-teller" platform={opMaat ? 'op-maat' : p.platformen[0]} waarde={opMaat ? 486 : 1248} class="w-full" />
         </div>
       </div>
-      <p class="text-center text-xs text-muted">Illustratie. Productfoto’s volgen.</p>
+      <p class="flex flex-wrap justify-between gap-x-4 gap-y-1 text-xs text-muted">
+        <span>Illustratie. Productfoto’s volgen.</span>
+        <span data-formaat>Ware grootte: 42 × 10,5 cm</span>
+      </p>
+
+      <!-- Probeer het zelf: eigen getal (en bij de teller naar keuze een eigen logo). Blijft in de browser. -->
+      <div class="soft-card mt-2 grid gap-3 p-5" data-probeer>
+        <p class="text-lg font-medium text-ink">Probeer het met {opMaat ? 'jouw getal en logo' : 'jouw aantal volgers'}</p>
+        <form class="flex flex-wrap gap-2" data-probeer-getal novalidate>
+          <label for="probeer-getal" class="sr-only">{opMaat ? 'Jouw getal' : 'Jouw aantal volgers'}</label>
+          <input id="probeer-getal" type="number" inputmode="numeric" min="0" step="1" placeholder={opMaat ? 'Bijv. 312' : 'Bijv. 2350'} class="input !min-h-[44px] min-w-0 flex-1 !rounded-full" />
+          <button type="submit" class="btn btn-secondary !min-h-[44px]">Laat zien</button>
+        </form>
+        {opMaat && (
+          <div class="flex flex-wrap items-center gap-2">
+            <label class="btn btn-secondary !min-h-[44px] cursor-pointer has-focus-visible:ring-4 has-focus-visible:ring-brand-200">
+              <input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="sr-only" data-probeer-logo />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16" /></svg>
+              Kies je logo
+            </label>
+            <button type="button" class="btn btn-ghost !min-h-[44px]" data-probeer-logo-weg hidden>Logo weghalen</button>
+          </div>
+        )}
+        <p class="hint" aria-live="polite" data-probeer-melding>Alleen een voorbeeld op je eigen scherm: we slaan niets op en sturen niets door.</p>
+      </div>
     </div>
 
     <div class="grid content-start gap-6">
@@ -177,7 +201,7 @@ const stappen = [
 
 <script>
   import { toevoegen, MAX_PER_REGEL } from '@/lib/client/winkelwagen';
-  import { zetCijfers, zetPlatform, type PlatformIcoon } from '@/lib/client/teller';
+  import { setTeller, zetCijfers, zetLogo, zetPlatform, type PlatformIcoon } from '@/lib/client/teller';
   import { track } from '@/lib/client/analytics';
 
   interface Variant { id: string; label: string; prijs: number | null }
@@ -195,6 +219,9 @@ const stappen = [
     const toegevoegd = form.querySelector<HTMLElement>('[data-toegevoegd]')!;
     const hint = form.querySelector<HTMLElement>('[data-maatwerk-hint]');
     const aantalVeld = form.elements.namedItem('aantal') as HTMLInputElement;
+    const formaat = document.querySelector<HTMLElement>('[data-formaat]')!;
+    const probeerMelding = document.querySelector<HTMLElement>('[data-probeer-melding]');
+    const probeerStandaard = probeerMelding?.textContent ?? '';
 
     // Keuze vanuit de kiezer op de homepage: ?platform=YouTube&cijfers=7
     const qs = new URLSearchParams(location.search);
@@ -216,7 +243,10 @@ const stappen = [
       // Illustratie meewisselen: platform en aantal cijfers
       const platform = keuze('platform');
       if (platform) zetPlatform(kast, platform, g.iconen);
-      zetCijfers(kast, variant.id.startsWith('7') ? 7 : 5);
+      const cijfers = variant.id.startsWith('7') ? 7 : 5;
+      zetCijfers(kast, cijfers);
+      formaat.textContent = `Ware grootte: ${cijfers === 7 ? '56,4' : '42'} × 10,5 cm`;
+      if (probeerMelding && cijfers === 7 && probeerMelding.textContent?.includes('Kies 7 cijfers')) probeerMelding.textContent = probeerStandaard;
       if (hint) hint.hidden = !g.maatwerk.includes(platform);
       toegevoegd.hidden = true;
     };
@@ -239,5 +269,54 @@ const stappen = [
       track('product_toegevoegd', { product: form.dataset.slug!, variant: variant.id });
       toegevoegd.hidden = false;
     });
+
+    // Probeer het zelf: eigen getal en (teller naar keuze) eigen logo. Alles blijft in de browser.
+    const probeer = document.querySelector<HTMLElement>('[data-probeer]');
+    if (probeer) {
+      const melding = probeerMelding!;
+      const standaardMelding = probeerStandaard;
+      const getalVeld = probeer.querySelector<HTMLInputElement>('#probeer-getal')!;
+      probeer.querySelector('[data-probeer-getal]')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const n = Math.round(Number(getalVeld.value));
+        if (!getalVeld.value || !Number.isFinite(n) || n < 0) {
+          melding.textContent = 'Vul een getal in, bijvoorbeeld 2350.';
+          return;
+        }
+        const cijfers = Number(kast.dataset.cijfers) === 7 ? 7 : 5;
+        const max = 10 ** cijfers - 1;
+        melding.textContent =
+          n > 9_999_999 ? 'Zo groot telt geen enkele teller: 7 cijfers gaat tot 9.999.999.'
+          : n > max ? 'Met 5 cijfers tel je tot 99.999. Kies 7 cijfers om dit getal te tonen.'
+          : standaardMelding;
+        void setTeller(kast, Math.min(n, 9_999_999));
+        track('probeer_getal', { product: form.dataset.slug! });
+      });
+
+      let logoUrl: string | null = null;
+      const logoVeld = probeer.querySelector<HTMLInputElement>('[data-probeer-logo]');
+      const logoWeg = probeer.querySelector<HTMLButtonElement>('[data-probeer-logo-weg]');
+      const zetEigenLogo = (url: string | null) => {
+        if (logoUrl) URL.revokeObjectURL(logoUrl);
+        logoUrl = url;
+        zetLogo(kast, url);
+        if (logoWeg) logoWeg.hidden = !url;
+      };
+      logoVeld?.addEventListener('change', () => {
+        const bestand = logoVeld.files?.[0];
+        if (!bestand) return;
+        if (!bestand.type.startsWith('image/') || bestand.size > 5 * 1024 * 1024) {
+          melding.textContent = 'Kies een afbeelding (PNG, JPG, SVG of WebP) van maximaal 5 MB.';
+          return;
+        }
+        zetEigenLogo(URL.createObjectURL(bestand));
+        melding.textContent = standaardMelding;
+        track('probeer_logo', { product: form.dataset.slug! });
+      });
+      logoWeg?.addEventListener('click', () => {
+        zetEigenLogo(null);
+        if (logoVeld) logoVeld.value = '';
+      });
+    }
   }
 </script>
