@@ -4,7 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Teller from '@/components/shop/Teller.astro';
 import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
-import { PRICE_NOTE, VERZENDING } from '@/config/site';
+import { PREORDER, PRICE_NOTE, VERZENDING } from '@/config/site';
 import { platformPaginas } from '@/config/platformpaginas';
 import { producten, type Product } from '@/lib/catalog';
 import { platformStijl } from '@/lib/platformen';
@@ -96,7 +96,10 @@ const stappen = [
     </div>
 
     <div class="grid content-start gap-6">
-      <p class="chip w-fit">{chip}</p>
+      <div class="flex flex-wrap gap-2">
+        {p.status === 'pre-order' && <p class="chip w-fit !bg-brand-600 !text-white">Pre-order</p>}
+        <p class="chip w-fit">{chip}</p>
+      </div>
       <h1 class="text-4xl md:text-5xl">{p.naam}</h1>
       <p class="text-lg leading-relaxed text-ink-soft">{p.samenvatting}</p>
 
@@ -143,7 +146,7 @@ const stappen = [
               {eersteVariant.prijs === null ? 'vraag gerust een offerte aan' : `${PRICE_NOTE}, € ${inclBtwTekst(eersteVariant.prijs)} incl. 21% btw`}
             </span>
           </p>
-          <p class="text-sm text-muted">{VERZENDING.levertijd ? `Levertijd: ${VERZENDING.levertijd}` : 'Levertijd en verzendkosten staan in je orderbevestiging'}</p>
+          <p class="text-sm text-muted">{p.status === 'pre-order' ? PREORDER.uitleg : VERZENDING.levertijd ? `Levertijd: ${VERZENDING.levertijd}` : 'Levertijd en verzendkosten staan in je orderbevestiging'}</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3" data-bestelblok>
@@ -153,7 +156,7 @@ const stappen = [
             <input id="aantal" name="aantal" type="number" inputmode="numeric" min="1" max="20" value="1" class="w-14 border-0 bg-transparent text-center text-lg [appearance:textfield] focus:outline-none" />
             <button type="button" class="size-11 rounded-full text-xl text-brand-600 hover:bg-brand-100" data-stap="1" aria-label="Eén meer">+</button>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg" data-toevoegen>In winkelwagen</button>
+          <button type="submit" class="btn btn-primary btn-lg" data-toevoegen>{p.status === 'pre-order' ? 'Pre-order in winkelwagen' : 'In winkelwagen'}</button>
         </div>
         <a href={url(`/contact?product=${p.slug}`)} class="btn btn-primary btn-lg w-fit" data-offerte hidden>Vraag een offerte aan</a>
         <p class="text-sm text-success" role="status" data-toegevoegd hidden>

@@ -8,7 +8,7 @@ import { url } from '@/lib/url';
 
 /**
  * Afrekenen, in dezelfde opbouw als /aanmelden op viewplus.io.
- * Payload: request_type "bestelling", merk "viewplus". Make rekent opnieuw met /products.json en antwoordt met
+ * Payload: request_type "bestelling", merk "viewplus", preorder true (pre-order-actie). Make rekent opnieuw met /products.json en antwoordt met
  * { ok, checkoutUrl } (Mollie). Zonder webhook: melding met het e-mailadres. Niet geïndexeerd.
  */
 const catalogus = catalogusData(await producten());
@@ -16,7 +16,7 @@ const voorwaarden = await getEntry('legal', 'algemene-voorwaarden');
 const avVersie = voorwaarden?.data.ingangsdatum ?? '';
 ---
 <BaseLayout title="Afrekenen | View Plus Shop" description="Rond je bestelling af in de View Plus Shop." path="/afrekenen" page="afrekenen" noindex>
-  <PaginaKop titel="Bestelling afronden" tekst="Vul je bedrijfsgegevens en bezorgadres in. Daarna betaal je veilig online." kruimel="Afrekenen" />
+  <PaginaKop titel="Pre-order afronden" tekst="Vul je bedrijfsgegevens en bezorgadres in en betaal veilig online. We verzenden je teller zodra hij binnen is." kruimel="Afrekenen" />
 
   <section class="pb-16 lg:pb-24" aria-label="Afrekenen">
     <form
@@ -141,7 +141,7 @@ const avVersie = voorwaarden?.data.ingangsdatum ?? '';
           </div>
           <div data-turnstile-slot class="min-h-[65px]" hidden={!LEAD.turnstileSiteKey}></div>
           <p class="error" data-form-error hidden role="alert"></p>
-          <button type="submit" class="btn btn-primary btn-lg w-full sm:w-fit">Bestellen en betalen</button>
+          <button type="submit" class="btn btn-primary btn-lg w-full sm:w-fit">Pre-order plaatsen en betalen</button>
           <p class="hint">Alleen voor bedrijven. Na het bestellen ga je naar een beveiligde betaalpagina.</p>
         </fieldset>
       </div>
@@ -294,7 +294,7 @@ const avVersie = voorwaarden?.data.ingangsdatum ?? '';
 
       const ref = `VPS-${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).slice(2, 5).toUpperCase()}`;
       submit.disabled = true;
-      submit.textContent = 'Bezig met bestellen…';
+      submit.textContent = 'Bezig met je pre-order…';
       try {
         let token: string | null = null;
         if (siteKey) {
@@ -311,6 +311,7 @@ const avVersie = voorwaarden?.data.ingangsdatum ?? '';
           body: JSON.stringify({
             request_type: 'bestelling',
             merk: 'viewplus',
+            preorder: true,
             lead_source: 'shop',
             lead_ref: ref,
             submitted_at: new Date().toISOString(),
@@ -333,7 +334,7 @@ const avVersie = voorwaarden?.data.ingangsdatum ?? '';
       } catch (err) {
         window.turnstile?.reset(widgetId);
         submit.disabled = false;
-        submit.textContent = 'Bestellen en betalen';
+        submit.textContent = 'Pre-order plaatsen en betalen';
         fail(err instanceof Error && err.message === 'turnstile'
           ? 'De beveiligingscontrole is nog niet afgerond. Staat er een vakje "Ik ben geen robot"? Vink het aan en klik daarna opnieuw op bestellen.'
           : `Bestellen is niet gelukt. Probeer het opnieuw of mail naar ${mail}.`);

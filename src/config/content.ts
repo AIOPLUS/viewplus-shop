@@ -28,6 +28,10 @@ export const ideeen: { titel: string; tekst: string; product: 'live-volgerstelle
 
 export const faq = [
   {
+    vraag: 'Wat betekent pre-order?',
+    antwoord: 'De tellers zijn nog niet op voorraad. Je bestelt en betaalt nu, en we verzenden je teller zodra hij binnen is. We laten je per e-mail weten wanneer hij onderweg is.',
+  },
+  {
     vraag: 'Wat is een live volgersteller?',
     antwoord: 'Een teller met mechanische klapcijfers die in je zaak laat zien hoeveel volgers je hebt op Instagram, Facebook, TikTok, YouTube, LinkedIn of X. Via wifi wordt het getal automatisch bijgewerkt.',
   },

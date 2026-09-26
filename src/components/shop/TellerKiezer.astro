@@ -1,7 +1,7 @@
 ---
 /**
  * Kies je teller, zoals op smiirl.com: platform (zes platformen of "Eigen getal") en 5 of 7 cijfers.
- * De teller in het sfeerbeeld wisselt direct mee; "Volgen" laat de cijfers omklappen; "Bekijk en bestel" gaat naar de
+ * De teller in het sfeerbeeld wisselt direct mee; "Volgen" laat de cijfers omklappen; "Bekijk en pre-order" gaat naar de
  * productpagina met de keuze al ingevuld (?platform=…&cijfers=…).
  * Met `platformKeuze={false}` staat het platform vast (platformpagina's) en zie je alleen 5/7 cijfers.
  */
@@ -73,7 +73,7 @@ const pil = 'grid size-11 cursor-pointer place-items-center rounded-full text-in
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
         Volgen
       </button>
-      <a href={gegevens.links.volgers} class="btn btn-primary !min-h-[42px]" data-kiezer-bestel>Bekijk en bestel →</a>
+      <a href={gegevens.links.volgers} class="btn btn-primary !min-h-[42px]" data-kiezer-bestel>Bekijk en pre-order →</a>
     </div>
 
     <p class="text-center text-sm text-muted" aria-live="polite" data-kiezer-info>{platform} · tot 99.999 {platformStijl[platform].eenheid}</p>
@@ -121,7 +121,7 @@ const pil = 'grid size-11 cursor-pointer place-items-center rounded-full text-in
         opMaat ? 'Eigen getal, zoals bestellingen of gasten' : platform,
         `tot ${max}${opMaat ? '' : ` ${g.eenheden[platform]}`}`,
         !opMaat && g.maatwerk.includes(platform) ? 'koppeling op maat' : '',
-        prijs ? `€ ${prijs} excl. btw` : 'prijs volgt',
+        prijs ? `pre-order € ${prijs} excl. btw` : 'prijs volgt',
       ].filter(Boolean).join(' · ');
       const params = new URLSearchParams({ ...(opMaat ? {} : { platform }), cijfers: String(cijfers) });
       bestel.href = `${g.links[soort]}?${params}`;

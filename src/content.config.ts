@@ -40,7 +40,7 @@ const products = defineCollection({
     specs: z.array(z.object({ label: z.string(), waarde: z.string() })).default([]),
     voordelen: z.array(z.string()),
     inDeDoos: z.array(z.string()).default([]),
-    status: z.enum(['beschikbaar', 'binnenkort', 'op-aanvraag']),
+    status: z.enum(['beschikbaar', 'pre-order', 'binnenkort', 'op-aanvraag']),
     volgorde: z.number().default(0),
     faq,
   }),

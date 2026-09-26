@@ -6,16 +6,16 @@ samenvatting: De live volgersteller laat in je zaak zien hoeveel volgers je hebt
 categorie: teller
 visual: teller
 platformen: [Instagram, Facebook, TikTok, YouTube, LinkedIn, X]
-# TODO Jordan: verkoopprijzen invullen (excl. btw). null = "Prijs volgt".
+# Prijzen excl. btw (besluit Jordan 26-09-2026, gelijk aan de reviewteller van Review Plus).
 varianten:
   - id: 5-cijfers
     label: 5 cijfers
     omschrijving: Tot 99.999 volgers
-    prijs: null
+    prijs: 499
   - id: 7-cijfers
     label: 7 cijfers
     omschrijving: Tot 9.999.999 volgers
-    prijs: null
+    prijs: 699
 specs:
   - label: Afmeting (5 cijfers)
     waarde: 42 × 10,5 × 10,1 cm, 2,1 kg
@@ -40,9 +40,11 @@ inDeDoos:
   - Live volgersteller
   - Stroomadapter met stekkers voor EU, VK, VS en Australië
   - Installatiehandleiding
-status: beschikbaar
+status: pre-order
 volgorde: 1
 faq:
+  - vraag: Wat betekent pre-order?
+    antwoord: Je bestelt en betaalt nu, en we verzenden je teller zodra hij binnen is. We laten je per e-mail weten wanneer hij onderweg is.
   - vraag: Welk account heb ik nodig voor Instagram?
     antwoord: Een professioneel Instagram-account (zakelijk of creator) dat gekoppeld is aan een Facebook-pagina, en een persoonlijk Facebook-profiel om de koppeling te maken. Heb je nog een persoonlijk Instagram-account, dan zet je dat gratis om in de Instagram-app.
   - vraag: Heb ik een abonnement nodig?

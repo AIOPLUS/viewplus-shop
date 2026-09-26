@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PaginaKop from '@/components/shop/PaginaKop.astro';
 import { producten, catalogusData } from '@/lib/catalog';
+import { PREORDER } from '@/config/site';
 import { url } from '@/lib/url';
 
 /** Winkelwagen (inhoud in localStorage, zie lib/client/winkelwagen.ts). Niet geïndexeerd. */
@@ -29,6 +30,7 @@ const catalogus = catalogusData(await producten());
           <div class="flex justify-between gap-4"><dt class="text-muted">Btw 21%</dt><dd class="text-ink" data-t="btw"></dd></div>
           <div class="flex justify-between gap-4 border-t border-line pt-3 font-medium"><dt class="text-ink">Totaal incl. btw</dt><dd class="text-ink" data-t="totaal"></dd></div>
         </dl>
+        <p class="text-sm text-ink-soft">{PREORDER.uitleg}</p>
         <a href={url('/afrekenen')} class="btn btn-primary btn-lg w-full" data-track="afrekenen_start">Verder naar afrekenen</a>
         <a href={url('/#producten')} class="text-center text-sm text-brand-600 underline">Verder winkelen</a>
       </aside>

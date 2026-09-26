@@ -42,6 +42,15 @@ export const PIXELS = {
   gadsConversionLabel: env.PUBLIC_GADS_CONVERSION_LABEL || '',
 };
 
+/**
+ * Pre-order-actie (besluit Jordan, 26-09-2026): de tellers zijn nog niet op voorraad. De klant bestelt en betaalt nu
+ * (Mollie via Make), wij verzenden zodra de tellers binnen zijn. Een product doet mee met `status: pre-order`.
+ */
+export const PREORDER = {
+  label: 'Pre-order',
+  uitleg: 'Pre-order: je bestelt en betaalt nu, en we verzenden je teller zodra hij binnen is. We laten je per e-mail weten wanneer hij onderweg is.',
+};
+
 /** Hoe prijzen getoond worden. */
 export const PRICE_NOTE = 'excl. btw';
 

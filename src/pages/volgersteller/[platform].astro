@@ -56,11 +56,11 @@ const algemeen = [
 
   <section class="container-rp grid items-center gap-10 py-10 md:py-14 lg:grid-cols-[1.1fr_1fr]">
     <div class="grid gap-6">
-      <p class="chip w-fit">{maatwerk ? 'Koppeling op maat' : 'Direct te koppelen'} · 5 of 7 cijfers · NL &amp; BE</p>
+      <p class="chip w-fit">Pre-order · {maatwerk ? 'koppeling op maat' : 'direct te koppelen'} · 5 of 7 cijfers</p>
       <h1 class="text-4xl md:text-[3.2rem]">{pagina.naam}</h1>
       <p class="max-w-xl text-lg leading-relaxed text-ink-soft">{pagina.intro}</p>
       <div class="flex flex-wrap gap-3">
-        <a href={url(`/live-volgersteller?platform=${encodeURIComponent(platform)}`)} class="btn btn-primary btn-lg">Bekijk en bestel</a>
+        <a href={url(`/live-volgersteller?platform=${encodeURIComponent(platform)}`)} class="btn btn-primary btn-lg">Pre-order</a>
         <a href={url(`/contact?product=live-volgersteller`)} class="btn btn-secondary btn-lg" data-track="advies_klik" data-track-plek={`platform-${pagina.slug}`}>Vraag advies</a>
       </div>
       <p class="text-sm text-ink-soft">{maatwerk ? `Op de illustratie: ${pagina.kleur}. De uitvoering stemmen we met je af.` : `Zo ziet hij eruit: ${pagina.kleur}.`}</p>

@@ -12,7 +12,8 @@ const { product } = Astro.props;
 const p = product.data;
 const heeftPrijs = vanafPrijs(product) !== null;
 const chip = p.platformen.length ? `${p.platformen.length} platformen` : 'Eigen getal naar keuze';
-const statusLabel = { beschikbaar: '', binnenkort: 'Binnenkort', 'op-aanvraag': 'Op aanvraag' }[p.status];
+const statusLabel = { beschikbaar: '', 'pre-order': '', binnenkort: 'Binnenkort', 'op-aanvraag': 'Op aanvraag' }[p.status];
+const preorder = p.status === 'pre-order';
 ---
 <article class="card flex flex-col overflow-hidden">
   <a href={url(`/${p.slug}`)} class="relative block aspect-[4/3] overflow-hidden" tabindex="-1" aria-hidden="true">
@@ -20,6 +21,7 @@ const statusLabel = { beschikbaar: '', binnenkort: 'Binnenkort', 'op-aanvraag': 
       <ProductVisual product={product} class="w-full" />
     </div>
     <span class="chip absolute left-4 top-4 !bg-white shadow-sm">{chip}</span>
+    {preorder && <span class="chip absolute right-4 top-4 !bg-brand-600 !text-white shadow-sm">Pre-order</span>}
   </a>
   <div class="flex flex-1 flex-col gap-4 p-6">
     <div class="grid gap-2">
@@ -30,7 +32,7 @@ const statusLabel = { beschikbaar: '', binnenkort: 'Binnenkort', 'op-aanvraag': 
     {statusLabel && <p class="chip w-fit !bg-warning-bg !text-warning">{statusLabel}</p>}
     <div class="mt-auto flex flex-wrap gap-2 pt-2">
       {heeftPrijs ? (
-        <a href={url(`/${p.slug}`)} class="btn btn-primary">Kies je uitvoering</a>
+        <a href={url(`/${p.slug}`)} class="btn btn-primary">{preorder ? 'Kies en pre-order' : 'Kies je uitvoering'}</a>
       ) : (
         <a href={url(`/contact?product=${p.slug}`)} class="btn btn-primary">Vraag een offerte aan</a>
       )}

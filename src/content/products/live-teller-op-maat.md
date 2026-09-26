@@ -6,16 +6,16 @@ samenvatting: De live teller naar keuze toont elk getal dat je zelf koppelt, met
 categorie: teller
 visual: teller-op-maat
 platformen: []
-# TODO Jordan: verkoopprijzen invullen (excl. btw). null = "Prijs volgt".
+# Prijzen excl. btw (besluit Jordan 26-09-2026, gelijk aan de reviewteller van Review Plus).
 varianten:
   - id: 5-cijfers
     label: 5 cijfers
     omschrijving: Tot 99.999
-    prijs: null
+    prijs: 499
   - id: 7-cijfers
     label: 7 cijfers
     omschrijving: Tot 9.999.999
-    prijs: null
+    prijs: 699
 specs:
   - label: Afmeting (5 cijfers)
     waarde: 42 × 10,5 × 10,1 cm, 2,1 kg
@@ -38,7 +38,7 @@ inDeDoos:
   - Live teller
   - Stroomadapter met stekkers voor EU, VK, VS en Australië
   - Installatiehandleiding
-status: beschikbaar
+status: pre-order
 volgorde: 2
 faq:
   - vraag: Welke getallen kan ik tonen?

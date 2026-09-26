@@ -28,11 +28,12 @@ Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkel
 ## Producten beheren
 
 - Eén bestand per product in `src/content/products/` (schema in `src/content.config.ts`).
-- **Prijzen per variant, excl. btw.** `prijs: null` betekent "Prijs volgt": de shop toont dan een knop voor een offerte en je kunt het product nog niet in de winkelwagen leggen. Nu staan alle prijzen op `null` (TODO Jordan).
+- **Prijzen per variant, excl. btw.** Nu: 5 cijfers € 499 en 7 cijfers € 699 (besluit Jordan 26-09-2026, gelijk aan de reviewteller van Review Plus). `prijs: null` betekent "Prijs volgt": dan toont de shop een offerteknop.
+- **Pre-order-actie:** producten met `status: pre-order` krijgen een badge en pre-orderteksten (`PREORDER` in `src/config/site.ts`). De klant bestelt en betaalt direct via Mollie; wij verzenden zodra de tellers binnen zijn.
 - **Verzendkosten en levertijd**: `VERZENDING` in `src/config/site.ts` (nu nog onbekend).
 - **Illustraties**: `src/components/shop/Teller.astro` (klapcijfers; `src/lib/client/teller.ts` laat hem omklappen en van platform en aantal cijfers wisselen). De homepage heeft een tellerkiezer zoals op smiirl.com (`TellerKiezer.astro`). Platformen en kleuren (zoals de echte tellers): `src/lib/platformen.ts`. Platformpagina's `/volgersteller/<platform>` met teksten in `src/config/platformpaginas.ts`. Er zijn nog geen productfoto's; die van Smiirl gebruiken we alleen met hun toestemming.
 
-## Bestelling naar Make (nog niet gekoppeld)
+## Pre-order naar Make (nog niet gekoppeld)
 
 `/afrekenen` stuurt JSON naar `PUBLIC_LEAD_WEBHOOK_URL`:
 
@@ -40,6 +41,7 @@ Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkel
 {
   "request_type": "bestelling",
   "merk": "viewplus",
+  "preorder": true,
   "lead_source": "shop",
   "lead_ref": "VPS-…",
   "regels": [{ "product": "live-volgersteller", "variant": "5-cijfers", "platform": "Instagram", "aantal": 1 }],
