@@ -33,7 +33,17 @@ Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkel
 - **Verzendkosten en levertijd**: `VERZENDING` in `src/config/site.ts` (nu nog onbekend).
 - **Illustraties**: `src/components/shop/Teller.astro` (klapcijfers; `src/lib/client/teller.ts` laat hem omklappen en van platform en aantal cijfers wisselen). De homepage heeft een tellerkiezer zoals op smiirl.com (`TellerKiezer.astro`). Platformen en kleuren (zoals de echte tellers): `src/lib/platformen.ts`. Platformpagina's `/volgersteller/<platform>` met teksten in `src/config/platformpaginas.ts`. Er zijn nog geen productfoto's; die van Smiirl gebruiken we alleen met hun toestemming.
 
-## Pre-order naar Make (nog niet gekoppeld)
+## Pre-order naar Make (live sinds 26-09-2026)
+
+Make-scenario 7570648 "Review Plus - Shop aanvragen" (gedeeld met de Review Plus-shop):
+- route 9 "View Plus: pre-order uit de shop": catalogus uit /products.json (`prijslijst`), controle, Mollie-betaling via de connectie **Mollie - View Plus** (profiel `pfl_C8b2mCqEnM`, eigen bankrekening), record `betaling:<ref>` met soort `preorder-vp`;
+- route 10: contact en nieuwsbrief uit de shop (mail naar support@reviewplus.io);
+- status- en terugkeerroute splitsen per Mollie-account ("Welk Mollie-account?");
+- Review Plus-routes hebben de filter "niet View Plus" (`merk`).
+
+**Test of live**: datastore-record `config:viewplus_mollie` (`waarde`: `live` of `test`). Terug naar testen: zet het op `test`.
+
+**Let op bij een blueprint-import in Make**: die zet het schema op "elke 15 minuten". Zet het direct terug op "Immediately" (anders wachten alle formulieren, ook van Review Plus).
 
 `/afrekenen` stuurt JSON naar `PUBLIC_LEAD_WEBHOOK_URL`:
 
