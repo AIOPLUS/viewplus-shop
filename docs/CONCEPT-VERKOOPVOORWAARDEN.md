@@ -1,6 +1,8 @@
 # CONCEPT: Verkoopvoorwaarden View Plus Shop (live tellers, pre-order)
 
-> **Niet publiceren zonder controle.** Dit concept is opgesteld door Claude (26-09-2026), met de voorwaarden van Review Plus als basis en aangepast aan de verkoop van de live tellers als pre-order.
+> **Gepubliceerd op 26-09-2026** in `src/content/legal/algemene-voorwaarden.md`, met de standaardkeuzes hieronder (bevestigd door Jordan). Wijzig voortaan de gepubliceerde versie en werk de ingangsdatum bij; dit bestand blijft staan als overzicht van de keuzes. Nog te doen: juridische naam en KvK-nummer toevoegen (nu: "de onderneming die onder de naam View Plus ...") en bij voorkeur een controle door een jurist.
+
+> Oorspronkelijke toelichting bij het concept: Dit concept is opgesteld door Claude (26-09-2026), met de voorwaarden van Review Plus als basis en aangepast aan de verkoop van de live tellers als pre-order.
 > - Laat het nakijken door een jurist voordat het online gaat.
 > - Waar **⚠ Keuze Jordan** staat, is een gangbare standaard ingevuld. Pas die aan of bevestig hem.
 > - Sommige punten hangen af van de resellerafspraken met Smiirl, zoals de garantie en de levering.
