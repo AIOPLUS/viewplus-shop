@@ -6,6 +6,7 @@ import ReviewsPromo from '@/components/shop/ReviewsPromo.astro';
 import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
 import { PRICE_NOTE, VERZENDING } from '@/config/site';
+import { platformPaginas } from '@/config/platformpaginas';
 import { producten, type Product } from '@/lib/catalog';
 import { platformStijl } from '@/lib/platformen';
 import { brandIcon, platformIconen } from '@/lib/icons';
@@ -86,6 +87,12 @@ const stappen = [
           </div>
         )}
         <p class="hint" aria-live="polite" data-probeer-melding>Alleen een voorbeeld op je eigen scherm: we slaan niets op en sturen niets door.</p>
+        {opMaat && (
+          <p class="hint">
+            Tips voor je logo: het drukvlak is 7 × 7 cm, dus kies een logo zonder kleine tekst. Wit wordt niet gedrukt (daar
+            zie je het hout) en pastelkleuren worden grauw. De klapcijfers zijn altijd zwart.
+          </p>
+        )}
       </div>
     </div>
 
@@ -193,6 +200,24 @@ const stappen = [
       </div>
     )}
   </section>
+
+  {p.platformen.length > 0 && (
+    <section class="container-rp py-4" aria-labelledby="per-platform-title">
+      <h2 id="per-platform-title" class="text-xl">Meer per platform</h2>
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {p.platformen.map((pl) => {
+          const svg = brandIcon(platformStijl[pl].icoon);
+          return (
+            <li>
+              <a href={url(`/volgersteller/${platformPaginas[pl].slug}`)} class="btn btn-secondary !min-h-[44px]">
+                <svg width="16" height="16" viewBox={svg.viewBox} fill="currentColor" aria-hidden="true" set:html={svg.body} />{platformPaginas[pl].naam}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
 
   {!opMaat && <ReviewsPromo />}
   <Faq items={p.faq} />

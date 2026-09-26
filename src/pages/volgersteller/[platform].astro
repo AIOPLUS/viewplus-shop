@@ -1,0 +1,107 @@
+---
+/**
+ * Platformpagina (/volgersteller/<platform>), naar het voorbeeld van smiirl.com/discover: één pagina per platform, met
+ * de teller in de juiste kleuren, wat je nodig hebt en hoe je koppelt. Bestellen gaat via de productpagina
+ * (/live-volgersteller?platform=…), zodat er één product en één prijs blijft.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import TellerKiezer from '@/components/shop/TellerKiezer.astro';
+import Faq from '@/components/shop/Faq.astro';
+import CtaBand from '@/components/shop/CtaBand.astro';
+import { platformPaginas } from '@/config/platformpaginas';
+import { brandIcon } from '@/lib/icons';
+import { PLATFORMEN, platformStijl, type Platform } from '@/lib/platformen';
+import { breadcrumbSchema, faqSchema } from '@/lib/schema';
+import { url } from '@/lib/url';
+
+export function getStaticPaths() {
+  return PLATFORMEN.map((platform) => ({ params: { platform: platformPaginas[platform].slug }, props: { platform } }));
+}
+
+interface Props {
+  platform: Platform;
+}
+const { platform } = Astro.props;
+const pagina = platformPaginas[platform];
+const stijl = platformStijl[platform];
+const maatwerk = stijl.koppeling === 'maatwerk';
+const pad = `/volgersteller/${pagina.slug}`;
+const algemeen = [
+  {
+    vraag: 'Kies ik 5 of 7 cijfers?',
+    antwoord: `Met 5 cijfers tel je tot 99.999 ${stijl.eenheid}, met 7 cijfers tot 9.999.999. De teller met 5 cijfers is 42 cm breed, die met 7 cijfers 56,4 cm.`,
+  },
+];
+---
+<BaseLayout
+  title={pagina.metaTitle}
+  description={pagina.metaDescription}
+  path={pad}
+  ogImage={`/og/volgersteller-${pagina.slug}.png`}
+  page="platform"
+  schemas={[
+    breadcrumbSchema([{ name: 'Shop', path: '/' }, { name: 'Live volgersteller', path: '/live-volgersteller' }, { name: platform, path: pad }]),
+    faqSchema([...pagina.faq, ...algemeen]),
+  ]}
+>
+  <nav aria-label="Kruimelpad" class="container-rp pt-6 text-sm text-muted">
+    <ol class="flex flex-wrap gap-2">
+      <li><a href={url('/')} class="hover:text-brand-600">Shop</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href={url('/live-volgersteller')} class="hover:text-brand-600">Live volgersteller</a></li>
+      <li aria-hidden="true">/</li>
+      <li aria-current="page" class="text-ink">{platform}</li>
+    </ol>
+  </nav>
+
+  <section class="container-rp grid items-center gap-10 py-10 md:py-14 lg:grid-cols-[1.1fr_1fr]">
+    <div class="grid gap-6">
+      <p class="chip w-fit">{maatwerk ? 'Koppeling op maat' : 'Direct te koppelen'} · 5 of 7 cijfers · NL &amp; BE</p>
+      <h1 class="text-4xl md:text-[3.2rem]">{pagina.naam}</h1>
+      <p class="max-w-xl text-lg leading-relaxed text-ink-soft">{pagina.intro}</p>
+      <div class="flex flex-wrap gap-3">
+        <a href={url(`/live-volgersteller?platform=${encodeURIComponent(platform)}`)} class="btn btn-primary btn-lg">Bekijk en bestel</a>
+        <a href={url(`/contact?product=live-volgersteller`)} class="btn btn-secondary btn-lg" data-track="advies_klik" data-track-plek={`platform-${pagina.slug}`}>Vraag advies</a>
+      </div>
+      <p class="text-sm text-ink-soft">Zo ziet hij eruit: {pagina.kleur}.</p>
+    </div>
+    <TellerKiezer id="platform-teller" platform={platform} platformKeuze={false} />
+  </section>
+
+  <section class="container-rp grid gap-6 py-12 md:grid-cols-2" aria-label={`Wat je nodig hebt en hoe je de ${pagina.naam} koppelt`}>
+    <div class="card p-6 md:p-8">
+      <h2 class="text-2xl">Wat heb je nodig?</h2>
+      <ul class="mt-5 grid gap-3">
+        {pagina.nodig.map((n) => <li class="flex gap-3 text-ink-soft"><span class="mt-0.5 text-brand-600" aria-hidden="true">✓</span>{n}</li>)}
+      </ul>
+    </div>
+    <div class="card p-6 md:p-8">
+      <h2 class="text-2xl">Zo koppel je hem</h2>
+      <ol class="mt-5 grid gap-4">
+        {pagina.koppelen.map((k, i) => (
+          <li class="flex gap-4"><span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-100 font-semibold text-brand-600">{i + 1}</span><p class="text-ink-soft">{k}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="container-rp py-8" aria-labelledby="andere-title">
+    <h2 id="andere-title" class="text-2xl">Andere platformen</h2>
+    <ul class="mt-5 flex flex-wrap gap-2">
+      {PLATFORMEN.filter((p) => p !== platform).map((p) => {
+        const svg = brandIcon(platformStijl[p].icoon);
+        return (
+          <li>
+            <a href={url(`/volgersteller/${platformPaginas[p].slug}`)} class="btn btn-secondary !min-h-[44px]">
+              <svg width="16" height="16" viewBox={svg.viewBox} fill="currentColor" aria-hidden="true" set:html={svg.body} />{platformPaginas[p].naam}
+            </a>
+          </li>
+        );
+      })}
+      <li><a href={url('/live-teller-op-maat')} class="btn btn-secondary !min-h-[44px]">Eigen getal, zoals reviews</a></li>
+    </ul>
+  </section>
+
+  <Faq items={[...pagina.faq, ...algemeen]} title={`Vragen over de ${pagina.naam}`} />
+  <CtaBand />
+</BaseLayout>

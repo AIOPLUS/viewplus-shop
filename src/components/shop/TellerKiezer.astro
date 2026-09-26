@@ -3,10 +3,11 @@
  * Kies je teller, zoals op smiirl.com: platform (zes platformen of "Eigen getal") en 5 of 7 cijfers.
  * De teller in het sfeerbeeld wisselt direct mee; "Volgen" laat de cijfers omklappen; "Bekijk en bestel" gaat naar de
  * productpagina met de keuze al ingevuld (?platform=…&cijfers=…).
+ * Met `platformKeuze={false}` staat het platform vast (platformpagina's) en zie je alleen 5/7 cijfers.
  */
 import Teller from './Teller.astro';
 import { brandIcon, platformIconen } from '@/lib/icons';
-import { PLATFORMEN, platformStijl } from '@/lib/platformen';
+import { PLATFORMEN, platformStijl, type Platform } from '@/lib/platformen';
 import { producten } from '@/lib/catalog';
 import { euro } from '@/lib/prijs';
 import { url } from '@/lib/url';
@@ -14,8 +15,10 @@ import { url } from '@/lib/url';
 interface Props {
   id?: string;
   class?: string;
+  platform?: Platform;
+  platformKeuze?: boolean;
 }
-const { id = 'kiezer', class: cls = '' } = Astro.props;
+const { id = 'kiezer', class: cls = '', platform = 'Instagram', platformKeuze = true } = Astro.props;
 const iconen = await platformIconen();
 const lijst = await producten();
 const prijsVan = (slug: string) =>
@@ -32,18 +35,18 @@ const pil = 'grid size-11 cursor-pointer place-items-center rounded-full text-in
 <div class={`card grid overflow-hidden !rounded-[var(--radius-panel)] p-0 shadow-[var(--shadow-glow)] ${cls}`} data-kiezer data-gegevens={JSON.stringify(gegevens)}>
   <!-- Sfeerbeeld: de teller op een tafelblad -->
   <div class="kiezer-scene grid place-items-center px-[6%] pb-[8%] pt-[10%]">
-    <Teller id={id} platform="Instagram" waarde={1248} class="w-full" label="Voorbeeld van een live volgersteller" />
+    <Teller id={id} platform={platform} waarde={1248} class="w-full" label={`Voorbeeld van een live volgersteller voor ${platform}`} />
   </div>
 
   <div class="grid gap-4 p-5 md:p-6">
-    <fieldset class="grid justify-items-center gap-2">
+    <fieldset class="grid justify-items-center gap-2" hidden={!platformKeuze}>
       <legend class="sr-only">Kies het platform</legend>
       <div class="flex flex-wrap justify-center gap-1 rounded-full bg-brand-50 p-1 ring-1 ring-brand-200">
-        {PLATFORMEN.map((p, i) => {
+        {PLATFORMEN.map((p) => {
           const svg = brandIcon(platformStijl[p].icoon);
           return (
             <label class={pil} title={p}>
-              <input type="radio" name={`${id}-platform`} value={p} class="sr-only" checked={i === 0} />
+              <input type="radio" name={`${id}-platform`} value={p} class="sr-only" checked={p === platform} />
               <svg width="19" height="19" viewBox={svg.viewBox} fill="currentColor" aria-hidden="true" set:html={svg.body} />
               <span class="sr-only">{p}</span>
             </label>
@@ -73,7 +76,7 @@ const pil = 'grid size-11 cursor-pointer place-items-center rounded-full text-in
       <a href={gegevens.links.volgers} class="btn btn-primary !min-h-[42px]" data-kiezer-bestel>Bekijk en bestel →</a>
     </div>
 
-    <p class="text-center text-sm text-muted" aria-live="polite" data-kiezer-info>Instagram · tot 99.999 volgers</p>
+    <p class="text-center text-sm text-muted" aria-live="polite" data-kiezer-info>{platform} · tot 99.999 {platformStijl[platform].eenheid}</p>
   </div>
 </div>
 

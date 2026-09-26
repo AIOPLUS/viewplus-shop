@@ -30,7 +30,7 @@ Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkel
 - Eén bestand per product in `src/content/products/` (schema in `src/content.config.ts`).
 - **Prijzen per variant, excl. btw.** `prijs: null` betekent "Prijs volgt": de shop toont dan een knop voor een offerte en je kunt het product nog niet in de winkelwagen leggen. Nu staan alle prijzen op `null` (TODO Jordan).
 - **Verzendkosten en levertijd**: `VERZENDING` in `src/config/site.ts` (nu nog onbekend).
-- **Illustraties**: `src/components/shop/Teller.astro` (klapcijfers; `src/lib/client/teller.ts` laat hem omklappen en van platform en aantal cijfers wisselen). De homepage heeft een tellerkiezer zoals op smiirl.com (`TellerKiezer.astro`). Platformen en kleuren: `src/lib/platformen.ts`. Er zijn nog geen productfoto's; die van Smiirl gebruiken we alleen met hun toestemming.
+- **Illustraties**: `src/components/shop/Teller.astro` (klapcijfers; `src/lib/client/teller.ts` laat hem omklappen en van platform en aantal cijfers wisselen). De homepage heeft een tellerkiezer zoals op smiirl.com (`TellerKiezer.astro`). Platformen en kleuren (zoals de echte tellers): `src/lib/platformen.ts`. Platformpagina's `/volgersteller/<platform>` met teksten in `src/config/platformpaginas.ts`. Er zijn nog geen productfoto's; die van Smiirl gebruiken we alleen met hun toestemming.
 
 ## Bestelling naar Make (nog niet gekoppeld)
 

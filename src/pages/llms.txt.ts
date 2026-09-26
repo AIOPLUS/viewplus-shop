@@ -3,6 +3,8 @@ import { brand } from '@/config/brand';
 import { faq } from '@/config/content';
 import { producten, prijsLabel, sectoren } from '@/lib/catalog';
 import { absoluteUrl } from '@/lib/url';
+import { platformPaginas } from '@/config/platformpaginas';
+import { PLATFORMEN } from '@/lib/platformen';
 
 /** Samenvatting van de shop voor AI-assistenten (llmstxt.org). */
 export const GET: APIRoute = async () => {
@@ -15,6 +17,9 @@ export const GET: APIRoute = async () => {
     '',
     '## Producten',
     ...lijst.map((p) => `- [${p.data.naam}](${absoluteUrl(`/${p.data.slug}`)}): ${p.data.kort} Prijs: ${prijsLabel(p)}${prijsLabel(p) === 'Prijs volgt' ? '' : ' excl. btw'}.`),
+    '',
+    '## Per platform',
+    ...PLATFORMEN.map((p) => `- [${platformPaginas[p].naam}](${absoluteUrl(`/volgersteller/${platformPaginas[p].slug}`)}): ${platformPaginas[p].metaDescription}`),
     '',
     '## Per branche',
     ...branches.map((s) => `- [${s.data.naam}](${absoluteUrl(`/voor/${s.data.slug}`)}): ${s.data.samenvatting}`),

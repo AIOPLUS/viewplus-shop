@@ -8,6 +8,8 @@ import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
 import { brand } from '@/config/brand';
 import { faq, ideeen } from '@/config/content';
+import { platformPaginas } from '@/config/platformpaginas';
+import { PLATFORMEN } from '@/lib/platformen';
 import { producten, sectoren } from '@/lib/catalog';
 import { breadcrumbSchema, faqSchema, productenSchema } from '@/lib/schema';
 import { url } from '@/lib/url';
@@ -89,6 +91,10 @@ const branches = await sectoren();
       })}
     </ul>
     <div class="mt-8 flex flex-wrap items-center gap-2">
+      <span class="text-sm text-muted">Per platform:</span>
+      {PLATFORMEN.map((p) => <a class="btn btn-secondary !min-h-[40px] !px-4 text-sm" href={url(`/volgersteller/${platformPaginas[p].slug}`)}>{p}</a>)}
+    </div>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
       <span class="text-sm text-muted">Per branche:</span>
       {branches.map((s) => <a class="btn btn-secondary !min-h-[40px] !px-4 text-sm" href={url(`/voor/${s.data.slug}`)}>{s.data.naam}</a>)}
     </div>

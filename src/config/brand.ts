@@ -77,6 +77,17 @@ export const footerNav = [
     ],
   },
   {
+    title: 'Per platform',
+    links: [
+      { label: 'Instagram', href: '/volgersteller/instagram', internal: true },
+      { label: 'Facebook', href: '/volgersteller/facebook', internal: true },
+      { label: 'TikTok', href: '/volgersteller/tiktok', internal: true },
+      { label: 'YouTube', href: '/volgersteller/youtube', internal: true },
+      { label: 'LinkedIn', href: '/volgersteller/linkedin', internal: true },
+      { label: 'X', href: '/volgersteller/x', internal: true },
+    ],
+  },
+  {
     title: 'Wettelijk',
     links: [
       { label: 'Verkoopvoorwaarden', href: '/term-and-conditions', internal: true },

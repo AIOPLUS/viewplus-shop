@@ -46,6 +46,14 @@ Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Cu
 - **Stand:** de teller begint niet bij nul, maar toont direct het huidige aantal.
 - **Meerdere tellers** op hetzelfde account kan.
 - **Snelheid:** Facebook en Instagram werken binnen 2 tot 10 seconden bij.
+- **Facebook:** de teller toont standaard vind-ik-leuks; bij het koppelen kies je "Followers" om volgers te tonen.
+- **TikTok:** koppelen via inloggen bij TikTok en toestemming geven; de teller leest alleen het aantal volgers.
+- **Custom Counter:**
+  - de klapcijfers zijn altijd zwart;
+  - het logo wordt gedrukt: drukvlak 7 × 7 cm, wit wordt niet gedrukt (hout zichtbaar), geen pastelkleuren, vectorbestand of minimaal 300 DPI;
+  - **niet toegestaan:** de logo's van Facebook en Instagram; en je moet de rechten op het logo hebben;
+  - geen levering zonder logo; na goedkeuring van het logo wordt hij binnen 15 dagen verzonden;
+  - een getal instellen kan via de API (HTTP GET met teller-id en token), bijvoorbeeld vanuit **Make**: `add-number`, `set-number`, `reset-number`. Zo kunnen we YouTube-abonnees, LinkedIn- of X-volgers doorgeven.
 
 ## Resellerprogramma (smiirl.com/en/business/reseller)
 
@@ -77,4 +85,6 @@ Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Cu
    - verkopen onder de naam View Plus, met de Smiirl-teller zelf;
    - of tellers met een eigen View Plus-uitvoering.
 6. **YouTube, LinkedIn en X:** welke prijs rekenen we (via de Custom Counter), en wie regelt de koppeling?
+   - Smiirl drukt alleen logo's waar de klant de rechten op heeft. Mag het logo van YouTube, LinkedIn of X erop, of zetten we het logo van de klant erop? Vraag dit na bij Smiirl.
+   - De koppeling kan via Make (API van Smiirl); het ophalen van het aantal abonnees of volgers moet per platform uitgezocht worden.
 7. **Installatie op locatie:** bieden we dit aan, bijvoorbeeld als aanvulling op een shootdag?
