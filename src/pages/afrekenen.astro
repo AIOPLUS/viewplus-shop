@@ -217,6 +217,12 @@ const avVersie = voorwaarden?.data.ingangsdatum ?? '';
     };
     toon();
 
+    // Terug van Mollie zonder betaling: de winkelwagen staat nog klaar.
+    if (new URLSearchParams(location.search).get('status') === 'geannuleerd') {
+      errorBox.textContent = 'Je betaling is niet afgerond. Je winkelwagen staat nog klaar: controleer je gegevens en probeer het opnieuw.';
+      errorBox.hidden = false;
+    }
+
     // Land bepaalt KvK/KBO, het voorbeeld-btw-nummer en of we het adres aanvullen
     field('land').addEventListener('change', () => {
       const label = form.querySelector('[data-nummer-label]');
@@ -316,7 +322,7 @@ const avVersie = voorwaarden?.data.ingangsdatum ?? '';
             lead_ref: ref,
             submitted_at: new Date().toISOString(),
             pagina: location.href,
-            regels: b.lijnen.map((l) => ({ product: l.slug, variant: l.variantId, platform: l.platform, aantal: l.aantal })),
+            regels: b.lijnen.map((l) => ({ product: l.slug, variant: l.variantId, sleutel: `${l.slug}|${l.variantId}`, platform: l.platform, aantal: l.aantal })),
             bedrijf: { naam: val('bedrijf'), land: c, bedrijfsnummer_type: c === 'NL' ? 'kvk' : 'kbo', bedrijfsnummer: nummer.value, btw_nummer: btw.value },
             adres: { straat: val('straat'), huisnummer: val('huisnummer'), toevoeging: val('toevoeging'), postcode: postcode.value, plaats: val('plaats'), land: c },
             contact: { voornaam: val('voornaam'), achternaam: val('achternaam'), email: email.value, telefoon: telefoon.value },
@@ -329,8 +335,13 @@ const avVersie = voorwaarden?.data.ingangsdatum ?? '';
         const antwoord = (await res.json().catch(() => ({}))) as { checkoutUrl?: string };
         track('bestelling_verzonden', { regels: b.lijnen.length });
         writeJSON('session', 'vp_bestelling', { ref, totaal: b.totaal, email: email.value });
-        leegmaken();
-        location.href = antwoord.checkoutUrl && /^https:\/\//.test(antwoord.checkoutUrl) ? antwoord.checkoutUrl : url(`/bedankt?ref=${encodeURIComponent(ref)}`);
+        // Naar Mollie: de winkelwagen blijft bewaard tot de betaling gelukt is (de bedankpagina leegt hem).
+        if (antwoord.checkoutUrl && /^https:\/\//.test(antwoord.checkoutUrl)) {
+          location.href = antwoord.checkoutUrl;
+        } else {
+          leegmaken();
+          location.href = url(`/bedankt?ref=${encodeURIComponent(ref)}`);
+        }
       } catch (err) {
         window.turnstile?.reset(widgetId);
         submit.disabled = false;

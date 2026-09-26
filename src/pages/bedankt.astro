@@ -37,9 +37,11 @@ import { url } from '@/lib/url';
 
 <script>
   import { readJSON } from '@/lib/client/storage';
+  import { leegmaken } from '@/lib/client/winkelwagen';
 
   const d = readJSON<{ ref: string; totaal: number; email: string } | null>('session', 'vp_bestelling', null);
   const ref = new URLSearchParams(location.search).get('ref');
+  if (ref) leegmaken(); // betaald (of zonder betaling afgerond): winkelwagen leeg
   if (d && d.ref === ref) {
     const el = document.querySelector<HTMLElement>('[data-bedankt-tekst]')!;
     el.textContent = `Bestelnummer ${d.ref}, totaal € ${d.totaal.toLocaleString('nl-NL', { minimumFractionDigits: 2 })} incl. btw. De bevestiging gaat naar ${d.email}.`;

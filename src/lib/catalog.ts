@@ -31,6 +31,8 @@ export function catalogusData(lijst: Product[]) {
     prijzen: 'excl. btw',
     btw: 0.21,
     verzending: VERZENDING,
+    /** Vlakke prijslijst voor Make: sleutel "product|variant" (zelfde sleutel als in de bestelregels). */
+    prijslijst: lijst.flatMap((p) => p.data.varianten.map((v) => ({ sleutel: `${p.data.slug}|${v.id}`, prijs: v.prijs }))),
     producten: lijst.map((p) => ({
       slug: p.data.slug,
       naam: p.data.naam,
