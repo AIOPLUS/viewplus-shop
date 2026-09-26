@@ -34,19 +34,6 @@ export const brand = {
   tagline: 'Live volgerstellers voor lokale ondernemers.',
 } as const;
 
-/**
- * Labels van AIO PLUS, hier met de shops als bestemming. Zelfde component als op de sites (LabelSwitch.astro),
- * zodat de shops van Review Plus en View Plus ook als één omgeving voelen.
- * `url` leeg = label niet tonen in de schakelaar.
- */
-export const labels = [
-  { id: 'reviewplus', naam: ['Review', 'Plus'], url: 'https://shop.reviewplus.io', kleur: 'var(--color-label-reviewplus)', wat: 'Reviewproducten', slogan: 'Gratis NFC-reviewkaarten voor je bedrijf.' },
-  { id: 'viewplus', naam: ['View', 'Plus'], url: 'https://shop.viewplus.io', kleur: 'var(--color-label-viewplus)', wat: 'Shop', slogan: 'Live volgerstellers voor je zaak.' },
-] as const;
-
-/** Pagina's die in beide shops bestaan: de schakelaar blijft dan op dezelfde pagina, anders naar home. */
-export const gedeeldePaden: readonly string[] = ['/'];
-
 /** Navigatie gelijk aan www.viewplus.io (zoals de Review Plus-shop de navigatie van www.reviewplus.io volgt). */
 export const mainNav = [
   { label: 'Home', href: `${brand.hoofdsiteUrl}/` },
