@@ -41,7 +41,7 @@ Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Cu
   - TikTok: TikTok-logo, zwarte cijfers;
   - Custom Counter: zwarte cijfers met een plek voor je eigen logo.
 
-  Onze illustraties volgen dit (`src/lib/platformen.ts`).
+  Onze illustraties volgen dit (`src/lib/platformen.ts`). Uitzondering: YouTube (rood) en LinkedIn (blauw) staan op verzoek van Jordan in eigen kleur, terwijl de Custom Counter volgens Smiirl altijd zwarte cijfers heeft. Vraag Smiirl of gekleurde cijfers voor resellers mogelijk zijn; zo niet, zet ze terug op zwart.
 - **Account:** Instagram vraagt een professioneel account (zakelijk of creator). Voor Instagram en Facebook is ook een persoonlijk Facebook-profiel nodig om te koppelen.
 - **Stand:** de teller begint niet bij nul, maar toont direct het huidige aantal.
 - **Meerdere tellers** op hetzelfde account kan.

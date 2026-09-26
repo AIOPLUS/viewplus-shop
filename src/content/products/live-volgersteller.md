@@ -50,7 +50,7 @@ faq:
   - vraag: Werkt de teller ook voor YouTube, LinkedIn en X?
     antwoord: Ja. Voor Instagram, Facebook en TikTok koppel je je account direct. Voor YouTube, LinkedIn en X werkt de koppeling net iets anders; die stemmen we met je af.
   - vraag: Kan ik de kleur van de teller aanpassen?
-    antwoord: Nee. Het logo en de kleur van de klapcijfers horen bij het platform, zodat je gasten meteen zien waar ze je kunnen volgen. Bij Instagram zijn de cijfers roze, bij Facebook blauw en bij TikTok zwart. YouTube, LinkedIn en X krijgen zwarte cijfers.
+    antwoord: Nee. Het logo en de kleur van de klapcijfers horen bij het platform, zodat je gasten meteen zien waar ze je kunnen volgen. Bij Instagram zijn de cijfers roze, bij Facebook blauw en bij TikTok zwart. De tellers voor YouTube, LinkedIn en X maken we op maat; de uitvoering stemmen we met je af.
   - vraag: Begint de teller bij nul?
     antwoord: Nee. Zodra de teller gekoppeld is, toont hij meteen je huidige aantal volgers. Daarna telt hij elke nieuwe volger mee, ook als die je niet in de zaak volgt.
   - vraag: Kan ik meerdere tellers aan hetzelfde account koppelen?

@@ -30,8 +30,8 @@ const MAATWERK_FAQ = (platform: string) => [
     antwoord: 'Niet altijd. Hoe vaak het getal wordt bijgewerkt, hangt af van de koppeling op maat. Dat stemmen we vooraf met je af.',
   },
   {
-    vraag: 'Waarom zijn de cijfers zwart?',
-    antwoord: `De ${platform}-teller is een teller naar keuze met een koppeling op maat. Die heeft altijd zwarte klapcijfers; de kleur is niet aan te passen.`,
+    vraag: 'Ziet de teller er precies zo uit als op de afbeelding?',
+    antwoord: `De afbeelding is een illustratie. De ${platform}-teller maken we op maat; het logo en de uitvoering stemmen we vooraf met je af.`,
   },
 ];
 
@@ -127,7 +127,7 @@ export const platformPaginas: Record<Platform, PlatformPagina> = {
     metaTitle: 'YouTube-abonneeteller voor je zaak of studio | View Plus Shop',
     metaDescription: 'Laat live zien hoeveel abonnees je YouTube-kanaal heeft, met mechanische klapcijfers. Koppeling op maat, 5 of 7 cijfers.',
     intro: 'Laat in je zaak, studio of kantoor live zien hoeveel abonnees je YouTube-kanaal heeft. Met dezelfde mechanische klapcijfers als onze andere tellers, en een koppeling die we voor je op maat maken.',
-    kleur: 'zwarte klapcijfers',
+    kleur: 'rode klapcijfers met het YouTube-logo',
     nodig: ['Je YouTube-kanaal', 'Wifi (2,4 GHz) of een netwerkkabel, en een stopcontact', 'Een koppeling op maat; die stemmen we met je af'],
     koppelen: MAATWERK_KOPPELEN('abonnees'),
     faq: MAATWERK_FAQ('YouTube'),
@@ -138,7 +138,7 @@ export const platformPaginas: Record<Platform, PlatformPagina> = {
     metaTitle: 'LinkedIn-volgersteller voor kantoor en beurs | View Plus Shop',
     metaDescription: 'Laat live zien hoeveel volgers je LinkedIn-bedrijfspagina heeft, op kantoor of op je beursstand. Koppeling op maat, 5 of 7 cijfers.',
     intro: 'Laat op kantoor, bij de receptie of op je beursstand zien hoeveel volgers je LinkedIn-bedrijfspagina heeft. Een blikvanger die je team motiveert en bezoekers laat volgen.',
-    kleur: 'zwarte klapcijfers',
+    kleur: 'blauwe klapcijfers met het LinkedIn-logo',
     nodig: ['Je LinkedIn-bedrijfspagina', 'Wifi (2,4 GHz) of een netwerkkabel, en een stopcontact', 'Een koppeling op maat; die stemmen we met je af'],
     koppelen: MAATWERK_KOPPELEN('volgers'),
     faq: MAATWERK_FAQ('LinkedIn'),
@@ -149,7 +149,7 @@ export const platformPaginas: Record<Platform, PlatformPagina> = {
     metaTitle: 'X-volgersteller (voorheen Twitter) | View Plus Shop',
     metaDescription: 'Laat live zien hoeveel volgers je hebt op X (voorheen Twitter), met mechanische klapcijfers. Koppeling op maat, 5 of 7 cijfers.',
     intro: 'Laat live zien hoeveel volgers je hebt op X, voorheen Twitter. Met mechanische klapcijfers die meedraaien, en een koppeling die we voor je op maat maken.',
-    kleur: 'zwarte klapcijfers',
+    kleur: 'zwarte klapcijfers met het X-logo',
     nodig: ['Je X-account', 'Wifi (2,4 GHz) of een netwerkkabel, en een stopcontact', 'Een koppeling op maat; die stemmen we met je af'],
     koppelen: MAATWERK_KOPPELEN('volgers'),
     faq: MAATWERK_FAQ('X'),

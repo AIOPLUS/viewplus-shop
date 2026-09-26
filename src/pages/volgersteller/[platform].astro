@@ -63,7 +63,7 @@ const algemeen = [
         <a href={url(`/live-volgersteller?platform=${encodeURIComponent(platform)}`)} class="btn btn-primary btn-lg">Bekijk en bestel</a>
         <a href={url(`/contact?product=live-volgersteller`)} class="btn btn-secondary btn-lg" data-track="advies_klik" data-track-plek={`platform-${pagina.slug}`}>Vraag advies</a>
       </div>
-      <p class="text-sm text-ink-soft">Zo ziet hij eruit: {pagina.kleur}.</p>
+      <p class="text-sm text-ink-soft">{maatwerk ? `Op de illustratie: ${pagina.kleur}. De uitvoering stemmen we met je af.` : `Zo ziet hij eruit: ${pagina.kleur}.`}</p>
     </div>
     <TellerKiezer id="platform-teller" platform={platform} platformKeuze={false} />
   </section>
