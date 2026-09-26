@@ -1,4 +1,5 @@
 import { brand } from '@/config/brand';
+import { VERZENDING } from '@/config/site';
 import type { Product } from './catalog';
 import { absoluteUrl } from './url';
 
@@ -58,9 +59,34 @@ export function faqSchema(faq: readonly { vraag: string; antwoord: string }[]): 
   };
 }
 
+/** Gratis verzending naar Nederland en België (zie VERZENDING en de verkoopvoorwaarden). */
+const verzending = (): Json[] =>
+  (['NL', 'BE'] as const).map((land) => ({
+    '@type': 'OfferShippingDetails',
+    shippingRate: { '@type': 'MonetaryAmount', value: VERZENDING.kosten ?? 0, currency: 'EUR' },
+    shippingDestination: { '@type': 'DefinedRegion', addressCountry: land },
+  }));
+
+/**
+ * Retourbeleid volgens de verkoopvoorwaarden: 14 dagen retour per post, verzendkosten voor de koper.
+ * De teller naar keuze heeft altijd een eigen logo (maatwerk) en kan niet retour.
+ */
+const retour = (maatwerk: boolean): Json =>
+  maatwerk
+    ? { '@type': 'MerchantReturnPolicy', applicableCountry: ['NL', 'BE'], returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted' }
+    : {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: ['NL', 'BE'],
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 14,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/ReturnShippingFees',
+      };
+
 /** Eén product met een aanbieding per variant. Varianten zonder prijs krijgen geen Offer (Google eist een prijs). */
 export function productSchema(p: Product): Json {
   const d = p.data;
+  const maatwerk = d.visual === 'teller-op-maat';
   const offers = d.varianten
     .filter((v) => v.prijs !== null)
     .map((v) => ({
@@ -71,6 +97,8 @@ export function productSchema(p: Product): Json {
       availability: d.status === 'beschikbaar' ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
       url: absoluteUrl(`/${d.slug}`),
       priceSpecification: { '@type': 'UnitPriceSpecification', price: v.prijs, priceCurrency: 'EUR', valueAddedTaxIncluded: false },
+      ...(VERZENDING.kosten !== null ? { shippingDetails: verzending() } : {}),
+      hasMerchantReturnPolicy: retour(maatwerk),
     }));
   return {
     '@context': 'https://schema.org',
@@ -78,6 +106,7 @@ export function productSchema(p: Product): Json {
     name: d.naam,
     description: d.samenvatting,
     url: absoluteUrl(`/${d.slug}`),
+    image: absoluteUrl(`/og/${d.slug}.png`),
     brand: { '@id': orgId },
     ...(offers.length ? { offers } : {}),
   };
