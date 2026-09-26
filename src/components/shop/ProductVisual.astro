@@ -1,7 +1,6 @@
 ---
 /** Kiest de juiste illustratie bij een product (er zijn nog geen productfoto's). */
 import Teller from './Teller.astro';
-import Volgstandaard from './Volgstandaard.astro';
 import type { Product, Platform } from '@/lib/catalog';
 
 interface Props {
@@ -16,8 +15,4 @@ const { product, platform, cijfers = 5, class: cls = '', id } = Astro.props;
 const p = product.data;
 const eerste = (platform ?? p.platformen[0] ?? 'Instagram') as Platform;
 ---
-{p.visual === 'standaard' ? (
-  <Volgstandaard platform={eerste} class={cls} />
-) : (
-  <Teller platform={p.visual === 'teller-op-maat' ? 'op-maat' : eerste} cijfers={cijfers} waarde={p.visual === 'teller-op-maat' ? 486 : 1248} class={cls} id={id} />
-)}
+<Teller platform={p.visual === 'teller-op-maat' ? 'op-maat' : eerste} cijfers={cijfers} waarde={p.visual === 'teller-op-maat' ? 486 : 1248} class={cls} id={id} />

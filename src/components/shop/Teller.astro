@@ -1,7 +1,8 @@
 ---
 /**
  * Illustratie van een live teller met klapcijfers (geen productfoto). Schaalt mee met de breedte (container query units).
- * Met `data-teller` kan een script het getal wijzigen; de cijfers klappen dan om (zie setTeller in lib/client/teller.ts).
+ * Een script kan platform, aantal cijfers en getal wijzigen (lib/client/teller.ts); de tegel en cijfers worden dan opnieuw
+ * opgebouwd. Daarom zijn de stijlen globaal (is:global) en niet per component.
  */
 import { brandIcon } from '@/lib/icons';
 import { platformStijl, type Platform } from '@/lib/platformen';
@@ -11,7 +12,7 @@ interface Props {
   cijfers?: 5 | 7;
   waarde?: number;
   class?: string;
-  /** Id voor een script dat het getal aanpast. */
+  /** Id voor een script dat de teller aanpast. */
   id?: string;
   label?: string;
 }
@@ -24,15 +25,12 @@ const breedte = cijfers === 5 ? 42 : 56.4;
 <div
   class={`@container ${cls}`}
   role="img"
-  aria-label={label ?? `Illustratie van een live teller met ${cijfers} cijfers${platform === 'op-maat' ? '' : ` voor ${platform}`}, stand ${waarde.toLocaleString('nl-NL')}`}
+  aria-label={label ?? `Illustratie van een live teller met ${cijfers} cijfers${platform === 'op-maat' ? ' met je eigen logo' : ` voor ${platform}`}, stand ${waarde.toLocaleString('nl-NL')}`}
+  data-teller-wrap
 >
-  <div class="teller-kast" style={`aspect-ratio:${breedte}/10.5`} id={id} data-teller data-cijfers={cijfers} data-waarde={waarde}>
-    <span class="teller-icoon" style={stijl ? `background:${stijl.achtergrond}` : 'background:#fff'} aria-hidden="true">
-      {svg ? (
-        <svg viewBox={svg.viewBox} fill="#fff" style="color:#fff" set:html={svg.body} />
-      ) : (
-        <svg viewBox="0 0 24 24" fill="#f5b400"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z" /></svg>
-      )}
+  <div class="teller-kast" style={`aspect-ratio:${breedte}/10.5`} id={id} data-teller data-cijfers={cijfers} data-waarde={waarde} data-platform={platform}>
+    <span class="teller-icoon" style={stijl ? `background:${stijl.achtergrond}` : ''} data-op-maat={platform === 'op-maat' ? '' : undefined} aria-hidden="true">
+      {svg ? <svg viewBox={svg.viewBox} fill="#fff" style="color:#fff" set:html={svg.body} /> : <span class="teller-logo">Jouw<br />logo</span>}
     </span>
     {[...tekst].map((c) => (
       <span class="teller-flap" aria-hidden="true"><span>{c.trim()}</span></span>
@@ -40,7 +38,7 @@ const breedte = cijfers === 5 ? 42 : 56.4;
   </div>
 </div>
 
-<style>
+<style is:global>
   .teller-kast {
     display: flex; align-items: center; gap: 1.6cqw; width: 100%;
     padding: 2.4cqw 3cqw; border-radius: 2.4cqw;
@@ -49,9 +47,15 @@ const breedte = cijfers === 5 ? 42 : 56.4;
   }
   .teller-icoon {
     flex: 1; aspect-ratio: 3 / 4; display: grid; place-items: center; border-radius: 1.2cqw;
-    box-shadow: inset 0 -0.5cqw 0 rgba(0,0,0,.12);
+    box-shadow: inset 0 -0.5cqw 0 rgba(0,0,0,.12); background: #fff;
   }
   .teller-icoon svg { width: 52%; height: auto; }
+  .teller-icoon[data-op-maat] { background: transparent; box-shadow: none; }
+  .teller-logo {
+    display: grid; place-items: center; width: 92%; aspect-ratio: 1; border-radius: 50%;
+    border: 0.35cqw dashed #150e08; color: #150e08; font-weight: 600; text-align: center; line-height: 1.1;
+    font-size: var(--logogrootte, 2.3cqw); text-transform: uppercase;
+  }
   .teller-flap {
     position: relative; flex: 1; aspect-ratio: 3 / 4; display: grid; place-items: center; overflow: hidden;
     border-radius: 1.2cqw; perspective: 30cqw;
@@ -63,5 +67,5 @@ const breedte = cijfers === 5 ? 42 : 56.4;
     display: block; color: #fff; font-weight: 600; line-height: 1; font-size: var(--cijfergrootte, 9cqw);
     font-variant-numeric: tabular-nums; backface-visibility: hidden;
   }
-  [data-cijfers='7'] { --cijfergrootte: 7cqw; }
+  .teller-kast[data-cijfers='7'] { --cijfergrootte: 7cqw; --logogrootte: 1.75cqw; }
 </style>

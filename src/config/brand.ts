@@ -31,7 +31,7 @@ export const brand = {
     linkedin: '',
   },
   slogan: 'Maak je volgers zichtbaar.',
-  tagline: 'Live tellers en NFC-volgstandaards voor lokale ondernemers.',
+  tagline: 'Live volgerstellers voor lokale ondernemers.',
 } as const;
 
 /**
@@ -41,7 +41,7 @@ export const brand = {
  */
 export const labels = [
   { id: 'reviewplus', naam: ['Review', 'Plus'], url: 'https://shop.reviewplus.io', kleur: 'var(--color-label-reviewplus)', wat: 'Reviewproducten', slogan: 'Gratis NFC-reviewkaarten voor je bedrijf.' },
-  { id: 'viewplus', naam: ['View', 'Plus'], url: 'https://shop.viewplus.io', kleur: 'var(--color-label-viewplus)', wat: 'Shop', slogan: 'Live tellers en NFC-volgstandaards.' },
+  { id: 'viewplus', naam: ['View', 'Plus'], url: 'https://shop.viewplus.io', kleur: 'var(--color-label-viewplus)', wat: 'Shop', slogan: 'Live volgerstellers voor je zaak.' },
 ] as const;
 
 /** Pagina's die in beide shops bestaan: de schakelaar blijft dan op dezelfde pagina, anders naar home. */
@@ -71,7 +71,7 @@ export const footerNav = [
     links: [
       { label: 'Alle producten', href: '/', internal: true },
       { label: 'Live volgersteller', href: '/live-volgersteller', internal: true },
-      { label: 'NFC-volgstandaard', href: '/nfc-volgstandaard', internal: true },
+      { label: 'Live teller naar keuze', href: '/live-teller-op-maat', internal: true },
       { label: 'Winkelwagen', href: '/winkelwagen', internal: true },
       { label: 'Advies of offerte', href: '/contact', internal: true },
     ],

@@ -7,13 +7,13 @@ interface Props {
   text?: string;
 }
 const {
-  title = 'Twijfel je welke teller of standaard past?',
-  text = 'Vertel ons over jouw zaak, dan adviseren we welke teller of volgstandaard het best past.',
+  title = 'Twijfel je welke teller past?',
+  text = 'Vertel ons over jouw zaak, dan adviseren we welk platform en hoeveel cijfers het best passen.',
 } = Astro.props;
 ---
 <section class="container-rp py-16">
   <div class="relative grid justify-items-center gap-5 overflow-hidden rounded-[var(--radius-panel)] border border-brand-200 bg-white px-6 pb-36 pt-14 text-center md:pb-24">
-    <p class="text-sm font-medium tracking-wide text-brand-600">Volg ons. <span class="text-ink">Tap. Follow.</span></p>
+    <p class="text-sm font-medium tracking-wide text-brand-600">Live volgers. <span class="text-ink">Klik. Klak. Volg.</span></p>
     <h2 class="relative max-w-2xl text-3xl md:text-4xl">{title}</h2>
     <p class="relative max-w-xl text-ink-soft">{text}</p>
     <div class="relative flex flex-wrap justify-center gap-3">

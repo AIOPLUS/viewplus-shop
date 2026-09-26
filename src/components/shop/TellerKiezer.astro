@@ -1,0 +1,138 @@
+---
+/**
+ * Kies je teller, zoals op smiirl.com: platform (zes platformen of "Eigen getal") en 5 of 7 cijfers.
+ * De teller in het sfeerbeeld wisselt direct mee; "Volgen" laat de cijfers omklappen; "Bekijk en bestel" gaat naar de
+ * productpagina met de keuze al ingevuld (?platform=…&cijfers=…).
+ */
+import Teller from './Teller.astro';
+import { brandIcon, platformIconen } from '@/lib/icons';
+import { PLATFORMEN, platformStijl } from '@/lib/platformen';
+import { producten } from '@/lib/catalog';
+import { euro } from '@/lib/prijs';
+import { url } from '@/lib/url';
+
+interface Props {
+  id?: string;
+  class?: string;
+}
+const { id = 'kiezer', class: cls = '' } = Astro.props;
+const iconen = await platformIconen();
+const lijst = await producten();
+const prijsVan = (slug: string) =>
+  Object.fromEntries((lijst.find((p) => p.data.slug === slug)?.data.varianten ?? []).map((v) => [v.id, v.prijs === null ? null : euro(v.prijs)]));
+const gegevens = {
+  iconen,
+  eenheden: Object.fromEntries(PLATFORMEN.map((p) => [p, platformStijl[p].eenheid])),
+  maatwerk: PLATFORMEN.filter((p) => platformStijl[p].koppeling === 'maatwerk'),
+  prijzen: { volgers: prijsVan('live-volgersteller'), 'op-maat': prijsVan('live-teller-op-maat') },
+  links: { volgers: url('/live-volgersteller'), 'op-maat': url('/live-teller-op-maat') },
+};
+const pil = 'grid size-11 cursor-pointer place-items-center rounded-full text-ink-soft transition-colors hover:text-brand-600 has-checked:bg-white has-checked:text-ink has-checked:shadow-sm has-focus-visible:ring-4 has-focus-visible:ring-brand-200';
+---
+<div class={`card grid overflow-hidden !rounded-[var(--radius-panel)] p-0 shadow-[var(--shadow-glow)] ${cls}`} data-kiezer data-gegevens={JSON.stringify(gegevens)}>
+  <!-- Sfeerbeeld: de teller op een tafelblad -->
+  <div class="kiezer-scene grid place-items-center px-[6%] pb-[8%] pt-[10%]">
+    <Teller id={id} platform="Instagram" waarde={1248} class="w-full" label="Voorbeeld van een live volgersteller" />
+  </div>
+
+  <div class="grid gap-4 p-5 md:p-6">
+    <fieldset class="grid justify-items-center gap-2">
+      <legend class="sr-only">Kies het platform</legend>
+      <div class="flex flex-wrap justify-center gap-1 rounded-full bg-brand-50 p-1 ring-1 ring-brand-200">
+        {PLATFORMEN.map((p, i) => {
+          const svg = brandIcon(platformStijl[p].icoon);
+          return (
+            <label class={pil} title={p}>
+              <input type="radio" name={`${id}-platform`} value={p} class="sr-only" checked={i === 0} />
+              <svg width="19" height="19" viewBox={svg.viewBox} fill="currentColor" aria-hidden="true" set:html={svg.body} />
+              <span class="sr-only">{p}</span>
+            </label>
+          );
+        })}
+        <label class={pil} title="Eigen getal (bijvoorbeeld Google-reviews)">
+          <input type="radio" name={`${id}-platform`} value="op-maat" class="sr-only" />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.4 2" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" stroke-dasharray="none" /></svg>
+          <span class="sr-only">Eigen getal, bijvoorbeeld je Google-reviews</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="flex flex-wrap items-center justify-center gap-2">
+      <fieldset class="flex rounded-full bg-brand-50 p-1 ring-1 ring-brand-200">
+        <legend class="sr-only">Aantal cijfers</legend>
+        {[5, 7].map((n, i) => (
+          <label class="cursor-pointer rounded-full px-4 py-2 text-[.92rem] text-ink-soft transition-colors hover:text-brand-600 has-checked:bg-white has-checked:text-ink has-checked:shadow-sm has-focus-visible:ring-4 has-focus-visible:ring-brand-200">
+            <input type="radio" name={`${id}-cijfers`} value={n} class="sr-only" checked={i === 0} />{n} cijfers
+          </label>
+        ))}
+      </fieldset>
+      <button type="button" class="btn btn-secondary !min-h-[42px]" data-kiezer-volg aria-controls={id}>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+        Volgen
+      </button>
+      <a href={gegevens.links.volgers} class="btn btn-primary !min-h-[42px]" data-kiezer-bestel>Bekijk en bestel →</a>
+    </div>
+
+    <p class="text-center text-sm text-muted" aria-live="polite" data-kiezer-info>Instagram · tot 99.999 volgers</p>
+  </div>
+</div>
+
+<style>
+  /* Sfeerbeeld zoals op smiirl.com: zachte achtergrond met een tafelblad onder de teller */
+  .kiezer-scene {
+    background:
+      linear-gradient(180deg, transparent 0 66%, #eadbf2 66% 68%, #f3e8f8 68% 100%),
+      radial-gradient(120% 90% at 50% 10%, #ffffff 0%, var(--color-brand-50) 55%, var(--color-brand-100) 100%);
+  }
+</style>
+
+<script>
+  import { setTeller, zetCijfers, zetPlatform, type PlatformIcoon } from '@/lib/client/teller';
+  import { track } from '@/lib/client/analytics';
+
+  interface Gegevens {
+    iconen: Record<string, PlatformIcoon>;
+    eenheden: Record<string, string>;
+    maatwerk: string[];
+    prijzen: Record<'volgers' | 'op-maat', Record<string, string | null>>;
+    links: Record<'volgers' | 'op-maat', string>;
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-kiezer]').forEach((wrap) => {
+    const g = JSON.parse(wrap.dataset.gegevens ?? '{}') as Gegevens;
+    const kast = wrap.querySelector<HTMLElement>('[data-teller]')!;
+    const info = wrap.querySelector<HTMLElement>('[data-kiezer-info]')!;
+    const bestel = wrap.querySelector<HTMLAnchorElement>('[data-kiezer-bestel]')!;
+    const keuze = (naam: string) => wrap.querySelector<HTMLInputElement>(`input[name$="-${naam}"]:checked`)?.value ?? '';
+
+    const update = () => {
+      const platform = keuze('platform');
+      const cijfers = Number(keuze('cijfers')) === 7 ? 7 : 5;
+      zetPlatform(kast, platform, g.iconen);
+      zetCijfers(kast, cijfers);
+      const opMaat = platform === 'op-maat';
+      const soort = opMaat ? 'op-maat' : 'volgers';
+      const prijs = g.prijzen[soort][`${cijfers}-cijfers`];
+      const max = cijfers === 5 ? '99.999' : '9.999.999';
+      info.textContent = [
+        opMaat ? 'Eigen getal, zoals je Google-reviews' : platform,
+        `tot ${max}${opMaat ? '' : ` ${g.eenheden[platform]}`}`,
+        !opMaat && g.maatwerk.includes(platform) ? 'koppeling op maat' : '',
+        prijs ? `€ ${prijs} excl. btw` : 'prijs volgt',
+      ].filter(Boolean).join(' · ');
+      const params = new URLSearchParams({ ...(opMaat ? {} : { platform }), cijfers: String(cijfers) });
+      bestel.href = `${g.links[soort]}?${params}`;
+    };
+    wrap.querySelectorAll('input[type=radio]').forEach((el) => el.addEventListener('change', update));
+    update();
+
+    let bezig = false;
+    wrap.querySelector('[data-kiezer-volg]')?.addEventListener('click', async () => {
+      if (bezig) return;
+      bezig = true;
+      await setTeller(kast, Number(kast.dataset.waarde ?? 0) + 1);
+      track('demo_teller', { platform: keuze('platform') });
+      bezig = false;
+    });
+  });
+</script>

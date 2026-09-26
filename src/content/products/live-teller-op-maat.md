@@ -2,7 +2,7 @@
 slug: live-teller-op-maat
 naam: Live teller naar keuze
 kort: Toont elk getal dat voor jouw zaak telt, zoals je aantal Google-reviews, gasten of verkochte producten.
-samenvatting: De live teller naar keuze toont elk getal dat je zelf koppelt, met dezelfde mechanische klapcijfers als de volgersteller. Laat bijvoorbeeld je aantal Google-reviews, gasten, verkochte producten of opgehaalde donaties live meetellen. Koppelen kan zonder code via Zapier, of met een eigen koppeling.
+samenvatting: De live teller naar keuze toont elk getal dat je zelf koppelt, met dezelfde mechanische klapcijfers als de volgersteller en ruimte voor je eigen logo. Laat bijvoorbeeld je aantal Google-reviews, gasten, verkochte producten of opgehaalde donaties live meetellen. Koppelen kan zonder code via Zapier, of met een eigen koppeling.
 categorie: teller
 visual: teller-op-maat
 platformen: []

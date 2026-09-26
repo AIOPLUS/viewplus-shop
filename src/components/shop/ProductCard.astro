@@ -11,13 +11,13 @@ interface Props {
 const { product } = Astro.props;
 const p = product.data;
 const heeftPrijs = vanafPrijs(product) !== null;
-const chip = p.categorie === 'standaard' ? 'Tik en volg' : p.platformen.length ? p.platformen.join(' · ') : 'Reviews, gasten, verkoop…';
+const chip = p.platformen.length ? `${p.platformen.length} platformen` : 'Eigen getal, zoals reviews';
 const statusLabel = { beschikbaar: '', binnenkort: 'Binnenkort', 'op-aanvraag': 'Op aanvraag' }[p.status];
 ---
 <article class="card flex flex-col overflow-hidden">
   <a href={url(`/${p.slug}`)} class="relative block aspect-[4/3] overflow-hidden" tabindex="-1" aria-hidden="true">
     <div class="rp-stage grid h-full w-full place-items-center p-[8%]">
-      <ProductVisual product={product} class={p.visual === 'standaard' ? 'w-[46%]' : 'w-full'} />
+      <ProductVisual product={product} class="w-full" />
     </div>
     <span class="chip absolute left-4 top-4 !bg-white shadow-sm">{chip}</span>
   </a>

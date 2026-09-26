@@ -21,3 +21,9 @@ export function brandIcon(id: string): { body: string; viewBox: string } {
   const h = icon.height ?? set.height ?? 24;
   return { body: icon.body, viewBox: `0 0 ${w} ${h}` };
 }
+
+/** Iconen en kleuren van alle platformen, als gegevens voor scripts die de live teller van platform laten wisselen. */
+export async function platformIconen(): Promise<Record<string, { viewBox: string; body: string; achtergrond: string }>> {
+  const { PLATFORMEN, platformStijl } = await import('./platformen');
+  return Object.fromEntries(PLATFORMEN.map((p) => [p, { ...brandIcon(platformStijl[p].icoon), achtergrond: platformStijl[p].achtergrond }]));
+}

@@ -1,11 +1,11 @@
 ---
 slug: live-volgersteller
 naam: Live volgersteller
-kort: Toont je aantal volgers live in je zaak, met klapcijfers die meedraaien bij elke nieuwe volger.
-samenvatting: De live volgersteller laat in je zaak zien hoeveel volgers je hebt op Instagram, Facebook of TikTok. Het getal wordt via wifi bijgewerkt en de mechanische klapcijfers draaien hoorbaar mee bij elke nieuwe volger. Zet hem op de toonbank, hang hem aan de muur of zet hem in de etalage.
+kort: Toont je aantal volgers live in je zaak, voor Instagram, Facebook, TikTok, YouTube, LinkedIn of X.
+samenvatting: De live volgersteller laat in je zaak zien hoeveel volgers je hebt op Instagram, Facebook, TikTok, YouTube, LinkedIn of X. Het getal wordt via wifi bijgewerkt en de mechanische klapcijfers draaien hoorbaar mee bij elke nieuwe volger. Kies 5 of 7 cijfers en zet hem op de toonbank, aan de muur of in de etalage.
 categorie: teller
 visual: teller
-platformen: [Instagram, Facebook, TikTok]
+platformen: [Instagram, Facebook, TikTok, YouTube, LinkedIn, X]
 # TODO Jordan: verkoopprijzen invullen (excl. btw). null = "Prijs volgt".
 varianten:
   - id: 5-cijfers
@@ -35,7 +35,7 @@ voordelen:
   - Nodigt bezoekers uit om je ter plekke te volgen
   - Mechanische klapcijfers die hoorbaar meedraaien
   - Op de toonbank, aan de muur of in de etalage
-  - Via wifi gekoppeld, zonder abonnement
+  - Voor zes platformen, met 5 of 7 cijfers
 inDeDoos:
   - Live volgersteller
   - Stroomadapter met stekkers voor EU, VK, VS en Australië
@@ -47,12 +47,14 @@ faq:
     antwoord: Een Instagram Business-account dat gekoppeld is aan een professionele Facebook-pagina. Heb je nog een persoonlijk account, dan kun je dat gratis omzetten in de Instagram-app.
   - vraag: Heb ik een abonnement nodig?
     antwoord: Nee. Voor de koppeling met je Instagram-account is geen abonnement nodig.
+  - vraag: Werkt de teller ook voor YouTube, LinkedIn en X?
+    antwoord: Ja. Voor Instagram, Facebook en TikTok koppel je je account direct. Voor YouTube, LinkedIn en X werkt de koppeling net iets anders; die stemmen we met je af.
   - vraag: Hoe snel verandert het getal?
     antwoord: Standaard wordt het aantal volgers elke 6 seconden bijgewerkt. Je kunt dat ook minder vaak laten gebeuren, tot één keer per dag.
   - vraag: Wat heb ik nodig om hem te installeren?
     antwoord: Een stopcontact en wifi (2,4 GHz) of een netwerkkabel. Je koppelt de teller in een paar stappen met je telefoon of computer. Werkt je wifi met een inlogpagina, dan is hulp van je netwerkbeheerder nodig.
   - vraag: Kies ik 5 of 7 cijfers?
-    antwoord: Met 5 cijfers tel je tot 99.999 volgers, met 7 cijfers tot 9.999.999. Voor de meeste lokale zaken zijn 5 cijfers genoeg.
+    antwoord: Met 5 cijfers tel je tot 99.999 volgers, met 7 cijfers tot 9.999.999. Voor de meeste lokale zaken zijn 5 cijfers genoeg; de 7-cijferige teller is breder (56,4 cm in plaats van 42 cm).
 ---
 
 De live volgersteller maakt je social media zichtbaar in de echte wereld. Gasten zien het getal, pakken hun telefoon en volgen je om het zelf te zien veranderen.

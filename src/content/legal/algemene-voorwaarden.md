@@ -1,6 +1,6 @@
 ---
 title: "Verkoopvoorwaarden"
-description: "De verkoopvoorwaarden van de View Plus Shop voor live tellers en NFC-volgstandaards."
+description: "De verkoopvoorwaarden van de View Plus Shop voor live volgerstellers."
 ingangsdatum: "in voorbereiding"
 ---
 

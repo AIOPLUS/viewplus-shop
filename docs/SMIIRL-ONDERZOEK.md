@@ -46,13 +46,9 @@ Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Cu
 1. **Concurrentie op prijs:** klanten kunnen ook direct bij Smiirl kopen, tegen de adviesprijs. De meerwaarde van View Plus zit in:
    - het advies;
    - de installatie en het koppelen van het Instagram Business-account;
-   - de combinatie met de NFC-volgstandaard;
    - en vooral met View Plus Online (social media management). Die combinatie verkopen we als bundel.
 2. **Brug naar Review Plus:** de Custom Counter kan het aantal Google-reviews tonen. Dat past bij Review Plus.
-3. **The Tag (Smiirl)** lijkt op onze eigen NFC-standaard. Onze standaard moet zich onderscheiden:
-   - eenmalige aankoop, zonder maandabonnement;
-   - direct leverbaar;
-   - in onze eigen huisstijl.
+3. **YouTube, LinkedIn en X** heeft Smiirl niet als kant-en-klare teller. Die bieden we aan via de Custom Counter, met een koppeling op maat (Zapier of API). Dat kan een andere prijs en meer werk bij het installeren betekenen.
 
 ## Vragen voor Jordan
 
@@ -66,9 +62,5 @@ Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Cu
 5. **Wat betekent "ons eigen label" precies?**
    - verkopen onder de naam View Plus, met de Smiirl-teller zelf;
    - of tellers met een eigen View Plus-uitvoering.
-6. **NFC-volgstandaard:**
-   - Is het dezelfde acrylaat L-standaard als de Review Plus-totem, met een View Plus-ontwerp?
-   - Specificaties (afmeting, chip)?
-   - Prijs?
-   - Leveren we ook een variant voor TikTok of Facebook?
+6. **YouTube, LinkedIn en X:** welke prijs rekenen we (via de Custom Counter), en wie regelt de koppeling?
 7. **Installatie op locatie:** bieden we dit aan, bijvoorbeeld als aanvulling op een shootdag?

@@ -1,6 +1,6 @@
 # shop.viewplus.io
 
-De webshop van View Plus: **live volgerstellers** (klapcijfers voor Instagram, Facebook, TikTok of een getal naar keuze) en **NFC-volgstandaards**. View Plus verkoopt de tellers als reseller (Smiirl, zie `docs/SMIIRL-ONDERZOEK.md`) onder het eigen label.
+De webshop van View Plus: **live volgerstellers** met klapcijfers, voor Instagram, Facebook, TikTok, YouTube, LinkedIn of X, of voor een getal naar keuze, met 5 of 7 cijfers. View Plus verkoopt de tellers als reseller (Smiirl, zie `docs/SMIIRL-ONDERZOEK.md`) onder het eigen label.
 
 Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkelwagen, afrekenen, betalen via Mollie (vanuit Make).
 
@@ -30,7 +30,7 @@ Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkel
 - Eén bestand per product in `src/content/products/` (schema in `src/content.config.ts`).
 - **Prijzen per variant, excl. btw.** `prijs: null` betekent "Prijs volgt": de shop toont dan een knop voor een offerte en je kunt het product nog niet in de winkelwagen leggen. Nu staan alle prijzen op `null` (TODO Jordan).
 - **Verzendkosten en levertijd**: `VERZENDING` in `src/config/site.ts` (nu nog onbekend).
-- **Illustraties**: `src/components/shop/Teller.astro` (klapcijfers, met animatie via `src/lib/client/teller.ts`) en `Volgstandaard.astro`. Er zijn nog geen productfoto's; die van Smiirl gebruiken we alleen met hun toestemming.
+- **Illustraties**: `src/components/shop/Teller.astro` (klapcijfers; `src/lib/client/teller.ts` laat hem omklappen en van platform en aantal cijfers wisselen). De homepage heeft een tellerkiezer zoals op smiirl.com (`TellerKiezer.astro`). Platformen en kleuren: `src/lib/platformen.ts`. Er zijn nog geen productfoto's; die van Smiirl gebruiken we alleen met hun toestemming.
 
 ## Bestelling naar Make (nog niet gekoppeld)
 
@@ -76,6 +76,6 @@ Zie de vragen onderaan `docs/SMIIRL-ONDERZOEK.md`. Kort:
 
 - Resellerstatus, inkoop- en verkoopprijzen, minimale afname, levering (dropship of voorraad) en levertijd.
 - Naam en productfoto's van Smiirl gebruiken (toestemming)?
-- Specificaties en prijs van de NFC-volgstandaard.
+- YouTube, LinkedIn en X lopen bij Smiirl via de Custom Counter (koppeling via Zapier of API): welke prijs rekenen we daarvoor, en hoe regelen we de koppeling?
 - Verkoopvoorwaarden, bezorging en retour, garantie. Verkopen we alleen aan bedrijven (zoals nu: KvK verplicht)?
 - Mailbox support@viewplus.io activeren.

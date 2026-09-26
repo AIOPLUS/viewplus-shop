@@ -1,12 +1,14 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProductVisual from '@/components/shop/ProductVisual.astro';
-import SamenPromo from '@/components/shop/SamenPromo.astro';
+import Teller from '@/components/shop/Teller.astro';
+import ReviewsPromo from '@/components/shop/ReviewsPromo.astro';
 import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
 import { PRICE_NOTE, VERZENDING } from '@/config/site';
-import { producten, type Product, type Platform } from '@/lib/catalog';
+import { producten, type Product } from '@/lib/catalog';
+import { platformStijl } from '@/lib/platformen';
+import { brandIcon, platformIconen } from '@/lib/icons';
 import { breadcrumbSchema, faqSchema, productSchema } from '@/lib/schema';
 import { euro, inclBtwTekst } from '@/lib/prijs';
 import { url } from '@/lib/url';
@@ -23,22 +25,19 @@ const { product } = Astro.props;
 const p = product.data;
 const { Content } = await render(product);
 const eersteVariant = p.varianten[0]!;
-const isTeller = p.categorie === 'teller';
-// Illustraties per platform × aantal cijfers, vooraf gemaakt; het script toont de juiste.
-const platformen: (Platform | null)[] = p.platformen.length ? p.platformen : [null];
-const cijferOpties: (5 | 7)[] = isTeller ? [5, 7] : [5];
-const chip = p.categorie === 'standaard' ? 'Tik en volg, zonder app' : isTeller && p.platformen.length ? 'Live bijgewerkt via wifi' : 'Live via Zapier of API';
-const stappen = isTeller
-  ? [
-      ['Stroom erop en verbinden', 'met wifi (2,4 GHz) of een netwerkkabel.'],
-      ['Account koppelen', p.platformen.length ? 'via je telefoon of computer, in een paar minuten.' : 'zonder code via Zapier, of met een eigen koppeling.'],
-      ['Het getal draait mee', p.platformen.length ? 'bij elke nieuwe volger, standaard elke 6 seconden bijgewerkt.' : 'bij elke nieuwe review, gast of verkoop die je koppelt.'],
-    ]
-  : [
-      ['Je klant tikt', 'met de telefoon op de standaard, of scant de QR-code.'],
-      ['Je profiel opent direct', 'zonder app en zonder te zoeken naar je accountnaam.'],
-      ['Eén tik op Volgen', 'en je hebt er een volger bij. Met een live teller zie je het meteen.'],
-    ];
+const opMaat = p.visual === 'teller-op-maat';
+const iconen = await platformIconen();
+const gegevens = {
+  iconen,
+  maatwerk: p.platformen.filter((pl) => platformStijl[pl].koppeling === 'maatwerk'),
+  eenheden: Object.fromEntries(p.platformen.map((pl) => [pl, platformStijl[pl].eenheid])),
+};
+const chip = opMaat ? 'Live via Zapier of API' : 'Live bijgewerkt via wifi';
+const stappen = [
+  ['Stroom erop en verbinden', 'met wifi (2,4 GHz) of een netwerkkabel.'],
+  ['Account koppelen', opMaat ? 'zonder code via Zapier, of met een eigen koppeling.' : 'via je telefoon of computer; voor YouTube, LinkedIn en X stemmen we de koppeling met je af.'],
+  ['Het getal draait mee', opMaat ? 'bij elke nieuwe review, gast of verkoop die je koppelt.' : 'bij elke nieuwe volger of abonnee.'],
+];
 ---
 <BaseLayout
   title={`${p.naam} | View Plus Shop`}
@@ -58,13 +57,9 @@ const stappen = isTeller
 
   <section class="container-rp grid gap-10 py-8 lg:grid-cols-2 lg:py-12" data-product-view={p.slug}>
     <div class="grid content-start gap-3">
-      <div class:list={['card relative overflow-hidden !rounded-[var(--radius-panel)]', p.visual === 'standaard' ? 'aspect-square' : 'aspect-[4/3]']}>
-        <div class="rp-stage grid h-full w-full place-items-center p-[10%]">
-          {platformen.map((pl) => cijferOpties.map((c) => (
-            <div class="flex w-full justify-center" data-visual data-platform={pl ?? ''} data-cijfers={c} hidden={!(pl === platformen[0] && c === 5)}>
-              <ProductVisual product={product} platform={pl ?? undefined} cijfers={c} class={p.visual === 'standaard' ? 'w-[62%]' : 'w-full'} />
-            </div>
-          )))}
+      <div class="card relative aspect-[4/3] overflow-hidden !rounded-[var(--radius-panel)]">
+        <div class="rp-stage grid h-full w-full place-items-center p-[8%]">
+          <Teller id="product-teller" platform={opMaat ? 'op-maat' : p.platformen[0]} waarde={opMaat ? 486 : 1248} class="w-full" />
         </div>
       </div>
       <p class="text-center text-xs text-muted">Illustratie. Productfoto’s volgen.</p>
@@ -75,17 +70,22 @@ const stappen = isTeller
       <h1 class="text-4xl md:text-5xl">{p.naam}</h1>
       <p class="text-lg leading-relaxed text-ink-soft">{p.samenvatting}</p>
 
-      <form class="grid gap-6" data-product-form data-slug={p.slug} data-varianten={JSON.stringify(p.varianten)} novalidate>
+      <form class="grid gap-6" data-product-form data-slug={p.slug} data-varianten={JSON.stringify(p.varianten)} data-gegevens={JSON.stringify(gegevens)} novalidate>
         {p.platformen.length > 0 && (
           <fieldset class="field">
             <legend class="mb-2">Platform</legend>
             <div class="flex flex-wrap gap-2">
-              {p.platformen.map((pl, i) => (
-                <label class="cursor-pointer rounded-full border border-brand-200 bg-white px-5 py-2.5 text-[.95rem] text-ink transition-colors hover:bg-brand-50 has-checked:border-brand-600 has-checked:bg-brand-100 has-checked:text-brand-700 has-focus-visible:ring-4 has-focus-visible:ring-brand-100">
-                  <input type="radio" name="platform" value={pl} class="sr-only" checked={i === 0} />{pl}
-                </label>
-              ))}
+              {p.platformen.map((pl, i) => {
+                const svg = brandIcon(platformStijl[pl].icoon);
+                return (
+                  <label class="flex cursor-pointer items-center gap-2 rounded-full border border-brand-200 bg-white px-4 py-2.5 text-[.95rem] text-ink transition-colors hover:bg-brand-50 has-checked:border-brand-600 has-checked:bg-brand-100 has-checked:text-brand-700 has-focus-visible:ring-4 has-focus-visible:ring-brand-100">
+                    <input type="radio" name="platform" value={pl} class="sr-only" checked={i === 0} />
+                    <svg width="16" height="16" viewBox={svg.viewBox} fill="currentColor" aria-hidden="true" set:html={svg.body} />{pl}
+                  </label>
+                );
+              })}
             </div>
+            <p class="hint" data-maatwerk-hint hidden>Voor dit platform stemmen we de koppeling met je af; die werkt net iets anders dan bij Instagram, Facebook en TikTok.</p>
           </fieldset>
         )}
 
@@ -170,26 +170,40 @@ const stappen = isTeller
     )}
   </section>
 
-  <SamenPromo />
+  {!opMaat && <ReviewsPromo />}
   <Faq items={p.faq} />
   <CtaBand />
 </BaseLayout>
 
 <script>
   import { toevoegen, MAX_PER_REGEL } from '@/lib/client/winkelwagen';
+  import { zetCijfers, zetPlatform, type PlatformIcoon } from '@/lib/client/teller';
   import { track } from '@/lib/client/analytics';
 
   interface Variant { id: string; label: string; prijs: number | null }
+  interface Gegevens { iconen: Record<string, PlatformIcoon>; maatwerk: string[]; eenheden: Record<string, string> }
 
   const form = document.querySelector<HTMLFormElement>('[data-product-form]');
-  if (form) {
+  const kast = document.querySelector<HTMLElement>('#product-teller');
+  if (form && kast) {
     const varianten = JSON.parse(form.dataset.varianten ?? '[]') as Variant[];
+    const g = JSON.parse(form.dataset.gegevens ?? '{}') as Gegevens;
     const keuze = (name: string) => form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? form.querySelector<HTMLInputElement>(`input[name="${name}"]`)?.value ?? '';
     const euro = (n: number) => n.toLocaleString('nl-NL', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
     const bestelblok = form.querySelector<HTMLElement>('[data-bestelblok]')!;
     const offerte = form.querySelector<HTMLElement>('[data-offerte]')!;
     const toegevoegd = form.querySelector<HTMLElement>('[data-toegevoegd]')!;
+    const hint = form.querySelector<HTMLElement>('[data-maatwerk-hint]');
     const aantalVeld = form.elements.namedItem('aantal') as HTMLInputElement;
+
+    // Keuze vanuit de kiezer op de homepage: ?platform=YouTube&cijfers=7
+    const qs = new URLSearchParams(location.search);
+    const kies = (name: string, value: string | null) => {
+      const el = value ? form.querySelector<HTMLInputElement>(`input[name="${name}"][value="${CSS.escape(value)}"]`) : null;
+      if (el) el.checked = true;
+    };
+    kies('platform', qs.get('platform'));
+    kies('variant', qs.get('cijfers') ? `${qs.get('cijfers')}-cijfers` : null);
 
     const update = () => {
       const variant = varianten.find((v) => v.id === keuze('variant')) ?? varianten[0]!;
@@ -199,12 +213,11 @@ const stappen = isTeller
         prijs === null ? 'vraag gerust een offerte aan' : `excl. btw, € ${euro(Math.round(prijs * 121) / 100)} incl. 21% btw`;
       bestelblok.hidden = prijs === null;
       offerte.hidden = prijs !== null;
-      // Juiste illustratie tonen (platform en aantal cijfers)
+      // Illustratie meewisselen: platform en aantal cijfers
       const platform = keuze('platform');
-      const cijfers = variant.id.startsWith('7') ? '7' : '5';
-      document.querySelectorAll<HTMLElement>('[data-visual]').forEach((el) => {
-        el.hidden = !((el.dataset.platform ?? '') === platform && el.dataset.cijfers === cijfers);
-      });
+      if (platform) zetPlatform(kast, platform, g.iconen);
+      zetCijfers(kast, variant.id.startsWith('7') ? 7 : 5);
+      if (hint) hint.hidden = !g.maatwerk.includes(platform);
       toegevoegd.hidden = true;
     };
     form.querySelectorAll('input[type=radio]').forEach((el) => el.addEventListener('change', update));

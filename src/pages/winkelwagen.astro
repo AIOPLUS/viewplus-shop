@@ -14,16 +14,9 @@ const catalogus = catalogusData(await producten());
     <div class="container-rp grid items-start gap-8 lg:grid-cols-[1fr_380px]">
       <div class="card grid gap-2 p-4 md:p-6">
         <ul class="min-h-[112px] divide-y divide-line" data-lijnen aria-live="polite"></ul>
-        <div class="mt-2 flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-card)] bg-brand-50 p-5 ring-1 ring-brand-200" data-samen hidden>
-          <div class="grid gap-1">
-            <p class="font-medium text-ink">Beter samen: voeg een NFC-volgstandaard toe</p>
-            <p class="text-sm text-ink-soft">Gasten tikken op de standaard, volgen je en zien het getal op je teller meteen meedraaien.</p>
-          </div>
-          <a href="#" class="btn btn-soft" data-samen-link>Bekijk de volgstandaard</a>
-        </div>
         <div class="grid justify-items-center gap-4 p-8 text-center" data-leeg hidden>
           <p class="title">Je winkelwagen is leeg</p>
-          <p class="text-ink-soft">Bekijk onze live tellers en NFC-volgstandaards.</p>
+          <p class="text-ink-soft">Bekijk onze live volgerstellers.</p>
           <a href={url('/#producten')} class="btn btn-primary">Naar de producten</a>
         </div>
       </div>
@@ -86,12 +79,6 @@ const catalogus = catalogusData(await producten());
         li.append(info, aantal, el('p', 'font-medium text-ink sm:w-[110px] sm:text-right', euro(l.totaal)));
         lijst.append(li);
       });
-      // Wel een teller, nog geen standaard (en de standaard is te koop)? Dan de standaard voorstellen.
-      const cat2 = (slug: string) => cat.producten.find((p) => p.slug === slug)?.categorie;
-      const standaard = cat.producten.find((p) => p.categorie === 'standaard' && p.varianten.some((v) => v.prijs !== null));
-      const samen = wrap.querySelector<HTMLElement>('[data-samen]')!;
-      samen.hidden = !(standaard && b.lijnen.some((l) => cat2(l.slug) === 'teller') && !b.lijnen.some((l) => cat2(l.slug) === 'standaard'));
-      if (standaard) wrap.querySelector<HTMLAnchorElement>('[data-samen-link]')!.href = url(`/${standaard.slug}`);
       const leeg = b.lijnen.length === 0;
       wrap.querySelector<HTMLElement>('[data-leeg]')!.hidden = !leeg;
       wrap.querySelector<HTMLElement>('[data-totalen]')!.hidden = leeg;

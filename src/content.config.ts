@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { PLATFORMEN } from './lib/platformen';
 
 const faq = z.array(z.object({ vraag: z.string(), antwoord: z.string() })).default([]);
 
@@ -28,11 +29,11 @@ const products = defineCollection({
     kort: z.string(),
     /** 40–60 woorden, antwoord-eerst, bovenaan de productpagina. */
     samenvatting: z.string(),
-    categorie: z.enum(['teller', 'standaard']),
+    categorie: z.enum(['teller']),
     /** Welke illustratie de shop toont (er zijn nog geen productfoto's). */
-    visual: z.enum(['teller', 'teller-op-maat', 'standaard']),
+    visual: z.enum(['teller', 'teller-op-maat']),
     /** Platformen waaruit de klant kiest. Leeg = geen keuze. */
-    platformen: z.array(z.enum(['Instagram', 'Facebook', 'TikTok'])).default([]),
+    platformen: z.array(z.enum(PLATFORMEN)).default([]),
     varianten: z
       .array(z.object({ id: z.string(), label: z.string(), omschrijving: z.string().optional(), prijs: z.number().min(0).nullable() }))
       .min(1),
