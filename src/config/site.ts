@@ -48,7 +48,7 @@ export const PIXELS = {
  */
 export const PREORDER = {
   label: 'Pre-order',
-  uitleg: 'Pre-order: je bestelt en betaalt nu, en we verzenden je teller zodra hij binnen is. We laten je per e-mail weten wanneer hij onderweg is.',
+  uitleg: 'Pre-order: je bestelt en betaalt nu, en we verzenden je teller gratis zodra hij binnen is. We laten je per e-mail weten wanneer hij onderweg is.',
 };
 
 /** Hoe prijzen getoond worden. */
@@ -59,7 +59,7 @@ export const PRICE_NOTE = 'excl. btw';
  * Staat ook in /products.json, zodat Make hetzelfde bedrag rekent.
  */
 export const VERZENDING = {
-  kosten: null as number | null,
+  kosten: 0 as number | null, // gratis verzending in NL en BE (besluit Jordan 26-09-2026, pre-order)
   /** Vanaf dit bedrag (excl. btw) gratis verzending; `null` = geen drempel. */
   gratisVanaf: null as number | null,
   /** TODO Jordan: levertijd bevestigen (hangt af van dropship of eigen voorraad). */

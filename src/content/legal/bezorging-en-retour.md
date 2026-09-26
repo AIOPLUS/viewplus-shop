@@ -6,7 +6,9 @@ ingangsdatum: "in voorbereiding"
 
 ## In voorbereiding
 
-We werken de afspraken over bezorging, levertijd, garantie en retour op dit moment uit. Tot die tijd bevestigen we de levertijd en de verzendkosten per bestelling.
+Verzending in Nederland en België is gratis. De tellers zijn nu te bestellen als pre-order: we verzenden zodra ze binnen zijn en laten je per e-mail weten wanneer je teller onderweg is.
+
+We werken de afspraken over levertijd, garantie en retour op dit moment uit.
 
 ## Vragen
 

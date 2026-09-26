@@ -24,5 +24,5 @@ const heeftPrijs = vanafPrijs(product) !== null;
       </>
     )}
   </p>
-  <p class="text-sm text-muted">{VERZENDING.levertijd ? `Levertijd: ${VERZENDING.levertijd}` : 'Levertijd en verzendkosten staan in je orderbevestiging'}</p>
+  <p class="text-sm text-muted">{product.data.status === 'pre-order' ? 'Pre-order · gratis verzending in NL en BE' : VERZENDING.levertijd ? `Levertijd: ${VERZENDING.levertijd}` : 'Levertijd en verzendkosten staan in je orderbevestiging'}</p>
 </div>
