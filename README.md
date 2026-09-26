@@ -9,7 +9,7 @@ Anders dan `reviewplus-shop` (gratis leads) is dit een echte verkoopshop: winkel
 - **De shop is de paarse tweeling van de Review Plus-shop** (`AIOPLUS/reviewplus-shop`): zelfde stijl (`src/styles/`), header, footer, productkaarten, productpagina, "Zo werkt het", FAQ en CTA-band. Alleen de kleur (paars) en de inhoud verschillen.
 - **De site (`viewplus-site`) is de tweeling van reviewplus-site** en linkt alleen via de Shop-knop naar de shop (`PUBLIC_SHOP_URL`).
 - Het menu van de shop verwijst naar de pagina's van de site, met "Shop" als actieve plek (`mainNav` in `src/config/brand.ts`, adres uit `PUBLIC_HOOFDSITE_URL`).
-- De labelschakelaar bovenaan wisselt tussen de **shops**: shop.reviewplus.io ↔ shop.viewplus.io.
+- Het beeldmerk in de header is de **labelwisselaar van AIO Plus** (zoals op reviewplus.io): labels uit https://www.reviewplus.io/labels.json, met een kopie in `src/data/labels.json`. View Plus linkt naar de hoofdsite van View Plus.
 
 ## Pagina's
 
@@ -67,10 +67,12 @@ npm run check    # typecheck + lint + build + linkcheck
 ## Live zetten (later)
 
 1. GitHub-repo `AIOPLUS/viewplus-shop` aanmaken en Pages aanzetten (eerst testversie op aioplus.github.io/viewplus-shop).
+Volledige checklist voor site én shop: `../viewplus-site/docs/LIVEGANG.md`.
+
 2. `public/CNAME` met `shop.viewplus.io`; GitHub-variabelen `SITE_URL=https://shop.viewplus.io`, `BASE_PATH=/`, `PUBLIC_HOOFDSITE_URL=https://www.viewplus.io` (op de testversie: `https://aioplus.github.io/viewplus-site`). Zet in viewplus-site `PUBLIC_SHOP_URL=https://shop.viewplus.io`.
 3. DNS bij GoDaddy: `shop` als CNAME naar `aioplus.github.io`.
 4. Make-route `bestelling` bouwen (met Mollie) en de webhook-URL zetten.
-5. In `reviewplus-shop` de labelschakelaar toevoegen, zodat je ook van shop.reviewplus.io naar deze shop wisselt.
+5. View Plus in `reviewplus-site/src/data/labels.json` op `status: "live"` zetten en alle sites opnieuw deployen (labelwisselaar).
 
 ## Nog te doen (Jordan)
 
