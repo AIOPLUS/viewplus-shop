@@ -12,6 +12,11 @@ export const brand = {
    * testversie https://aioplus.github.io/viewplus-site, live https://www.viewplus.io (standaard).
    */
   hoofdsiteUrl: (import.meta.env.PUBLIC_HOOFDSITE_URL || 'https://www.viewplus.io').replace(/\/+$/, ''),
+  /**
+   * Inloggen op View Plus Online (komt later op app.viewplus.io). Uit PUBLIC_APP_LOGIN_URL; leeg = de tijdelijke
+   * inlogpagina op de hoofdsite.
+   */
+  appLoginUrl: (import.meta.env.PUBLIC_APP_LOGIN_URL || `${(import.meta.env.PUBLIC_HOOFDSITE_URL || 'https://www.viewplus.io').replace(/\/+$/, '')}/login`).replace(/\/+$/, ''),
   // LET OP: deze mailbox is nog niet actief (25-09-2026). Activeer hem vóór de livegang.
   email: 'support@viewplus.io',
   /** Rasterlogo voor schema.org/Google (min. 112px). Icoon zelf: components/layout/Logo.astro */

@@ -4,6 +4,7 @@
  */
 export type EventName =
   | 'advies_klik'
+  | 'kennismaking_klik'
   | 'label_wissel'
   | 'demo_teller'
   | 'winkelwagen_klik'

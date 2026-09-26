@@ -5,6 +5,7 @@ interface ImportMetaEnv {
   readonly BASE_PATH: string;
   readonly PUBLIC_LEAD_WEBHOOK_URL?: string;
   readonly PUBLIC_HOOFDSITE_URL?: string;
+  readonly PUBLIC_APP_LOGIN_URL?: string;
   readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
   readonly PUBLIC_ANALYTICS_PROVIDER?: string;
   readonly PUBLIC_ANALYTICS_DOMAIN?: string;
