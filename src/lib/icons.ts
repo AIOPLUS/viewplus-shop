@@ -22,8 +22,20 @@ export function brandIcon(id: string): { body: string; viewBox: string } {
   return { body: icon.body, viewBox: `0 0 ${w} ${h}` };
 }
 
-/** Iconen en kleuren van alle platformen, als gegevens voor scripts die de live teller van platform laten wisselen. */
-export async function platformIconen(): Promise<Record<string, { viewBox: string; body: string; achtergrond: string }>> {
+/**
+ * Logo zoals het op de houten teller staat. Instagram is een kleurverloop over het glyph; daarvoor staat `__ID__` in de
+ * body, die per teller door een uniek id vervangen moet worden (twee verlopen met hetzelfde id botsen).
+ */
+export function tellerLogo(logo: string): { body: string; viewBox: string } {
+  if (logo !== 'instagram-verloop') return brandIcon(logo);
+  const { body, viewBox } = brandIcon('si:instagram');
+  const stops = [['0', '#feda75'], ['.3', '#fa7e1e'], ['.55', '#d62976'], ['.8', '#962fbf'], ['1', '#4f5bd5']]
+    .map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join('');
+  return { viewBox, body: `<defs><linearGradient id="__ID__" x1="0" y1="1" x2="1" y2="0">${stops}</linearGradient></defs>${body.replaceAll('currentColor', 'url(#__ID__)')}` };
+}
+
+/** Logo's en cijferkleuren van alle platformen, als gegevens voor scripts die de live teller van platform laten wisselen. */
+export async function platformIconen(): Promise<Record<string, { viewBox: string; body: string; flap: readonly [string, string] }>> {
   const { PLATFORMEN, platformStijl } = await import('./platformen');
-  return Object.fromEntries(PLATFORMEN.map((p) => [p, { ...brandIcon(platformStijl[p].icoon), achtergrond: platformStijl[p].achtergrond }]));
+  return Object.fromEntries(PLATFORMEN.map((p) => [p, { ...tellerLogo(platformStijl[p].logo), flap: platformStijl[p].flap }]));
 }

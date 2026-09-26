@@ -33,7 +33,7 @@ export const faq = [
   },
   {
     vraag: 'Welk account heb ik nodig?',
-    antwoord: 'Voor Instagram een Instagram Business-account dat gekoppeld is aan een professionele Facebook-pagina. Een persoonlijk account zet je gratis om in de Instagram-app.',
+    antwoord: 'Voor Instagram een professioneel account (zakelijk of creator) dat gekoppeld is aan een Facebook-pagina, en een persoonlijk Facebook-profiel om de koppeling te maken. Een persoonlijk Instagram-account zet je gratis om in de Instagram-app.',
   },
   {
     vraag: 'Kies ik 5 of 7 cijfers?',

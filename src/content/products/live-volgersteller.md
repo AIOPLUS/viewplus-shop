@@ -44,11 +44,17 @@ status: beschikbaar
 volgorde: 1
 faq:
   - vraag: Welk account heb ik nodig voor Instagram?
-    antwoord: Een Instagram Business-account dat gekoppeld is aan een professionele Facebook-pagina. Heb je nog een persoonlijk account, dan kun je dat gratis omzetten in de Instagram-app.
+    antwoord: Een professioneel Instagram-account (zakelijk of creator) dat gekoppeld is aan een Facebook-pagina, en een persoonlijk Facebook-profiel om de koppeling te maken. Heb je nog een persoonlijk Instagram-account, dan zet je dat gratis om in de Instagram-app.
   - vraag: Heb ik een abonnement nodig?
     antwoord: Nee. Voor de koppeling met je Instagram-account is geen abonnement nodig.
   - vraag: Werkt de teller ook voor YouTube, LinkedIn en X?
     antwoord: Ja. Voor Instagram, Facebook en TikTok koppel je je account direct. Voor YouTube, LinkedIn en X werkt de koppeling net iets anders; die stemmen we met je af.
+  - vraag: Kan ik de kleur van de teller aanpassen?
+    antwoord: Nee. Het logo en de kleur van de klapcijfers horen bij het platform, zodat je gasten meteen zien waar ze je kunnen volgen. Bij Instagram zijn de cijfers roze, bij Facebook blauw en bij TikTok zwart. YouTube, LinkedIn en X krijgen zwarte cijfers.
+  - vraag: Begint de teller bij nul?
+    antwoord: Nee. Zodra de teller gekoppeld is, toont hij meteen je huidige aantal volgers. Daarna telt hij elke nieuwe volger mee, ook als die je niet in de zaak volgt.
+  - vraag: Kan ik meerdere tellers aan hetzelfde account koppelen?
+    antwoord: Ja, bijvoorbeeld één bij de kassa en één in de etalage, of één per vestiging.
   - vraag: Hoe snel verandert het getal?
     antwoord: Standaard wordt het aantal volgers elke 6 seconden bijgewerkt. Je kunt dat ook minder vaak laten gebeuren, tot één keer per dag.
   - vraag: Wat heb ik nodig om hem te installeren?

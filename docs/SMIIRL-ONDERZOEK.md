@@ -33,6 +33,20 @@ Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Cu
   - geen abonnement nodig.
 - **Installatie:** stroom erop, koppelen via my.smiirl.com, wifi kiezen, account koppelen.
 
+## Uit het helpcentrum (help.smiirl.com, 26-09-2026)
+
+- **Kleuren zijn vast.** Logo en klapcijfers zijn niet aan te passen (afspraak van Smiirl met Meta). Zo zien de tellers eruit:
+  - Instagram: kleurverloop-logo op het hout, roze cijfers;
+  - Facebook: blauw logo, blauwe cijfers;
+  - TikTok: TikTok-logo, zwarte cijfers;
+  - Custom Counter: zwarte cijfers met een plek voor je eigen logo.
+
+  Onze illustraties volgen dit (`src/lib/platformen.ts`).
+- **Account:** Instagram vraagt een professioneel account (zakelijk of creator). Voor Instagram en Facebook is ook een persoonlijk Facebook-profiel nodig om te koppelen.
+- **Stand:** de teller begint niet bij nul, maar toont direct het huidige aantal.
+- **Meerdere tellers** op hetzelfde account kan.
+- **Snelheid:** Facebook en Instagram werken binnen 2 tot 10 seconden bij.
+
 ## Resellerprogramma (smiirl.com/en/business/reseller)
 
 - Smiirl zoekt gevestigde bedrijven met ervaring in sales en social media.

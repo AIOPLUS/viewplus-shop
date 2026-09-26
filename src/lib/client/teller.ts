@@ -1,15 +1,25 @@
 /**
  * Live teller (components/shop/Teller.astro) aansturen in de browser:
  * - setTeller: naar een nieuw getal klappen, cijfer voor cijfer;
- * - zetPlatform: de tegel links wisselen (icoon en kleur, of "Jouw logo");
+ * - zetPlatform: logo links en kleur van de cijfers wisselen (of "Jouw logo" met zwarte cijfers);
  * - zetLogo: een eigen logo als voorbeeld in de tegel;
  * - zetCijfers: tussen 5 en 7 cijfers wisselen.
  * Zonder animatie als de bezoeker minder beweging wil.
  */
+import { FLAP_ZWART } from '@/lib/platformen';
+
 export interface PlatformIcoon {
   viewBox: string;
+  /** SVG-inhoud; `__ID__` wordt per keer vervangen door een uniek id (kleurverloop van Instagram). */
   body: string;
-  achtergrond: string;
+  flap: readonly [string, string];
+}
+
+let volgnummer = 0;
+
+function zetFlapKleur(kast: HTMLElement, [boven, onder]: readonly [string, string]): void {
+  kast.style.setProperty('--flap-boven', boven);
+  kast.style.setProperty('--flap-onder', onder);
 }
 
 const rustig = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -41,12 +51,12 @@ export function zetPlatform(kast: HTMLElement, platform: string, iconen: Record<
   const icoon = iconen[platform];
   if (icoon) {
     tegel.removeAttribute('data-op-maat');
-    tegel.style.background = icoon.achtergrond;
-    tegel.innerHTML = `<svg viewBox="${icoon.viewBox}" fill="#fff" style="color:#fff">${icoon.body}</svg>`;
+    tegel.innerHTML = `<svg viewBox="${icoon.viewBox}">${icoon.body.replaceAll('__ID__', `tlc-${++volgnummer}`)}</svg>`;
+    zetFlapKleur(kast, icoon.flap);
   } else {
     tegel.setAttribute('data-op-maat', '');
-    tegel.style.background = '';
     tegel.innerHTML = '<span class="teller-logo">Jouw<br>logo</span>';
+    zetFlapKleur(kast, FLAP_ZWART);
   }
   const wrap = kast.closest<HTMLElement>('[data-teller-wrap]');
   if (wrap) wrap.setAttribute('aria-label', `Illustratie van een live teller met ${kast.dataset.cijfers} cijfers${icoon ? ` voor ${platform}` : ' met je eigen logo'}`);
@@ -57,7 +67,7 @@ export function zetLogo(kast: HTMLElement, src: string | null): void {
   const tegel = kast.querySelector<HTMLElement>('.teller-icoon');
   if (!tegel) return;
   tegel.setAttribute('data-op-maat', '');
-  tegel.style.background = '';
+  zetFlapKleur(kast, FLAP_ZWART);
   if (src) {
     const img = document.createElement('img');
     img.src = src;

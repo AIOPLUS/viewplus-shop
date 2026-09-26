@@ -4,8 +4,8 @@
  * Een script kan platform, aantal cijfers en getal wijzigen (lib/client/teller.ts); de tegel en cijfers worden dan opnieuw
  * opgebouwd. Daarom zijn de stijlen globaal (is:global) en niet per component.
  */
-import { brandIcon } from '@/lib/icons';
-import { platformStijl, type Platform } from '@/lib/platformen';
+import { tellerLogo } from '@/lib/icons';
+import { FLAP_ZWART, platformStijl, type Platform } from '@/lib/platformen';
 
 interface Props {
   platform?: Platform | 'op-maat';
@@ -19,7 +19,9 @@ interface Props {
 const { platform = 'Instagram', cijfers = 5, waarde = 1248, class: cls = '', id, label } = Astro.props;
 const tekst = String(waarde).padStart(cijfers, ' ').slice(-cijfers);
 const stijl = platform === 'op-maat' ? null : platformStijl[platform];
-const svg = stijl ? brandIcon(stijl.icoon) : null;
+const logo = stijl ? tellerLogo(stijl.logo) : null;
+const logoBody = logo?.body.replaceAll('__ID__', `tl-${Math.random().toString(36).slice(2, 9)}`);
+const [flapBoven, flapOnder] = stijl?.flap ?? FLAP_ZWART;
 const breedte = cijfers === 5 ? 42 : 56.4;
 ---
 <div
@@ -28,9 +30,9 @@ const breedte = cijfers === 5 ? 42 : 56.4;
   aria-label={label ?? `Illustratie van een live teller met ${cijfers} cijfers${platform === 'op-maat' ? ' met je eigen logo' : ` voor ${platform}`}, stand ${waarde.toLocaleString('nl-NL')}`}
   data-teller-wrap
 >
-  <div class="teller-kast" style={`aspect-ratio:${breedte}/10.5`} id={id} data-teller data-cijfers={cijfers} data-waarde={waarde} data-platform={platform}>
-    <span class="teller-icoon" style={stijl ? `background:${stijl.achtergrond}` : ''} data-op-maat={platform === 'op-maat' ? '' : undefined} aria-hidden="true">
-      {svg ? <svg viewBox={svg.viewBox} fill="#fff" style="color:#fff" set:html={svg.body} /> : <span class="teller-logo">Jouw<br />logo</span>}
+  <div class="teller-kast" style={`aspect-ratio:${breedte}/10.5;--flap-boven:${flapBoven};--flap-onder:${flapOnder}`} id={id} data-teller data-cijfers={cijfers} data-waarde={waarde} data-platform={platform}>
+    <span class="teller-icoon" data-op-maat={platform === 'op-maat' ? '' : undefined} aria-hidden="true">
+      {logo ? <svg viewBox={logo.viewBox} set:html={logoBody} /> : <span class="teller-logo">Jouw<br />logo</span>}
     </span>
     {[...tekst].map((c) => (
       <span class="teller-flap" aria-hidden="true"><span>{c.trim()}</span></span>
@@ -45,12 +47,9 @@ const breedte = cijfers === 5 ? 42 : 56.4;
     background: linear-gradient(180deg, #f6ecdd 0%, #ead8bd 100%);
     box-shadow: inset 0 0 0 0.35cqw rgba(255,255,255,.6), 0 2cqw 5cqw -1.5cqw rgba(48,0,74,.35), 0 0.6cqw 1.2cqw rgba(0,0,0,.08);
   }
-  .teller-icoon {
-    flex: 1; aspect-ratio: 3 / 4; display: grid; place-items: center; border-radius: 1.2cqw;
-    box-shadow: inset 0 -0.5cqw 0 rgba(0,0,0,.12); background: #fff;
-  }
-  .teller-icoon svg { width: 52%; height: auto; }
-  .teller-icoon[data-op-maat] { background: transparent; box-shadow: none; }
+  /* Het logo staat, net als op de echte teller, direct op het hout. */
+  .teller-icoon { flex: 1; aspect-ratio: 3 / 4; display: grid; place-items: center; }
+  .teller-icoon svg { width: 82%; height: auto; max-height: 82%; }
   .teller-logo {
     display: grid; place-items: center; width: 92%; aspect-ratio: 1; border-radius: 50%;
     border: 0.35cqw dashed #150e08; color: #150e08; font-weight: 600; text-align: center; line-height: 1.1;
@@ -60,7 +59,10 @@ const breedte = cijfers === 5 ? 42 : 56.4;
   .teller-flap {
     position: relative; flex: 1; aspect-ratio: 3 / 4; display: grid; place-items: center; overflow: hidden;
     border-radius: 1.2cqw; perspective: 30cqw;
-    background: linear-gradient(180deg, var(--color-brand-500) 0%, var(--color-brand-600) 49.4%, var(--color-brand-700) 50.6%, var(--color-brand-800) 100%);
+    /* Cijferkleur per platform (--flap-boven/--flap-onder op de kast), zoals bij de echte tellers. */
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--flap-boven, #2e2e2e) 85%, #fff) 0%, var(--flap-boven, #2e2e2e) 49.4%,
+      var(--flap-onder, #141414) 50.6%, color-mix(in srgb, var(--flap-onder, #141414) 82%, #000) 100%);
     box-shadow: inset 0 -0.5cqw 0 rgba(0,0,0,.18);
   }
   .teller-flap::after { content: ''; position: absolute; inset: 49.6% 0 auto; height: 0.25cqw; background: rgba(0,0,0,.35); }

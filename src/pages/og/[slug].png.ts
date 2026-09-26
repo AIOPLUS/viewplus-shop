@@ -44,7 +44,7 @@ const LOGO = '<path d="M0 0H386V410A386 410 0 0 1 0 0Z"/><rect x="520" width="38
 const FONT = 'Poppins, Arial, sans-serif';
 const PANEEL = { x: 700, y: 60, w: 440, h: 510 };
 
-/** Teller met houten kast, platformtegel en paarse klapcijfers, gecentreerd in het paneel. */
+/** Teller zoals de echte: Instagram-logo op het hout met roze klapcijfers, of "Jouw logo" met zwarte cijfers. */
 function teller(opMaat: boolean): string {
   const fw = 52, fh = 70, gap = 8;
   const w = 2 * 22 + 6 * fw + 5 * gap, h = fh + 40;
@@ -52,10 +52,10 @@ function teller(opMaat: boolean): string {
   const cijfers = opMaat ? ['', '', '4', '8', '6'] : ['', '1', '2', '4', '8'];
   const tegel = opMaat
     ? `<circle cx="${x0 + 22 + fw / 2}" cy="${y0 + 20 + fh / 2}" r="${fw / 2 - 2}" fill="none" stroke="#150E08" stroke-width="2" stroke-dasharray="5 4"/><text x="${x0 + 22 + fw / 2}" y="${y0 + 20 + fh / 2 - 2}" font-family="${FONT}" font-size="10" font-weight="700" fill="#150E08" text-anchor="middle">JOUW</text><text x="${x0 + 22 + fw / 2}" y="${y0 + 20 + fh / 2 + 10}" font-family="${FONT}" font-size="10" font-weight="700" fill="#150E08" text-anchor="middle">LOGO</text>`
-    : `<rect x="${x0 + 22}" y="${y0 + 20}" width="${fw}" height="${fh}" rx="8" fill="url(#insta)"/><rect x="${x0 + 22 + 12}" y="${y0 + 20 + 21}" width="28" height="28" rx="8" fill="none" stroke="#fff" stroke-width="3.5"/><circle cx="${x0 + 22 + 26}" cy="${y0 + 20 + 35}" r="6.5" fill="none" stroke="#fff" stroke-width="3.5"/><circle cx="${x0 + 22 + 35}" cy="${y0 + 20 + 27}" r="2" fill="#fff"/>`;
+    : `<rect x="${x0 + 22 + 4}" y="${y0 + 20 + 17}" width="44" height="44" rx="13" fill="none" stroke="url(#insta)" stroke-width="5"/><circle cx="${x0 + 22 + 26}" cy="${y0 + 20 + 39}" r="10.5" fill="none" stroke="url(#insta)" stroke-width="5"/><circle cx="${x0 + 22 + 38.5}" cy="${y0 + 20 + 26.5}" r="3" fill="#d62976"/>`;
   const flappen = cijfers.map((c, i) => {
     const x = x0 + 22 + (i + 1) * (fw + gap);
-    return `<rect x="${x}" y="${y0 + 20}" width="${fw}" height="${fh}" rx="8" fill="url(#flap)"/><rect x="${x}" y="${y0 + 20 + fh / 2 - 1}" width="${fw}" height="2" fill="#000" opacity=".35"/>` +
+    return `<rect x="${x}" y="${y0 + 20}" width="${fw}" height="${fh}" rx="8" fill="url(#${opMaat ? 'flap-zwart' : 'flap-insta'})"/><rect x="${x}" y="${y0 + 20 + fh / 2 - 1}" width="${fw}" height="2" fill="#000" opacity=".35"/>` +
       (c ? `<text x="${x + fw / 2}" y="${y0 + 20 + fh / 2 + 13}" font-family="${FONT}" font-size="38" font-weight="600" fill="#fff" text-anchor="middle">${c}</text>` : '');
   }).join('');
   return `<rect x="${x0}" y="${y0}" width="${w}" height="${h}" rx="14" fill="url(#hout)"/>${tegel}${flappen}`;
@@ -68,7 +68,8 @@ export const GET: APIRoute = async ({ props }) => {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <linearGradient id="hout" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6ECDD"/><stop offset="1" stop-color="#EAD8BD"/></linearGradient>
-    <linearGradient id="flap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A0CC3"/><stop offset=".49" stop-color="#7A01B0"/><stop offset=".51" stop-color="#63008F"/><stop offset="1" stop-color="#4D006F"/></linearGradient>
+    <linearGradient id="flap-insta" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F06FA8"/><stop offset=".49" stop-color="#EC4F95"/><stop offset=".51" stop-color="#C42F7C"/><stop offset="1" stop-color="#A12766"/></linearGradient>
+    <linearGradient id="flap-zwart" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4A4A"/><stop offset=".49" stop-color="#2E2E2E"/><stop offset=".51" stop-color="#141414"/><stop offset="1" stop-color="#050505"/></linearGradient>
     <linearGradient id="insta" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".3" stop-color="#FA7E1E"/><stop offset=".55" stop-color="#D62976"/><stop offset=".8" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
     <radialGradient id="podium" cx="50%" cy="25%" r="90%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#F7E7FD"/><stop offset="1" stop-color="#ECCDFA"/></radialGradient>
   </defs>
