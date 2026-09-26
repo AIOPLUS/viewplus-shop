@@ -52,10 +52,10 @@ const pil = 'grid size-11 cursor-pointer place-items-center rounded-full text-in
             </label>
           );
         })}
-        <label class={pil} title="Eigen getal (bijvoorbeeld Google-reviews)">
+        <label class={pil} title="Eigen getal (bijvoorbeeld bestellingen of gasten)">
           <input type="radio" name={`${id}-platform`} value="op-maat" class="sr-only" />
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.4 2" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" stroke-dasharray="none" /></svg>
-          <span class="sr-only">Eigen getal, bijvoorbeeld je Google-reviews</span>
+          <span class="sr-only">Eigen getal, bijvoorbeeld bestellingen of gasten</span>
         </label>
       </div>
     </fieldset>
@@ -118,7 +118,7 @@ const pil = 'grid size-11 cursor-pointer place-items-center rounded-full text-in
       const prijs = g.prijzen[soort][`${cijfers}-cijfers`];
       const max = cijfers === 5 ? '99.999' : '9.999.999';
       info.textContent = [
-        opMaat ? 'Eigen getal, zoals je Google-reviews' : platform,
+        opMaat ? 'Eigen getal, zoals bestellingen of gasten' : platform,
         `tot ${max}${opMaat ? '' : ` ${g.eenheden[platform]}`}`,
         !opMaat && g.maatwerk.includes(platform) ? 'koppeling op maat' : '',
         prijs ? `€ ${prijs} excl. btw` : 'prijs volgt',

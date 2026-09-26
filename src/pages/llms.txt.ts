@@ -13,7 +13,7 @@ export const GET: APIRoute = async () => {
   const lines = [
     `# ${brand.shopName}`,
     '',
-    '> De View Plus Shop verkoopt live volgerstellers met mechanische klapcijfers (Instagram, Facebook, TikTok, YouTube, LinkedIn, X, of een getal naar keuze zoals Google-reviews), met 5 of 7 cijfers. Voor lokale ondernemers in Nederland en België.',
+    '> De View Plus Shop verkoopt live volgerstellers met mechanische klapcijfers (Instagram, Facebook, TikTok, YouTube, LinkedIn, X, of een getal naar keuze, zoals bestellingen of gasten), met 5 of 7 cijfers. Voor lokale ondernemers in Nederland en België.',
     '',
     '## Producten',
     ...lijst.map((p) => `- [${p.data.naam}](${absoluteUrl(`/${p.data.slug}`)}): ${p.data.kort} Prijs: ${prijsLabel(p)}${prijsLabel(p) === 'Prijs volgt' ? '' : ' excl. btw'}.`),

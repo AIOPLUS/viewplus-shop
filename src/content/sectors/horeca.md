@@ -14,8 +14,8 @@ voorbeelden:
   - titel: Mijlpalen vieren
     tekst: Trakteer bij elke 1.000 volgers op een rondje of een kleine actie. Gasten zien op de teller wanneer het zover is.
     product: live-volgersteller
-  - titel: Je reviews live in beeld
-    tekst: Laat met de live teller naar keuze je aantal Google-reviews meetellen. Met ons zusterlabel Review Plus verzamel je er ook meer.
+  - titel: Je gasten live in beeld
+    tekst: Tel met de live teller naar keuze het aantal geserveerde koffies, pizza's of gasten live mee, met je eigen logo ernaast.
     product: live-teller-op-maat
 faq:
   - vraag: Welk platform kies ik voor mijn zaak?

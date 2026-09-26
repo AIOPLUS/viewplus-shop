@@ -69,7 +69,7 @@ Andere varianten (YouTube, Google) hebben geen eigen pagina; die lopen via de Cu
    - het advies;
    - de installatie en het koppelen van het Instagram Business-account;
    - en vooral met View Plus Online (social media management). Die combinatie verkopen we als bundel.
-2. **Brug naar Review Plus:** de Custom Counter kan het aantal Google-reviews tonen. Dat past bij Review Plus.
+2. **Google-reviewteller hoort bij Review Plus** (besluit Jordan, 26-09-2026): de View Plus Shop biedt en promoot hem niet. De Review Plus Shop voegt hem toe, met Google-G, gouden ster met gemiddelde en het aantal reviews.
 3. **YouTube, LinkedIn en X** heeft Smiirl niet als kant-en-klare teller. Die bieden we aan via de Custom Counter, met een koppeling op maat (Zapier of API). Dat kan een andere prijs en meer werk bij het installeren betekenen.
 
 ## Vragen voor Jordan

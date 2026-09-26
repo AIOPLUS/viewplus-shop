@@ -1,8 +1,8 @@
 ---
 slug: live-teller-op-maat
 naam: Live teller naar keuze
-kort: Toont elk getal dat voor jouw zaak telt, zoals je aantal Google-reviews, gasten of verkochte producten.
-samenvatting: De live teller naar keuze toont elk getal dat je zelf koppelt, met dezelfde mechanische klapcijfers als de volgersteller en ruimte voor je eigen logo. Laat bijvoorbeeld je aantal Google-reviews, gasten, verkochte producten of opgehaalde donaties live meetellen. Koppelen kan zonder code via Zapier, of met een eigen koppeling.
+kort: Toont elk getal dat voor jouw zaak telt, zoals gasten, bestellingen of verkochte producten.
+samenvatting: De live teller naar keuze toont elk getal dat je zelf koppelt, met dezelfde mechanische klapcijfers als de volgersteller en ruimte voor je eigen logo. Laat bijvoorbeeld je aantal gasten, bestellingen, verkochte producten of opgehaalde donaties live meetellen. Koppelen kan zonder code via Zapier, of met een eigen koppeling.
 categorie: teller
 visual: teller-op-maat
 platformen: []
@@ -31,7 +31,7 @@ specs:
     waarde: 5V-adapter met kabel van 2,5 m
 voordelen:
   - Toont het getal dat voor jouw zaak telt
-  - Bijvoorbeeld je aantal Google-reviews, bij elke nieuwe review een klik
+  - Bijvoorbeeld je aantal bestellingen, bij elke nieuwe bestelling een klik
   - Motiveert je team en maakt resultaten zichtbaar voor gasten
   - Koppelen zonder code via Zapier
 inDeDoos:
@@ -42,11 +42,11 @@ status: beschikbaar
 volgorde: 2
 faq:
   - vraag: Welke getallen kan ik tonen?
-    antwoord: Elk getal dat je kunt koppelen. Denk aan je aantal Google-reviews, het aantal gasten of bestellingen, verkochte producten of een inzamelingsactie.
-  - vraag: Hoe koppel ik mijn Google-reviews?
-    antwoord: Via Zapier kun je de teller bij elke nieuwe review op je Google-bedrijfsprofiel één laten ophogen. Wil je ook méér reviews? Kijk dan bij ons zusterlabel Review Plus.
+    antwoord: Elk getal dat je kunt koppelen. Denk aan het aantal gasten of bestellingen, verkochte producten, leden of een inzamelingsactie.
+  - vraag: Hoe komt het getal op de teller?
+    antwoord: "Via Zapier of Make, zonder code. Bijvoorbeeld vanuit je kassasysteem, webshop, agenda of een Google Sheet: bij elke nieuwe bestelling of aanmelding telt de teller één op, of je zet hem op een vast getal."
   - vraag: Heb ik technische kennis nodig?
     antwoord: Voor de koppeling via Zapier niet; die stel je in zonder code. Voor een eigen koppeling via de API is wel wat technische kennis nodig.
 ---
 
-Met de live teller naar keuze maak je elk resultaat zichtbaar. Samen met Review Plus laat je bijvoorbeeld je groeiende aantal Google-reviews live meetellen.
+Met de live teller naar keuze maak je elk resultaat zichtbaar: voor je gasten, en voor je team.

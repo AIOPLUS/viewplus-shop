@@ -11,7 +11,7 @@ interface Props {
 const { product } = Astro.props;
 const p = product.data;
 const heeftPrijs = vanafPrijs(product) !== null;
-const chip = p.platformen.length ? `${p.platformen.length} platformen` : 'Eigen getal, zoals reviews';
+const chip = p.platformen.length ? `${p.platformen.length} platformen` : 'Eigen getal naar keuze';
 const statusLabel = { beschikbaar: '', binnenkort: 'Binnenkort', 'op-aanvraag': 'Op aanvraag' }[p.status];
 ---
 <article class="card flex flex-col overflow-hidden">

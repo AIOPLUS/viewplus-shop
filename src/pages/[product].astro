@@ -2,7 +2,6 @@
 import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Teller from '@/components/shop/Teller.astro';
-import ReviewsPromo from '@/components/shop/ReviewsPromo.astro';
 import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
 import { PRICE_NOTE, VERZENDING } from '@/config/site';
@@ -37,7 +36,7 @@ const chip = opMaat ? 'Live via Zapier of API' : 'Live bijgewerkt via wifi';
 const stappen = [
   ['Stroom erop en verbinden', 'met wifi (2,4 GHz) of een netwerkkabel.'],
   ['Account koppelen', opMaat ? 'zonder code via Zapier, of met een eigen koppeling.' : 'via je telefoon of computer; voor YouTube, LinkedIn en X stemmen we de koppeling met je af.'],
-  ['Het getal draait mee', opMaat ? 'bij elke nieuwe review, gast of verkoop die je koppelt.' : 'bij elke nieuwe volger of abonnee.'],
+  ['Het getal draait mee', opMaat ? 'bij elke nieuwe bestelling, gast of verkoop die je koppelt.' : 'bij elke nieuwe volger of abonnee.'],
 ];
 ---
 <BaseLayout
@@ -219,7 +218,6 @@ const stappen = [
     </section>
   )}
 
-  {!opMaat && <ReviewsPromo />}
   <Faq items={p.faq} />
   <CtaBand />
 </BaseLayout>

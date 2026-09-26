@@ -11,8 +11,8 @@ voorbeelden:
   - titel: Bij de receptie
     tekst: Zet de teller bij de ontvangst of de kassa. Klanten zien het getal bij binnenkomst en bij het afrekenen.
     product: live-volgersteller
-  - titel: Je reviews in beeld
-    tekst: Met de live teller naar keuze laat je je aantal Google-reviews meetellen, met je eigen logo ernaast.
+  - titel: Je leden of behandelingen in beeld
+    tekst: Met de live teller naar keuze tel je het aantal leden van je sportschool of je behandelingen live mee, met je eigen logo ernaast.
     product: live-teller-op-maat
   - titel: Samen mijlpalen vieren
     tekst: Vier elke 100 of 1.000 volgers samen met je klanten, bijvoorbeeld met een kleine actie. De teller laat zien wanneer het zover is.

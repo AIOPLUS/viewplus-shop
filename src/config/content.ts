@@ -23,7 +23,7 @@ export const ideeen: { titel: string; tekst: string; product: 'live-volgerstelle
   { titel: 'Winkel en boutique', tekst: 'In de etalage trekken de omklappende cijfers de aandacht van voorbijgangers.', product: 'live-volgersteller', sector: 'winkels' },
   { titel: 'Markten en beurzen', tekst: 'Neem de teller mee. Met een powerbank en de hotspot van je telefoon werkt hij ook onderweg.', product: 'live-volgersteller' },
   { titel: 'Kantoor en B2B', tekst: 'Laat je LinkedIn-volgers of YouTube-abonnees zien op kantoor, bij de receptie of op je beursstand.', product: 'live-volgersteller' },
-  { titel: 'Goed doel en team', tekst: 'Tel opgehaalde donaties, leveringen of Google-reviews live mee met de teller naar keuze.', product: 'live-teller-op-maat' },
+  { titel: 'Goed doel en team', tekst: 'Tel opgehaalde donaties, leveringen of verkochte producten live mee met de teller naar keuze.', product: 'live-teller-op-maat' },
 ];
 
 export const faq = [
@@ -44,8 +44,8 @@ export const faq = [
     antwoord: 'Ja. Voor Instagram, Facebook en TikTok koppel je je account direct. Voor YouTube, LinkedIn en X stemmen we de koppeling met je af.',
   },
   {
-    vraag: 'Kan ik ook mijn Google-reviews laten meetellen?',
-    antwoord: 'Ja, met de live teller naar keuze. Die toont elk getal dat je koppelt, zoals je aantal Google-reviews. Wil je ook méér reviews, kijk dan bij ons zusterlabel Review Plus.',
+    vraag: 'Kan ik ook een ander getal tonen dan volgers?',
+    antwoord: 'Ja, met de live teller naar keuze. Die toont elk getal dat je koppelt, zoals bestellingen, gasten, leden of een inzamelingsactie, met je eigen logo ernaast.',
   },
   {
     vraag: 'Helpen jullie ook met mijn social media?',

@@ -5,7 +5,6 @@ import ProductCard from '@/components/shop/ProductCard.astro';
 import ProductVisual from '@/components/shop/ProductVisual.astro';
 import Teller from '@/components/shop/Teller.astro';
 import HowItWorks from '@/components/shop/HowItWorks.astro';
-import ReviewsPromo from '@/components/shop/ReviewsPromo.astro';
 import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
 import { producten, sectoren, type Product, type Sector } from '@/lib/catalog';
@@ -87,7 +86,6 @@ const product = (slug: string) => alle.find((p) => p.data.slug === slug);
     </div>
   </section>
 
-  <ReviewsPromo />
   <Faq items={s.faq} />
   <CtaBand />
 </BaseLayout>

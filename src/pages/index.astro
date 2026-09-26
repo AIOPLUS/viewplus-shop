@@ -3,7 +3,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProductCard from '@/components/shop/ProductCard.astro';
 import TellerKiezer from '@/components/shop/TellerKiezer.astro';
 import HowItWorks from '@/components/shop/HowItWorks.astro';
-import ReviewsPromo from '@/components/shop/ReviewsPromo.astro';
 import Faq from '@/components/shop/Faq.astro';
 import CtaBand from '@/components/shop/CtaBand.astro';
 import { brand } from '@/config/brand';
@@ -56,8 +55,6 @@ const branches = await sectoren();
       {lijst.map((p) => <ProductCard product={p} />)}
     </div>
   </section>
-
-  <ReviewsPromo />
 
   <section class="container-rp py-12" aria-labelledby="online-title">
     <div class="card grid gap-6 p-8 md:grid-cols-[1fr_auto] md:items-center">
