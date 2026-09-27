@@ -1,0 +1,36 @@
+name: CI
+
+# Controleert elke pull request met dezelfde stappen als npm run check.
+# De deploy (deploy.yml) draait dezelfde check nog eens op main voordat de site live gaat.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  SITE_URL: ${{ vars.SITE_URL || 'https://aioplus.github.io' }}
+  BASE_PATH: ${{ vars.BASE_PATH || '/viewplus-shop' }}
+  PUBLIC_LEAD_WEBHOOK_URL: ${{ vars.PUBLIC_LEAD_WEBHOOK_URL }}
+  PUBLIC_HOOFDSITE_URL: ${{ vars.PUBLIC_HOOFDSITE_URL }}
+  PUBLIC_APP_LOGIN_URL: ${{ vars.PUBLIC_APP_LOGIN_URL }}
+  PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+  PUBLIC_ANALYTICS_PROVIDER: ${{ vars.PUBLIC_ANALYTICS_PROVIDER }}
+  PUBLIC_ANALYTICS_DOMAIN: ${{ vars.PUBLIC_ANALYTICS_DOMAIN }}
+  PUBLIC_ANALYTICS_SCRIPT_URL: ${{ vars.PUBLIC_ANALYTICS_SCRIPT_URL }}
+  PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID }}
+  PUBLIC_META_PIXEL_ID: ${{ vars.PUBLIC_META_PIXEL_ID }}
+  PUBLIC_GADS_ID: ${{ vars.PUBLIC_GADS_ID }}
+  PUBLIC_GADS_CONVERSION_LABEL: ${{ vars.PUBLIC_GADS_CONVERSION_LABEL }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run check
